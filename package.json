@@ -1,0 +1,21 @@
+{
+  "name": "ithome_ironman_2020",
+  "version": "0.0.1",
+  "description": "IT幫2020年鐵人賽-Electron",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrew781026/ithome_ironman_2020.git"
+  },
+  "keywords": [
+    "ithome"
+  ],
+  "author": "andrew",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrew781026/ithome_ironman_2020/issues"
+  },
+  "homepage": "https://github.com/andrew781026/ithome_ironman_2020#readme"
+}
