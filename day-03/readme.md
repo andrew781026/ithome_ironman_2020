@@ -1,3 +1,5 @@
+# 第二天 - 股票查價(二) - 了解 twse API 
+
 目前的證交所即時資訊API的URL格式(JSON格式)為 :
 https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=參數&json=1&delay=0
 
