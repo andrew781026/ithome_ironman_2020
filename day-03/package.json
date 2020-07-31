@@ -1,9 +1,9 @@
 {
-  "name": "electron-practice-day02",
+  "name": "electron-practice-day03",
   "version": "0.0.3",
-  "description": "a startup template of electron",
+  "description": "test for twse api",
   "scripts": {
-    "start": "electron ./main.js"
+    "start": "node test-twse-api.js"
   },
   "author": "andrew",
   "license": "MIT",
