@@ -83,42 +83,4 @@ async function getData(stocks = []) {
     return res.data;
 }
 
-/**
- * 從證交所取得股票列表
- * @param query {string} 查詢字串 : 股票代碼或公司簡稱
- * @returns {object}
- */
-async function listAllStocks(query = "") {
-
-    const res = await Axios.get('https://www.twse.com.tw/zh/api/codeQuery',
-        {
-            httpsAgent: new https.Agent({rejectUnauthorized: false}),
-            params: {
-                query,
-            }
-        });
-
-    return res.data;
-}
-
-const searchStocks = [
-    {
-        id: '2330',
-        date: null,
-        type: 'tse',
-    },
-    {
-        id: '2881',
-        date: null,
-        type: 'tse',
-    }
-];
-
-getData(searchStocks)
-    .then(data => formatData(data.msgArray))
-    .then(str => console.log('getData , str=', str))
-    .catch(err => console.error(err));
-
-listAllStocks()
-    .then(str => console.log('listAllStocks , str=', str))
-    .catch(err => console.error(err));
+module.exports = {getData};

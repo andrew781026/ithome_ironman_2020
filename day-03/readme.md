@@ -1,5 +1,27 @@
 # 第二天 - 股票查價(二) - 了解 twse API 
 
+- 列表所有的上市股票資料
+
+https://www.twse.com.tw/zh/api/codeQuery?query=[股票代碼或公司簡稱]
+
+參數說明 : query - 股票代碼或公司簡稱 , "" 代表查出全部資料
+
+回傳資訊 : 
+```json
+{
+    "query": "台",
+    "suggestions": [
+        "0050\t元大台灣50",
+        "0054\t元大台商50",
+        "0057\t富邦摩台",
+        "0060\t新台灣",
+        "006203\t元大MSCI台灣",
+        "006208\t富邦台50",
+        ...
+    ]
+}
+```
+
 目前的證交所即時資訊API的URL格式(JSON格式)為 :
 https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=參數&json=1&delay=0
 

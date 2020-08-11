@@ -17,3 +17,4 @@
 
 ## 參考資料 
 - [electron-quick-start](https://github.com/electron/electron-quick-start)
+- [顏文字](https://honeygal.pixnet.net/blog/post/32779199-%E8%BD%89%E9%8C%84::%E8%A1%A8%E6%83%85%E7%AC%A6%E8%99%9F-%E9%A1%8F%E6%96%87%E5%AD%97)
