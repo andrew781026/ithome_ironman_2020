@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mousetrap 測試</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/plugins/global-bind/mousetrap-global-bind.js"></script>
+</head>
+<body>
+<input type="text" id="key-in">
+<script>
+    // Mousetrap.bind will only work outside of form input fields,
+    // Moustrap.bindGlobal will work in both places.
+
+    // global register , single keys
+    Mousetrap.bindGlobal('7', () => console.log('7'));
+
+    // on body , single keys
+    Mousetrap.bind('4', () => console.log('4'));
+    Mousetrap.bind("?", () => console.log('show shortcuts!'));
+    Mousetrap.bind('esc', () => console.log('escape'), 'keyup');
+
+    // target element , single keys
+    var element = document.getElementById("key-in");
+    Mousetrap(element).bind('9', () => console.log('key-in element , 9 is trigger'));
+    Mousetrap(element).bind('enter', () => console.log('key-in element , enter ~.~'));
+</script>
+</body>
+</html>
