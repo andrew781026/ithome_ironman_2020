@@ -1,5 +1,7 @@
 # 第二天 - 股票查價(二) - 了解 twse API 
 
+我們的股票資訊將從證交所那取得 , 以下說明取得方式
+
 - 列表所有的上市股票資料
 
 https://www.twse.com.tw/zh/api/codeQuery?query=[股票代碼或公司簡稱]

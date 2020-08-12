@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow,ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
 
@@ -41,11 +41,35 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+const {listAllStocks, getData} = require('./utils/test-twse-api');
 
+ipcMain.handle('search-stocks', async (event, q) => {
 
-ipcMain.handle('search-stock-data',async (event,stockId)=>{});
+    const data = await listAllStocks(q);
+
+    return data.suggestions
+        .map(str => str.split('\t'))
+        .map(arr => ({id: arr[0], name: arr[1]}));
+});
+
+ipcMain.handle('get-stock-info', async (event, stockId) => {
+
+    const data = await getData([{
+        id: stockId,
+        date: null,
+        type: 'tse',
+    }]);
+
+    return data.msgArray
+        .map(single => ({
+            ...single,
+            currentPrice: single.z,
+            stockId: single.c,
+            stockName: single.n,
+            todayLowest: single.l,
+            todayHighest: single.h,
+        }));
+});
 
 const searchStocks = [
     {

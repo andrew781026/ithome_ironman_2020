@@ -1,7 +1,98 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron');
+const {app, Menu, isMac, BrowserWindow} = require('electron');
 const path = require('path');
 // require('electron-reload')(__dirname);
+
+// 使用 vue.js 開發 , 然後將畫面改到 electron 上面 (將編譯後的 vue 轉到 main.js 上面)
+
+const template = [
+    // { role: 'appMenu' }
+    ...(isMac ? [{
+        label: app.name,
+        submenu: [
+            {role: 'about'},
+            {type: 'separator'},
+            {role: 'services'},
+            {type: 'separator'},
+            {role: 'hide'},
+            {role: 'hideothers'},
+            {role: 'unhide'},
+            {type: 'separator'},
+            {role: 'quit'}
+        ]
+    }] : []),
+    // { role: 'fileMenu' }
+    {
+        label: '檔案',
+        submenu: [
+            isMac ? {label: '離開', role: 'close'} : {label: '離開', role: 'quit'}
+        ]
+    },
+    // { role: 'editMenu' }
+    {
+        label: 'Edit',
+        submenu: [
+            {role: 'undo'},
+            {role: 'redo'},
+            {type: 'separator'},
+            {role: 'cut'},
+            {role: 'copy'},
+            {role: 'paste'},
+            {role: 'delete'},
+            {type: 'separator'},
+            {
+                label: '開發者工具',
+                role: 'toggledevtools'
+            }
+        ]
+    },
+    // { role: 'viewMenu' }
+    {
+        label: '查看',
+        submenu: [
+            {role: 'reload'},
+            {role: 'forcereload'},
+            {
+                label: '開發者工具',
+                role: 'toggledevtools'
+            },
+            {type: 'separator'},
+            {role: 'resetzoom'},
+            {role: 'zoomin'},
+            {role: 'zoomout'},
+            {type: 'separator'},
+            {role: 'togglefullscreen'}
+        ]
+    },
+    // { role: 'windowMenu' }
+    {
+        label: 'Window',
+        submenu: [
+            {role: 'minimize'},
+            {role: 'zoom'},
+            ...(isMac ? [
+                {type: 'separator'},
+                {role: 'front'},
+                {type: 'separator'},
+                {role: 'window'}
+            ] : [
+                {role: 'close'}
+            ])
+        ]
+    },
+    {
+        role: 'help',
+        submenu: [
+            {
+                label: 'Learn More',
+                click: async () => {
+                    const {shell} = require('electron');
+                    await shell.openExternal('https://electronjs.org')
+                }
+            }
+        ]
+    }
+];
 
 function createWindow() {
     // Create the browser window.
@@ -10,12 +101,20 @@ function createWindow() {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
+            // nodeIntegration: false,
         },
-        autoHideMenuBar: true
+        // frame: false,
+        // autoHideMenuBar: true
     });
 
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+    // mainWindow.setMenu(menu);
+
+
     // and load the index.html of the app.
-    mainWindow.loadFile('index.html')
+    // mainWindow.loadFile('index.html')
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
