@@ -64,23 +64,10 @@ ipcMain.handle('get-stock-info', async (event, stockId) => {
         .map(single => ({
             ...single,
             currentPrice: single.z,
+            openPrice: single.o,
             stockId: single.c,
             stockName: single.n,
             todayLowest: single.l,
             todayHighest: single.h,
         }));
 });
-
-const searchStocks = [
-    {
-        id: '2330',
-        date: null,
-        type: 'tse',
-    },
-    {
-        id: '2881',
-        date: null,
-        type: 'tse',
-    }
-];
-

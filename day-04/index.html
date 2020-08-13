@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <!-- Content-Security-Policy 參考資料 = https://hackmd.io/@Eotones/BkOX6u5kX -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <link rel="stylesheet" href="./css/index.css">
     <title>Day04 - 股票查價機</title>
 </head>
 <body>
 <h1>歡迎使用股票查價機</h1>
-<label for="stockId">股票代號</label>
-<input id="stockId" type="text">
-<button>查詢</button>
+<div class="flex">
+    <label for="stockId">股票代號</label>
+    <div class="relative">
+        <input id="stockId" type="text">
+        <div id="drop-down-wrapper"  class="drop-down hide">
+            <span class="item">1</span>
+        </div>
+    </div>
+    <button id="searchBtn">查詢</button>
+</div>
 <div class="card-container">
-    <div class="card">
+    <div id="stock-card" class="card">
         <div class="card-header">
             <span>2330</span>
             <span>台積電</span>
@@ -29,5 +35,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

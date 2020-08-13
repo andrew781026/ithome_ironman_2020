@@ -43,3 +43,63 @@
 .border-green {
     border: 1px solid green;
 }
+
+.flex {
+    display: flex;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.drop-down {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    position: absolute;
+    box-shadow: 0 0 3px 1px black;
+    background-color: #bbbbbb;
+    border-radius: 2px;
+    top: 0; /* 需要黏在 input 的底端 */
+    left: 0;
+    transform: translate3d(0px, 36px, 0px);
+}
+
+.drop-down > .item {
+    cursor: pointer;
+    padding: 10px 20px 10px 20px;
+}
+
+.drop-down > .item:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+
+.drop-down > .item:hover {
+    font-size: 30px;
+    background-color: #a7a7a7;
+}
+
+.drop-down > .item:active {
+    font-size: 27px;
+    background-color: #e2e2e2;
+}
+
+.hide {
+    display: none;
+}
+
+.text-red {
+    color: red;
+    font-size: 20px;
+    font-weight: 900;
+}

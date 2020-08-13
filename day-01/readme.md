@@ -12,7 +12,7 @@ Electron 是一套前端工程師開發桌面程式的一把利器
 
 如果想了解更多 Electron 能做甚麼 ? 
 
-我們可以在 [Electron 應用商城](https://www.electronjs.org/apps) 查看其他工程師都用 Electron 完成了那些應用程式 !
+我們可以在 [Electron 應用商城](https://www.electronjs.org/apps) 查看其他工程師都用 Electron 製作了那些應用程式 !
 
 看了這麼多程式 . 了解這工具之強大 . 之後 30 天讓我們嘗試製作我們的 `桌面應用程式` 吧 !
 
