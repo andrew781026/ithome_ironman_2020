@@ -1,29 +1,18 @@
 # 第四天 - 股票查價(三) - ipcMain . ipcRender 介紹
 
-由於 electron 中有 chromium 端與 node.js 端 , 這兩者需要一種特殊的方式做溝通
+electron 中有 chromium 端與 node.js 端 , 
 
-那就是 ipcMain & ipcRender 
+利用 IPC 傳遞資料 , 畫面端用 ipcRender 與主處理序端的 ipcMain 做溝通
 
-ipcMain.on 可以接收由 BrowserWindow 中的 ipcRenderer.send 所傳送的資訊 , 但不會回傳任何資訊 , 
-如果需要回傳任何訊息給 BrowserWindow 需要使用 event.reply 並加上 ipcRenderer.on 接收回傳訊息
-或是改用 ipcRenderer.sendSync 等待 ipcMain.on 回傳 event.returnValue 資訊 (不建議使用)
+下方為 3 種溝通模式
 
-ipcMain.handle 
+- 別人來接
 
+由 IpcMain.on 監聽 IpcRenderer.send 傳來的訊息
+之後用 event.reply 回傳 
+說人話 : 你請別人盯著價格 , 由他來處理後續
 
-```javascript
-// 在主處理序裡。
-const { ipcMain } = require('electron')
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
-})
-
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-```
+![](https://i.imgur.com/hTnFHi4.png)
 
 ```javascript
 // 在主處理序裡。
@@ -33,22 +22,52 @@ ipcMain.on('asynchronous-message', (event, arg) => {
   event.reply('asynchronous-reply', 'pong')
 })
 
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-```
-
-```javascript
 // 在畫面轉譯處理序中 (網頁)。
 const { ipcRenderer } = require('electron')
-console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-
 ipcRenderer.on('asynchronous-reply', (event, arg) => {
   console.log(arg) // 印出 "pong"
 })
 ipcRenderer.send('asynchronous-message', 'ping')
+
 ```
+
+- 等待回應
+你一直在盯盤等到價格過低才購買 , 這中間你不做任何事情
+
+![](https://i.imgur.com/2E7ONWb.png)
+
+```javascript
+// 在主處理序裡。
+const { ipcMain } = require('electron')
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg) // prints "ping"
+  event.returnValue = 'pong'
+})
+
+// 在畫面轉譯處理序中 (網頁)。
+const { ipcRenderer } = require('electron')
+console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+```
+
+- 通知回應
+你註冊到價通知 , 到達指定價格時 , 有人會通知你
+
+![](https://i.imgur.com/i8nNnBR.png)
+
+```javascript
+// 在主處理序裡。
+const { ipcMain } = require('electron')
+ipcMain.handle('asynchronous-handle', async (event, arg) => {
+  console.log(arg) // prints "ping"
+  return 'pong'
+})
+
+// 在畫面轉譯處理序中 (網頁)。
+const { ipcRenderer } = require('electron')
+ipcRenderer.invoke('synchronous-message', 'ping')
+           .then(msg => console.log(msg)) // prints "pong"
+```
+
 
 ## 參考資料
 
