@@ -26,7 +26,7 @@
 - 第十一天 - 股票到價通知(五) - 用 API 打包 Electron
 
 > 聊天室 ? 與其他投資人一同聊天   
-> position : sticky 可以用來製作日期的部分
+> 聊天室中 position : sticky 可以用來製作日期的部分
  
 - 聊天室 - Socket.io 或者是用 Firebase 的 FireStore
 - 聊天室 - Google 登入 或者是用 Firebase Auth => firebaseUID 
