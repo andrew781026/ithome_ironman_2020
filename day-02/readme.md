@@ -1,50 +1,108 @@
-# 第二天 - 股票查價(一) - 用 electron-quick-start 當初始版型
+# 第二天 - 桌面小圖示 - 用 electron-quick-start 當初始版型
 
 今天先動手做一個 Electron 小程式 , 感受一下 Electron 
 
-首先 , 我們先做個療癒小貓咪放到桌面上吧
-
+首先 , 我們先做隻小貓咪放到桌面上吧
 
 預計效果
 ![](https://i.imgur.com/MfEjj5I.gif)
 
-小貓圖 - 可愛吧 😁
+小貓圖 - 可愛吧 😁 
 
-![](https://i.imgur.com/6O1RzBu.gif)
+<div style="display: flex ; flex-direction: column;align-items: center;width: 300px">
+    <a href="https://i.imgur.com/6O1RzBu.gif" download="playing-cat">
+      <img src="https://i.imgur.com/6O1RzBu.gif" alt="玩耍的小貓">
+    </a>
+    <a href="https://www.ilikesticker.com/LineStickerAnimation/W550562-Ginger-Cat-Animation/zh-Hant" >
+      圖片來源 - ilikesticker.com
+    </a>
+</div> 
 
-`npm init` 建立 package.json 檔案
+第一步 , 下載專案模板 
 
-`npm i -D electron electron-reload` 將 electron 套件
+```shell script
+# 複製 Quick Start 儲存庫
+$ git clone https://github.com/electron/electron-quick-start
 
-[frameless-window](https://www.electronjs.org/docs/api/frameless-window)
+# 進到儲存庫裡
+$ cd electron-quick-start
 
-## 快捷鍵
+# 安裝相依的套件並執行
+$ npm install && npm start
+```
 
-預設
+第二步 , 將可愛的貓咪載入
 
-- Devtool - 原 F12 , 新 Ctrl+Shift+I
-- Refresh - 原 F5 , 新 Ctrl+R
+```html=
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+</head>
+<body>
+    <img src="playing-cat-loop.gif">
+</body>
+</html>
+``` 
 
-## 自動偵測刷新 ( electron-reload )
+第三步 , 隱藏工具列與標題列 , 並將背景透明化
 
-如果希望儲存後 , 能直接看到修改的成果 , 且懶得按 Ctrl+R 刷新頁面
+new BrowserWindow 時 , 建立參數
+- `frame`           : 標題列不顯示
+- `transparent`     : 背景透明
+- `autoHideMenuBar` : 工具列不顯示
+  
+```javascript=
+const mainWindow = new BrowserWindow({
+    width: 350,
+    height: 350,
+    webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+    },
++   frame: false,          // 標題列不顯示
++   transparent: true,     // 背景透明
++   autoHideMenuBar: true  // 工具列不顯示
+});
+``` 
 
-### 資料夾結構顯示
-- [tree-cli](https://www.npmjs.com/package/tree-cli)
-- [directory-tree](https://www.npmjs.com/package/directory-tree)
-- [mousetrap](https://github.com/ccampbell/mousetrap)
+第四步 , 讓圖片可以用滑鼠抓著移動
 
-#### 修改 Icon 圖片
+在 body 標籤上追加 `style="-webkit-app-region: drag"`
 
-1. FlatIcon - 下載 SVG
-2. 將 SVG 轉換成 ico 檔
-3. 設定到 BrowserWindow 中
+```html=
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+</head>
+<body style="-webkit-app-region: drag">
+    <img src="playing-cat-loop.gif">
+</body>
+</html>
+``` 
 
-## 參考資料 
-- [emoji list](https://getemoji.com/)
-- [electron-quick-start](https://github.com/electron/electron-quick-start)
-- [顏文字](https://honeygal.pixnet.net/blog/post/32779199-%E8%BD%89%E9%8C%84::%E8%A1%A8%E6%83%85%E7%AC%A6%E8%99%9F-%E9%A1%8F%E6%96%87%E5%AD%97)
-- [electron reload shortcut](https://github.com/electron/electron/issues/11895)
-- [Electron - Debugging](https://www.tutorialspoint.com/electron/electron_debugging.htm)
-- [electron 自定義快捷鍵](https://www.electronjs.org/docs/tutorial/keyboard-shortcuts)
-- [canvas_clock](https://www.w3schools.com/graphics/canvas_clock_start.asp)
+第五步 , 讓圖片無法選取
+
+在 body 標籤上追加 `style="user-select: none"`
+
+```html=
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+</head>
+<body style="-webkit-app-region: drag;user-select: none">
+    <img src="playing-cat-loop.gif">
+</body>
+</html>
+``` 
+
+## 參考資料
+
+- [Electron 官網](https://www.electronjs.org/)
