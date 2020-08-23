@@ -1,17 +1,13 @@
 {
-  "name": "electron-practice-day04",
-  "version": "0.0.4",
-  "description": "a startup template of electron",
+  "name": "electron-practice-day03",
+  "version": "0.0.3",
+  "description": "test for twse api",
   "scripts": {
-    "start": "electron ./main.js"
+    "start": "node test-twse-api.js"
   },
   "author": "andrew",
   "license": "MIT",
   "dependencies": {
     "axios": "0.19.2"
-  },
-  "devDependencies": {
-    "electron": "9.0.3",
-    "electron-reload": "1.5.0"
   }
 }

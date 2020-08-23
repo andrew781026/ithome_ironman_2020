@@ -13,3 +13,4 @@ gen
 logs
 
 package-lock.json
+build
