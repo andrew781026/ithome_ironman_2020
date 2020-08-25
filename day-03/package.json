@@ -4,7 +4,8 @@
   "description": "a startup template of electron",
   "main": "./main.js",
   "scripts": {
-    "start": "electron ./main.js"
+    "start": "electron ./main.js",
+    "build": "node build.js"
   },
   "author": "andrew",
   "license": "MIT",

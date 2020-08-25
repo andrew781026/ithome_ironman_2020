@@ -31,6 +31,9 @@
 
 ### 打包 Mac 應用程式 
 
+我們需要 [png-to-icns](https://cloudconvert.com/png-to-icns)
+
+
 ### 打包 Linux 應用程式 
 
 ## 參考資料
