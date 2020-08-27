@@ -1,55 +1,33 @@
-// Importing this adds a right-click menu with 'Inspect Element' option
-// const remote = require('remote');
-// const Menu = remote.require('menu');
-// const MenuItem = remote.require('menu-item');
-const path = require('path');
-const {Notification,ipcRenderer} = require('electron');
+const {remote,ipcRenderer} = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    let rightClickPosition = null
 
+    const customTitlebar = require('custom-electron-titlebar');
+    new customTitlebar.Titlebar({
+        backgroundColor: customTitlebar.Color.fromHex('#444')
+    });
+
+
+
+    let rightClickPosition = null;
+
+    // Returns BrowserWindow - The window to which this web page belongs.
+    remote.getCurrentWindow(); // 在 顯示端 ( renderer 端 ) , 取得 BrowserWindow 並操作它
+
+    // contextmenu = 瀏覽器點擊右鍵時觸發
     /*
-    const menu = new Menu()
-    const menuItem = new MenuItem({
-        label: 'Inspect Element',
-        click: () => {
-            remote.getCurrentWindow().inspectElement(rightClickPosition.x, rightClickPosition.y)
-        }
-    })
-    menu.append(menuItem)
-
-    // back
-    const backMenuItem = new MenuItem({
-        label: 'Back',
-        click: () => {
-            window.history.back();
-        }
-    })
-    menu.append(backMenuItem)
-
-    // forward
-    const forwardMenuItem = new MenuItem({
-        label: 'Forward',
-        click: () => {
-            window.history.forward();
-        }
-    })
-    menu.append(forwardMenuItem)
-
-     */
-
     window.addEventListener('contextmenu', (e) => {
         e.preventDefault()
         rightClickPosition = {x: e.x, y: e.y}
         console.log('rightClickPosition=', rightClickPosition);
         // menu.popup(remote.getCurrentWindow())
     }, false)
+     */
 
     document.getElementById('cat-img').addEventListener('dblclick', e => {
 
         e.preventDefault();
-
         ipcRenderer.send('notify');
     });
 
