@@ -8,10 +8,6 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 350,
         height: 350,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-            // nodeIntegration: false,
-        },
         frame: false,      // 標題列不顯示
         transparent: true, // 背景透明
         autoHideMenuBar: true //  工具列不顯示

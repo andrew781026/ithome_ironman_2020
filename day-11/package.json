@@ -1,0 +1,13 @@
+{
+  "name": "electron-practice-day03",
+  "version": "0.0.3",
+  "description": "test for twse api",
+  "scripts": {
+    "start": "node test-twse-api.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "0.19.2"
+  }
+}
