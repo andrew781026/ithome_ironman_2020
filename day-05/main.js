@@ -1,73 +1,72 @@
-// Modules to control application life and create native browser window
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, Menu, MenuItem, BrowserWindow, ipcMain, Notification} = require('electron');
 const path = require('path');
-require('electron-reload')(__dirname);
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 350,
+        height: 400,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
-        autoHideMenuBar: true
+        frame: false,      // 標題列不顯示
+        // transparent: true, // 背景透明
+        autoHideMenuBar: true //  工具列不顯示
     });
 
-    // and load the index.html of the app.
-    mainWindow.loadFile('index.html')
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    const template = [
+        {label: '關閉', role: 'close'},
+        {label: '全螢幕', role: 'togglefullscreen'},
+        {label: '刷新', role: 'reload'},
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+
+    // mainWindow.loadURL(`https://www.google.com`);
+    mainWindow.loadFile('index.html');
+
+    mainWindow.webContents.openDevTools()
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.on('ready', () => {
+
     createWindow();
+})
 
-    app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+app.on('web-contents-created', (event, win) => {
+
+    const template = [
+        {label: '關閉', role: 'close'},
+        {label: '全螢幕', role: 'togglefullscreen'},
+        {label: '重新載入', role: 'reload'},
+    ];
+
+    const ctxMenu = new Menu();
+    template.map(item => ctxMenu.append(new MenuItem(item)));
+
+    win.webContents.on('context-menu', (e, params) => {
+        ctxMenu.popup(win, params.x, params.y)
     })
-});
+})
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-    // On macOS it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') app.quit()
-});
 
-const {listAllStocks, getData} = require('./utils/test-twse-api');
+app.on('window-all-closed', () => {
 
-ipcMain.handle('search-stocks', async (event, q) => {
+    app.quit();
+})
 
-    const data = await listAllStocks(q);
+ipcMain.on('notify', () => {
 
-    return data.suggestions
-        .map(str => str.split('\t'))
-        .map(arr => ({id: arr[0], name: arr[1]}));
-});
+    // 通知
+    new Notification({
 
-ipcMain.handle('get-stock-info', async (event, stockId) => {
+        title: '標題',
+        subtitle: '副標題',
+        body: '內容',
+        icon: path.join(__dirname, '/cat.png'),
 
-    const data = await getData([{
-        id: stockId,
-        date: null,
-        type: 'tse',
-    }]);
+    }).show();
 
-    return data.msgArray
-        .map(single => ({
-            ...single,
-            currentPrice: single.z,
-            openPrice: single.o,
-            stockId: single.c,
-            stockName: single.n,
-            todayLowest: single.l,
-            todayHighest: single.h,
-        }));
 });

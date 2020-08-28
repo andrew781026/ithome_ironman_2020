@@ -2,40 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Content-Security-Policy 參考資料 = https://hackmd.io/@Eotones/BkOX6u5kX -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
-    <link rel="stylesheet" href="./css/index.css">
-    <title>Day04 - 股票查價機</title>
 </head>
-<body>
-<h1>歡迎使用股票查價機</h1>
-<div class="flex">
-    <label for="stockId">股票代號</label>
-    <div class="relative">
-        <input id="stockId" type="text">
-        <div id="drop-down-wrapper"  class="drop-down hide">
-            <span class="item">1</span>
-        </div>
-    </div>
-    <button id="searchBtn">查詢</button>
-</div>
-<div class="card-container">
-    <div id="stock-card" class="card">
-        <div class="card-header">
-            <span>2330</span>
-            <span>台積電</span>
-        </div>
-        <div class="card-body">
-            30
-        </div>
-        <div class="card-footer">
-            <span>0.2 ↗</span>
-            <!--  <span>↘</span>-->
-            <!--  <span>-</span>-->
-            <span>20 %</span>
-        </div>
-    </div>
-</div>
-
+<body style="-webkit-app-region: drag;user-select: none">
+<img id="cat-img" src="playing-cat-loop.gif">
+<button id="button">按鈕</button>
 </body>
 </html>

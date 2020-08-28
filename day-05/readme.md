@@ -1,78 +1,23 @@
-# 第四天 - 股票查價(三) - ipcMain . ipcRender 介紹
+# 第四天 - context-menu 右鍵選單 - 內容功能表
 
-electron 中有 chromium 端與 node.js 端 , 
+原本今天要討論 , 右鍵選單 ( context-menu ) , 
+在官網上發現一個不幸的消息 , 
+在 win 10 中 frame = false , zone = draggable 的區塊 , 
+預設的 DOM 事件會被取代成系統 ( win 10 ) 預設的右鍵選單
+ ( 說人話 : 右鍵選單 . 左鍵雙擊 ...等操作會被替換成下方選單 )
 
-利用 IPC 傳遞資料 , 畫面端用 ipcRender 與主處理序端的 ipcMain 做溝通
+![](https://i.imgur.com/n4yGWqy.png)
 
-下方為 3 種溝通模式
+所以 , 我們可能需要讓應用程式 frame = true 將貓咪的背景改成非透明的 , 讓其可以執行右鍵
 
-- 別人來接
+使用 frame = false , 是自製一個 title 
+-[electron-seamless-titlebar-tutorial](https://github.com/binaryfunt/electron-seamless-titlebar-tutorial)
 
-由 IpcMain.on 監聽 IpcRenderer.send 傳來的訊息
-之後用 event.reply 回傳 
-說人話 : 你請別人盯著價格 , 由他來處理後續
+或者使用 custom-electron-titlebar 做處理
+-[custom-electron-titlebar](https://www.npmjs.com/package/custom-electron-titlebar)
 
-![](https://i.imgur.com/hTnFHi4.png)
-
-```javascript
-// 在主處理序裡。
-const { ipcMain } = require('electron')
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
-})
-
-// 在畫面轉譯處理序中 (網頁)。
-const { ipcRenderer } = require('electron')
-ipcRenderer.on('asynchronous-reply', (event, arg) => {
-  console.log(arg) // 印出 "pong"
-})
-ipcRenderer.send('asynchronous-message', 'ping')
-
-```
-
-- 等待回應
-你一直在盯盤等到價格過低才購買 , 這中間你不做任何事情
-
-![](https://i.imgur.com/2E7ONWb.png)
-
-```javascript
-// 在主處理序裡。
-const { ipcMain } = require('electron')
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
-
-// 在畫面轉譯處理序中 (網頁)。
-const { ipcRenderer } = require('electron')
-console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-```
-
-- 通知回應
-你註冊到價通知 , 到達指定價格時 , 有人會通知你
-
-![](https://i.imgur.com/i8nNnBR.png)
-
-```javascript
-// 在主處理序裡。
-const { ipcMain } = require('electron')
-ipcMain.handle('asynchronous-handle', async (event, arg) => {
-  console.log(arg) // prints "ping"
-  return 'pong'
-})
-
-// 在畫面轉譯處理序中 (網頁)。
-const { ipcRenderer } = require('electron')
-ipcRenderer.invoke('synchronous-message', 'ping')
-           .then(msg => console.log(msg)) // prints "pong"
-```
-
+利用 mouseenter . mouseleave 事件控制 , titlebar 與 背景色的顯示
 
 ## 參考資料
 
-https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/648629/
-
-- [官方文件 ipc-main](https://www.electronjs.org/docs/api/ipc-main)
-- [electron-titlebar](https://www.npmjs.com/package/electron-titlebar)
-- [custom-electron-titlebar](https://www.npmjs.com/package/custom-electron-titlebar)
+- [electron-builder 官方文件](https://www.electron.build/)

@@ -1,39 +1,68 @@
-const {remote,ipcRenderer} = require('electron');
+const {ipcRenderer} = require('electron');
+const Mousetrap = require('mousetrap');
+const customTitlebar = require('custom-electron-titlebar');
 
 window.addEventListener('DOMContentLoaded', () => {
 
-
-    const customTitlebar = require('custom-electron-titlebar');
-    new customTitlebar.Titlebar({
-        backgroundColor: customTitlebar.Color.fromHex('#444')
+    const title = new customTitlebar.Titlebar({
+        backgroundColor: customTitlebar.Color.fromHex('#444'),
     });
 
+    const body = document.getElementsByTagName('body')[0];
+    const titleBar = title.titlebar;
 
 
-    let rightClickPosition = null;
+    console.log('titleBar=', titleBar);
 
-    // Returns BrowserWindow - The window to which this web page belongs.
-    remote.getCurrentWindow(); // 在 顯示端 ( renderer 端 ) , 取得 BrowserWindow 並操作它
+    let draggable = false;
 
-    // contextmenu = 瀏覽器點擊右鍵時觸發
+    const startDrag = () => {
+
+        draggable = true;
+        if (!body.classList.contains('draggable')) {
+            body.classList.add('draggable');
+            titleBar.style.display = 'block';
+        }
+        ipcRenderer.send('change-drag', {draggable});
+    }
+
+    const stopDrag = () => {
+
+        draggable = false;
+        if (body.classList.contains('draggable')) {
+            body.classList.remove('draggable');
+            titleBar.style.display = 'none';
+        }
+        ipcRenderer.send('change-drag', {draggable});
+    }
+
+    ipcRenderer.on('hide-bg', stopDrag);
+
     /*
-    window.addEventListener('contextmenu', (e) => {
-        e.preventDefault()
-        rightClickPosition = {x: e.x, y: e.y}
-        console.log('rightClickPosition=', rightClickPosition);
-        // menu.popup(remote.getCurrentWindow())
-    }, false)
+    ipcRenderer.on('toggle-drag', (event, args) => {
+
+        toggleDrag();
+    });
      */
 
-    document.getElementById('cat-img').addEventListener('dblclick', e => {
 
-        e.preventDefault();
-        ipcRenderer.send('notify');
+    body.addEventListener('mouseenter', e => {
+        // ipcRenderer.send('show-context-menu');
+        startDrag();
     });
 
-    document.getElementById('button').addEventListener('click', () => {
+    /*
+        body.addEventListener('mouseleave', e => {
+            stopDrag();
+        });
+    */
+    // 將不同的組合鍵對應到同一個 callback
+    Mousetrap.bind(['command+1', 'ctrl+1'], () => {
 
-        ipcRenderer.send('notify');
-    });
+        console.log('command 1 or control 1');
+        ipcRenderer.send('show-context-menu');
 
+        // 回傳 false 防止預設行為被觸發，並避免事件向外傳遞
+        return false
+    })
 });

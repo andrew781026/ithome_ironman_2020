@@ -1,136 +1,39 @@
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
-
-const {ipcRenderer} = require('electron');
-
-window.ipcRenderer = ipcRenderer;
+const {remote,ipcRenderer} = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    const input = document.getElementById('stockId');
-    const dropDown = document.getElementById('drop-down-wrapper');
-    const card = document.getElementById('stock-card');
-    const searchBtn = document.getElementById('searchBtn');
-    let queryStocks = [];
 
-    const renderDropDown = () => {
-
-        const q = input.value;
-
-        dropDown.innerHTML = '';
-
-        const getMsgSpan = (stock, q) => {
-
-            const msg = `${stock.id}(${stock.name})`;
-            const result = msg.split('')
-                .map(char => (q && q.indexOf(char) > -1) ? `<span class="text-red">${char}</span>` : `<span>${char}</span>`)
-                .reduce((pre, curr) => pre + curr, '');
-
-            return result;
-        }
-
-        const getItemHtml = (stock, q) => `<div class="item" onclick="window.getStockInfo('${stock.id}')">
-                                            ${getMsgSpan(stock, q)}
-                                         </div>`;
-
-        queryStocks.forEach(stock => dropDown.insertAdjacentHTML('beforeend', getItemHtml(stock, q)));
-    };
-
-    const renderStockCard = (stockInfo) => {
-
-        if (!stockInfo) {
-
-            card.innerHTML = `<div class="card-header">
-            </div>
-            <div class="card-body text-red">
-                無符合資料
-            </div>
-            <div class="card-footer">
-            </div>`;
-
-        } else {
-
-            const diffPrice = stockInfo.currentPrice - stockInfo.openPrice;
-
-            const getSign = diffPrice => {
-
-                if (diffPrice > 0) return '↗';
-                else if (diffPrice < 0) return '↘';
-                else return '-';
-            };
-
-            card.innerHTML = `<div class="card-header">
-                                <span>${stockInfo.stockId}</span>
-                                <span>${stockInfo.stockName}</span>
-                            </div>
-                            <div class="card-body">
-                                ${Math.round(parseInt(stockInfo.currentPrice) * 10) / 10}  
-                            </div>
-                            <div class="card-footer">
-                                <span>${Math.abs(diffPrice)} ${getSign(diffPrice)}</span>
-                                <span>${Math.floor(diffPrice / stockInfo.openPrice)} %</span>
-                            </div>`;
-        }
-
-    };
-
-    window.getStockInfo = stockId => {
-
-        input.value = stockId;
-        dropDown.classList.add("hide");
-
-        ipcRenderer.invoke('get-stock-info', stockId)
-            .then(stockInfo => {
-
-                console.log('stockInfo=', stockInfo);
-                renderStockCard(stockInfo[0]);
-            })
-            .catch()
-    }
-
-    input.addEventListener("focus", (e) => {
-
-        dropDown.classList.remove("hide");
+    const customTitlebar = require('custom-electron-titlebar');
+    new customTitlebar.Titlebar({
+        backgroundColor: customTitlebar.Color.fromHex('#444')
     });
 
-    input.addEventListener("input", (e) => {
 
-        const q = e.target.value;
 
-        ipcRenderer.invoke('search-stocks', q)
-            .then(stocks => {
+    let rightClickPosition = null;
 
-                queryStocks = stocks;
-                renderDropDown();
-            })
-            .catch()
+    // Returns BrowserWindow - The window to which this web page belongs.
+    remote.getCurrentWindow(); // 在 顯示端 ( renderer 端 ) , 取得 BrowserWindow 並操作它
 
-        renderDropDown();
+    // contextmenu = 瀏覽器點擊右鍵時觸發
+    /*
+    window.addEventListener('contextmenu', (e) => {
+        e.preventDefault()
+        rightClickPosition = {x: e.x, y: e.y}
+        console.log('rightClickPosition=', rightClickPosition);
+        // menu.popup(remote.getCurrentWindow())
+    }, false)
+     */
+
+    document.getElementById('cat-img').addEventListener('dblclick', e => {
+
+        e.preventDefault();
+        ipcRenderer.send('notify');
     });
 
-    input.addEventListener("keyup", function (event) {
+    document.getElementById('button').addEventListener('click', () => {
 
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            window.getStockInfo(input.value);
-        }
+        ipcRenderer.send('notify');
     });
 
-    searchBtn.addEventListener("click", () => window.getStockInfo(input.value));
-
-    const initStocks = () => {
-
-        ipcRenderer.invoke('search-stocks')
-            .then(stocks => {
-
-                queryStocks = stocks;
-                renderDropDown();
-            })
-            .catch()
-    }
-
-    initStocks();
 });

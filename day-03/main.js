@@ -1,7 +1,5 @@
 const {app, Menu, BrowserWindow} = require('electron');
 
-const isWin = process.platform === "win32";
-
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -23,44 +21,6 @@ function createWindow() {
 
     // mainWindow.loadURL(`https://www.google.com`);
     mainWindow.loadFile('index.html');
-}
-
-if (isWin){
-
-    // Windows 工作列 - https://www.electronjs.org/docs/tutorial/windows-taskbar
-    app.setJumpList([
-        {
-            name: '最近訪問',
-            items: [
-                {
-                    type: 'task',
-                    title: '開啟 Chrome',
-                    program: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-                    icon: 'C:\\Users\\andrew\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1\\Google Profile.ico',
-                    description: '開新 Chrome 瀏覽器'
-                },
-            ]
-        },
-        { // has no name and no type so `type` is assumed to be "tasks"
-            items: [
-                {
-                    type: 'task',
-                    title: 'New Project',
-                    program: process.execPath,
-                    args: '--new-project',
-                    description: 'Create a new project.'
-                },
-                { type: 'separator' },
-                {
-                    type: 'task',
-                    title: 'Recover Project',
-                    program: process.execPath,
-                    args: '--recover-project',
-                    description: 'Recover Project'
-                }
-            ]
-        }
-    ])
 }
 
 app.on('ready', () => {
