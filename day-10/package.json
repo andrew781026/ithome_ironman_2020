@@ -1,0 +1,13 @@
+{
+  "name": "electron-practice-day02",
+  "version": "0.0.2",
+  "description": "a startup template of electron",
+  "scripts": {
+    "start": "electron ./main.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-admin": "^9.1.1"
+  }
+}
