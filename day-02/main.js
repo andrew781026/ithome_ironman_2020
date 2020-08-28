@@ -3,7 +3,7 @@ const {app, BrowserWindow} = require('electron');
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 350,
+        width: 320,
         height: 350,
         frame: false,      // 標題列不顯示
         transparent: true, // 背景透明

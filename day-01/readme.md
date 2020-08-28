@@ -38,6 +38,8 @@ PM 問了我一句話 : 「你這個網頁可以在斷網的情況下使用嗎?�
 ![electron 基礎架構](https://i.imgur.com/N9r4qT9.png)
 [ 圖片來源 : Udemy 課程 - Electron From Scratch: Build Desktop Apps With JavaScript ]
 
+[electron playground - fiddle](https://github.com/electron/fiddle)
+
 ## 參考資料
 
 [會前端就會寫桌面軟體-Electron 新手教學](https://junyou.tw/electron/)

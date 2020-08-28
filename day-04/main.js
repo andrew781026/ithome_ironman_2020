@@ -1,10 +1,11 @@
 const {app, Menu, MenuItem, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 const path = require('path');
+require('electron-reload')(__dirname);
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 350,
+        width: 320,
         height: 380,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -54,8 +55,12 @@ app.on('browser-window-created', (event, win) => {
         {label: '全螢幕', role: 'togglefullscreen'},
         {label: '重新載入', role: 'reload'},
         {
-            label: '隱藏',
+            label: '隱藏背景',
             click: () => win.webContents.send('hide-bg')
+        },
+        {
+            label: '顯示背景',
+            click: () => win.webContents.send('show-bg')
         }
     ];
 

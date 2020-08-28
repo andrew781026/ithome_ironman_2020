@@ -1,18 +1,10 @@
 const {ipcRenderer} = require('electron');
 const Mousetrap = require('mousetrap');
-const customTitlebar = require('custom-electron-titlebar');
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    const title = new customTitlebar.Titlebar({
-        backgroundColor: customTitlebar.Color.fromHex('#444'),
-    });
-
     const body = document.getElementsByTagName('body')[0];
-    const titleBar = title.titlebar;
-
-
-    console.log('titleBar=', titleBar);
+    const dragBar = document.getElementById('drag-bar');
 
     let draggable = false;
 
@@ -21,7 +13,8 @@ window.addEventListener('DOMContentLoaded', () => {
         draggable = true;
         if (!body.classList.contains('draggable')) {
             body.classList.add('draggable');
-            titleBar.style.display = 'block';
+            dragBar.style.display = 'block';
+            //  visibility: visible . hidden 會造成 dragBar 變成不可拖曳
         }
         ipcRenderer.send('change-drag', {draggable});
     }
@@ -31,31 +24,19 @@ window.addEventListener('DOMContentLoaded', () => {
         draggable = false;
         if (body.classList.contains('draggable')) {
             body.classList.remove('draggable');
-            titleBar.style.display = 'none';
+            dragBar.style.display = 'none';
         }
         ipcRenderer.send('change-drag', {draggable});
     }
 
+    // body.addEventListener('mouseenter', startDrag);
+    // body.addEventListener('mouseleave', stopDrag);
+
+    ipcRenderer.on('show-bg', startDrag);
     ipcRenderer.on('hide-bg', stopDrag);
 
-    /*
-    ipcRenderer.on('toggle-drag', (event, args) => {
-
-        toggleDrag();
-    });
-     */
 
 
-    body.addEventListener('mouseenter', e => {
-        // ipcRenderer.send('show-context-menu');
-        startDrag();
-    });
-
-    /*
-        body.addEventListener('mouseleave', e => {
-            stopDrag();
-        });
-    */
     // 將不同的組合鍵對應到同一個 callback
     Mousetrap.bind(['command+1', 'ctrl+1'], () => {
 
