@@ -1,5 +1,6 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, Menu, Tray} = require('electron');
 
+// https://www.electronjs.org/docs/api/tray
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -10,13 +11,28 @@ function createWindow() {
         autoHideMenuBar: true //  工具列不顯示
     });
 
-    // mainWindow.loadURL(`https://www.google.com`);
     mainWindow.loadFile('index.html');
 }
 
+
+let tray = null;
+
 app.on('ready', () => {
 
-    createWindow();
+    // createWindow();
+
+    tray = new Tray('./cat.png')
+    const contextMenu = Menu.buildFromTemplate([
+        {label: '可愛小貓', click: () => {
+                createWindow()
+                tray.destroy();
+            }},
+        {label: 'Item2', type: 'radio'},
+        {label: 'Item3', type: 'radio', checked: true},
+        {label: 'Item4', type: 'radio'}
+    ])
+    tray.setToolTip('This is my application.')
+    tray.setContextMenu(contextMenu)
 })
 
 app.on('window-all-closed', () => {

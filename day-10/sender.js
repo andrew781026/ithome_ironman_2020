@@ -4,12 +4,12 @@ const chatRef = db.collection('chat');
 
 const sendOneMessage = async () => {
 
-    await chatRef.doc('bob').set({
-        name: 'Los Angeles',
-        state: 'CA',
-        country: 'USA',
+    await chatRef.doc('John').set({
+        name: 'Taipei',
+        state: 'TP',
+        country: 'TWD',
         capital: false,
-        population: 3900000
+        population: 42000
     });
 };
 

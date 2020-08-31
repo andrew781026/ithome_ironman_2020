@@ -1,4 +1,4 @@
-    # 2020 年度 IT 鐵人賽文章
+# 2020 年度 IT 鐵人賽文章
 
 在此存稿 IT 鐵人賽 30 天的文章 , 暫定主題用 Electron 做解說
 
@@ -20,11 +20,19 @@
 - 第四天 - 股票查價(三) - ipcMain . ipcRender 介紹
 - 第五天 - 股票查價(四) - 版型設定
 - 第六天 - 股票查價(五) - 用 CLI 打包 Electron
+
+預設價格 , 通知 
 - 第七天 - 股票到價通知(一) - later.js 介紹 & 使用
 - 第八天 - 股票到價通知(二) - Electron 通知
 - 第九天 - 股票到價通知(三) - Mailgun 寄信
 - 第十天 - 股票到價通知(四) - Electron Tray 縮小至工作列
 - 第十一天 - 股票到價通知(五) - 用 API 打包 Electron
+
+股價淨值比 , 計算小程式 => 順便做漲跌圖
+本益比 ( EPS ) , 可從 https://www.twse.com.tw/zh/page/trading/exchange/BWIBBU_d.html
+籌碼 => 每日交易量最大 5 人 or 10 人
+每月營業額 => 圖形呈現 
+EToro => 股票買賣模擬器 
 
 > 聊天室 ? 與其他投資人一同聊天   
 > 聊天室中 position : sticky 可以用來製作日期的部分
@@ -59,3 +67,4 @@
 ## 其他參考
 
  - [Serverless crash reporting for Electron apps](https://engineroom.teamwork.com/serverless-crash-reporting-for-electron-apps-fe6e62e5982a)
+ 

@@ -3,7 +3,7 @@
 昨天我們製作了可愛的小貓應用程式 , 我們當然希望分享給其他人這可愛的小貓 , 
 可是我們不可能強求其他人知道如何使用 npm 指令去執行這隻應用程式對吧 !
 
-> cli . programmer-api 可以介紹兩種方式 
+追加一個 build.js 來打包應用程式 
 
 ### 打包 Windows 應用程式 
 
@@ -28,14 +28,5 @@
 之後我才發現要打包成綠色軟體 , 
 需要將 target 從 nsis 改成 portable 這時會多一個 .exe 檔案 , 
 你可以將此 exe 檔案分享給別人 , 其他沒有安裝 Node.js 的機器才能正常使用此應用程式
-
-### 打包 Mac 應用程式 
-
-我們需要 [png-to-icns](https://cloudconvert.com/png-to-icns)
-
-
-### 打包 Linux 應用程式 
-
-## 參考資料
 
 - [electron-builder 官方文件](https://www.electron.build/)
