@@ -1,22 +1,21 @@
-# 第二天 - 桌面小圖示 - 用 electron-quick-start 當初始版型
+# 第二天 - 桌面小圖示(一) - 我的第一個 electron 應用程式
 
-今天先動手做一個 Electron 小程式 , 感受一下 Electron 
+不知道有沒有人記得 Word 的小助手 `迴紋針`
 
-首先 , 我們先做隻小貓咪放到桌面上吧
+![](https://i.imgur.com/l3UBR2M.png)
+
+今天我們也來用 Electron 做一個小助手 😁
+
+首先 , 放上目標成果
 
 預計效果
 ![](https://i.imgur.com/MfEjj5I.gif)
 
-小貓圖 - 可愛吧 😁 
+小貓 - 可愛吧 😁 , 
 
-<div style="display: flex ; flex-direction: column;align-items: center;width: 300px">
-    <a href="https://i.imgur.com/6O1RzBu.gif" download="playing-cat">
-      <img src="https://i.imgur.com/6O1RzBu.gif" alt="玩耍的小貓">
-    </a>
-    <a href="https://www.ilikesticker.com/LineStickerAnimation/W550562-Ginger-Cat-Animation/zh-Hant" >
-      圖片來源 - ilikesticker.com
-    </a>
-</div> 
+[![玩耍的小貓](https://i.imgur.com/6O1RzBu.gif)](https://i.imgur.com/6O1RzBu.gif)
+
+[圖片來源 - ilikesticker.com](https://www.ilikesticker.com/LineStickerAnimation/W550562-Ginger-Cat-Animation/zh-Hant)
 
 第一步 , 下載專案模板 
 
@@ -102,6 +101,12 @@ const mainWindow = new BrowserWindow({
 </body>
 </html>
 ``` 
+
+## 番外
+
+如果想要從 ilikesticker 使用其他小貓 , 
+可以用 [ezgif.com](https://ezgif.com/loop-count) 將小貓的動作次數改成 0 - 無限次
+
 
 ## 參考資料
 
