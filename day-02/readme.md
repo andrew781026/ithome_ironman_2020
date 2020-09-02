@@ -1,4 +1,4 @@
-# 第二天 - 桌面小圖示(一) - 我的第一個 electron 應用程式
+# 第二天 - 桌面小圖示(一) - 第一支 electron 應用程式
 
 不知道有沒有人記得 Word 的小助手 `迴紋針`
 
@@ -9,6 +9,7 @@
 首先 , 放上目標成果
 
 預計效果
+
 ![](https://i.imgur.com/MfEjj5I.gif)
 
 小貓 - 可愛吧 😁 , 
@@ -16,6 +17,8 @@
 [![玩耍的小貓](https://i.imgur.com/6O1RzBu.gif)](https://i.imgur.com/6O1RzBu.gif)
 
 [圖片來源 - ilikesticker.com](https://www.ilikesticker.com/LineStickerAnimation/W550562-Ginger-Cat-Animation/zh-Hant)
+
+下面開始動手製作 ![ithome-fight](https://ithelp.ithome.com.tw/images/emoticon/emoticon18.gif)
 
 第一步 , 下載專案模板 
 
@@ -102,7 +105,7 @@ const mainWindow = new BrowserWindow({
 </html>
 ``` 
 
-## 番外
+## 備註
 
 如果想要從 ilikesticker 使用其他小貓 , 
 可以用 [ezgif.com](https://ezgif.com/loop-count) 將小貓的動作次數改成 0 - 無限次

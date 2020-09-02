@@ -1,17 +1,18 @@
 {
-  "name": "electron-practice-day03",
+  "name": "electron-practice-day02",
   "version": "0.0.2",
-  "description": "a startup template of electron",
+  "description": "day02 apps",
   "main": "./main.js",
   "scripts": {
-    "start": "electron .",
-    "build": "node build.js"
+    "start": "electron ."
   },
   "author": "andrew",
   "license": "MIT",
+  "dependencies": {
+    "auto-launch": "^5.0.5"
+  },
   "devDependencies": {
     "electron": "9.0.3",
-    "electron-reload": "1.5.0",
     "electron-builder": "22.8.0"
   }
 }

@@ -2,13 +2,13 @@
   "name": "electron-practice-day02",
   "version": "0.0.2",
   "description": "day02 apps",
+  "main": "./main.js",
   "scripts": {
-    "start": "electron ./main.js"
+    "start": "electron ."
   },
   "author": "andrew",
   "license": "MIT",
   "devDependencies": {
-    "electron": "9.0.3",
-    "electron-reload": "1.5.0"
+    "electron": "9.0.3"
   }
 }
