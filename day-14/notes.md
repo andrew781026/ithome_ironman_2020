@@ -41,6 +41,10 @@
 2. 將 SVG 轉換成 ico 檔
 3. 設定到 BrowserWindow 中
 
+#### 梗圖製作
+
+- [梗圖產生器](https://memes.tw/maker/meme/2075)
+
 ## 參考資料 
 - [emoji list](https://getemoji.com/)
 - [electron-quick-start](https://github.com/electron/electron-quick-start)
@@ -49,3 +53,4 @@
 - [Electron - Debugging](https://www.tutorialspoint.com/electron/electron_debugging.htm)
 - [electron 自定義快捷鍵](https://www.electronjs.org/docs/tutorial/keyboard-shortcuts)
 - [canvas_clock](https://www.w3schools.com/graphics/canvas_clock_start.asp)
+- [pokemon-names](https://github.com/sindresorhus/pokemon)

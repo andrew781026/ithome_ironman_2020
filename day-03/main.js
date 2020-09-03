@@ -1,34 +1,19 @@
-const {app, Menu, BrowserWindow} = require('electron');
+// main.js
+const app =  require('electron').app; // app 就是 Main Process 自身
+const BrowserWindow = require('electron').BrowserWindow; // 瀏覽器視窗
 
 function createWindow() {
-    // Create the browser window.
-    const mainWindow = new BrowserWindow({
-        width: 320,
-        height: 350,
-        frame: false,      // 標題列不顯示
-        transparent: true, // 背景透明
-        autoHideMenuBar: true //  工具列不顯示
-    });
+  // Create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 400,  // 寬度
+    height: 500, // 高度
+    frame: false,      // 標題列不顯示
+    transparent: true, // 背景透明
+    autoHideMenuBar: true //  工具列不顯示
+  });
 
-    const template = [
-        {label: '關閉', role: 'close'},
-        {label: '全螢幕', role: 'togglefullscreen'},
-        {label: '刷新', role: 'reload'},
-    ];
-
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
-
-    // mainWindow.loadURL(`https://www.google.com`);
-    mainWindow.loadFile('index.html');
+  mainWindow.loadFile('index.html')
 }
 
-app.on('ready', () => {
-
-    createWindow();
-})
-
-app.on('window-all-closed', () => {
-
-    app.quit();
-})
+app.on('ready', () => createWindow()) // Main Process 準備 OK 後 , 建立一個 瀏覽器視窗 顯示給使用者
+app.on('window-all-closed', () =>  app.quit()) // 所有 BrowserWindow 關閉後 , 結束 Main Process

@@ -3,44 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
-    <style>
-        :root {
-            --title-bar-height: 46px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-        }
-
-        #drag-bar {
-            -webkit-app-region: drag;
-            background-color: #636363;
-            color: #eeeeee;
-            padding: 3px;
-            width: 100vw;
-            font-size: 30px;
-            min-height: var(--title-bar-height);
-        }
-
-        .draggable {
-            user-select: none;
-            background-color: white;
-            margin-top: 0;
-        }
-
-        .mt-30:not(.draggable) {
-            padding-top: var(--title-bar-height);
-        }
-    </style>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
 </head>
-<body class="mt-30 draggable">
-<div id="drag-bar">拖曳條</div>
-<img id="img" src="playing-cat-loop.gif" draggable="false">
+<body style="-webkit-app-region: drag;user-select: none">
+<img src="playing-cat-loop.gif">
 </body>
 </html>

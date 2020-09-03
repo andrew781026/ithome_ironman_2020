@@ -1,5 +1,3 @@
-# 我不知道標題要下甚麼 , 我只知道今天開始
-
 # Electron 簡介
 
 ![electron](https://i.imgur.com/eR73zV5.png)

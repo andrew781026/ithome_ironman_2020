@@ -1,4 +1,5 @@
-const {remote,ipcRenderer} = require('electron');
+const {ipcRenderer} = require('electron');
+const Mousetrap = require('mousetrap');
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -28,9 +29,21 @@ window.addEventListener('DOMContentLoaded', () => {
         ipcRenderer.send('change-drag', {draggable});
     }
 
-    // Returns BrowserWindow - The window to which this web page belongs.
-    remote.getCurrentWindow(); // 在 顯示端 ( renderer 端 ) , 取得 BrowserWindow 並操作它
+    // body.addEventListener('mouseenter', startDrag);
+    // body.addEventListener('mouseleave', stopDrag);
 
     ipcRenderer.on('show-bg', startDrag);
     ipcRenderer.on('hide-bg', stopDrag);
+
+
+
+    // 將不同的組合鍵對應到同一個 callback
+    Mousetrap.bind(['command+1', 'ctrl+1'], () => {
+
+        console.log('command 1 or control 1');
+        ipcRenderer.send('show-context-menu');
+
+        // 回傳 false 防止預設行為被觸發，並避免事件向外傳遞
+        return false
+    })
 });

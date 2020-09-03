@@ -114,3 +114,8 @@ const mainWindow = new BrowserWindow({
 ## 參考資料
 
 - [Electron 官網](https://www.electronjs.org/)
+
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```

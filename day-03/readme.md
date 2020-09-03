@@ -1,34 +1,122 @@
-# 第三天 - 用 electron-builder 打包應用程式給其他人 
+# [ Day 3 ] - 桌面小圖示(二) - BrowserWindow
 
-昨天我們製作了可愛的小貓應用程式 , 我們當然希望分享給其他人這可愛的小貓 , 
-可是我們不可能強求其他人知道如何使用 npm 指令去執行這隻應用程式對吧 !
+昨天我們快速製作了一個 "玩耍的小貓" ,
 
-追加一個 build.js 來打包應用程式 
+可是細節與觀念的部分沒有提及 , 
 
-### 打包 Windows 應用程式 
+今天我們來說明一下 , Electron 的內部架構與核心
 
-這時我們需要 electron-builder 來幫我們打包 electron 軟體變成 .exe 檔案 , 之後我們就可以將此安裝檔分享給其他人安裝了 !
+> Electron 架構在 Chromium 及 Node.js 上，讓你可以用 HTML、CSS 和 JavaScript 打造自己的應用程式。
 
-我們可以更改打包後的 ICO 圖示 , 在 windows 上 icon 需要使用 256*256 以上的 png 檔案當作 Icon
+以上說明來自官方網站 , 可能這樣說明有點抽象 , 我們來一張圖解釋一下
 
-![](https://i.imgur.com/wQiuRNd.png)
+[![electron 基礎架構](https://i.imgur.com/N9r4qT9.png)](https://www.udemy.com/course/electron-from-scratch/)
+[ 圖片來源 : Udemy 課程 - Electron From Scratch: Build Desktop Apps With JavaScript ]
 
-第一次打包時 , 會從 electron-builder 的官網上下載一些打包工具 , 需要等一段時間下載這些工具 ( 可能需要等待 1 個小時 )
+可以看到有 `Main Process` 又有 `Window` , 這些東西是什麼  ![](https://i.imgur.com/uXglvKh.png)
 
-![](https://i.imgur.com/r1GQjSs.png)
+```
+Main Process 也就是 Electron 在背景執行的地方 ,  
+它可以利用 node.js 的內建函式與系統進行溝通 ,   
+也可以用 new BrowserWindow 建立一個新的 Chromium 瀏覽器視窗 ,  
+然後用 IPC 與 BrowserWindow 上的 preload.js 做溝通訊息
+```
 
-[一個意外]
-當初以為資料夾中的檔案 , 可以直接 zip 起來 , 然後當綠色軟體給其他人使用 
-結果 , 在沒有安裝 Node.js 的電腦上打開後 , 產生無限開啟的現象
+翻譯成白話文 , 就是下面這張圖
 
-(坑) 不要把資料夾的檔案當成綠色軟體 zip 給別人 , 當其他人的電腦中沒有安裝 Node.js 時 , 你會的到無限開啟的應用程式 , 也就是滿坑滿谷的貓咪 , 好像挺幸福的 \^_^/
+![](https://i.imgur.com/HwueFRu.png)
 
-[無限開啟的圖片]
+下面我們不用 `electron-quick-start` , 從頭建立 electron 程式吧 !
 
-之後我才發現要打包成綠色軟體 , 
-需要將 target 從 nsis 改成 portable 這時會多一個 .exe 檔案 , 
-你可以將此 exe 檔案分享給別人 , 其他沒有安裝 Node.js 的機器才能正常使用此應用程式
+```shell script
+npm init -- 建立 package.json 
+npm i -D electron -- 安裝 electron 套件
+```
 
-## 參考資料
+之後修改一下 , package.json 中的 start script . 新增 main 區段
+```diff
+{
+  "name": "electron-practice-day03",
+  "version": "0.0.3",
+  "description": "day03 apps",
++   "main": "./main.js",
+  "scripts": {
++   "start": "electron ."
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "9.0.3"
+  }
+}
+```
 
-- [electron-builder 官方文件](https://www.electron.build/)
+新建一個主程序 main.js
+
+```javascript
+// main.js
+const app =  require('electron').app; // app 就是 Main Process 自身
+const BrowserWindow = require('electron').BrowserWindow; // 瀏覽器視窗
+
+function createWindow() {
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        width: 1000,  // 寬度
+        height: 650, // 高度
+    });
+
+    mainWindow.loadURL('https://www.google.com'); // 載入頁面 www.google.com
+}
+
+app.on('ready', () => createWindow()) // Main Process 準備 OK 後 , 建立一個 瀏覽器視窗 顯示給使用者
+app.on('window-all-closed', () =>  app.quit()) // 所有 BrowserWindow 關閉後 , 結束 Main Process
+```
+
+之後使用 `npm start` 我們可以看到
+
+![](https://i.imgur.com/PEg2ulu.png)
+
+之後 , 建立一個 index.html 
+
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>無限的神奇狗</title>
+</head>
+<body>
+<img src="https://i.imgur.com/iBfH0vx.gif" alt="infinite-dog">
+</body>
+</html>
+```
+
+將 main.js 中 mainWindow.loadURL 改成 mainWindow.loadFile 
+
+```javascript
+// main.js
+function createWindow() {
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        width: 1000,  // 寬度
+        height: 650, // 高度
+    });
+
+-    mainWindow.loadURL('https://www.google.com'); // 載入頁面 www.google.com
++    mainWindow.loadFile('index.html'); // 載入同層的 index.html 檔案
+}
+```
+
+然後 `npm start` 看到 "無限的神奇狗"
+
+![](https://i.imgur.com/XUC0vBW.gif)
+
+接下來 , 我們可以遵循昨天的 3 . 4 . 5 步驟將狗狗轉換成桌面應用程式 
+
+![](https://i.imgur.com/Oaw49ch.gif)
+
+不過這張圖放在桌面上 , 比起療育 , 還蠻驚悚的 ![cold-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon21.gif)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```
