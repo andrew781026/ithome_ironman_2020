@@ -4,18 +4,14 @@
   "description": "a startup template of electron",
   "main": "./main.js",
   "scripts": {
-    "start": "electron ./main.js",
+    "start": "electron .",
     "build": "node build.js"
   },
   "author": "andrew",
   "license": "MIT",
   "devDependencies": {
     "electron": "9.0.3",
-    "electron-builder": "22.8.0",
     "electron-reload": "1.5.0",
-    "custom-electron-titlebar": "^3.2.4"
-  },
-  "dependencies": {
-    "mousetrap": "^1.6.5"
+    "electron-builder": "22.8.0"
   }
 }

@@ -1,34 +1,37 @@
-const {app, Menu, BrowserWindow} = require('electron');
+const {app, BrowserWindow, globalShortcut} = require('electron');
+const path = require('path');
+require('electron-reload')(__dirname);
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 320,
-        height: 350,
+        width: 400,
+        height: 380,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+        resizable: false, // 視窗大小不能調整
         frame: false,      // 標題列不顯示
         transparent: true, // 背景透明
-        autoHideMenuBar: true //  工具列不顯示
+        autoHideMenuBar: true, //  工具列不顯示
     });
 
-    const template = [
-        {label: '關閉', role: 'close'},
-        {label: '全螢幕', role: 'togglefullscreen'},
-        {label: '刷新', role: 'reload'},
-    ];
-
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
-
-    // mainWindow.loadURL(`https://www.google.com`);
     mainWindow.loadFile('index.html');
+
+    return mainWindow;
 }
 
 app.on('ready', () => {
 
-    createWindow();
+    const win = createWindow();
+
+    [1, 2, 3].map(number => {
+
+        globalShortcut.register(`CommandOrControl+${number}`, () => {
+            win.webContents.send('switch-cat', number);
+            win.show();  // Shows and gives focus to the window.
+        })
+    })
 })
 
-app.on('window-all-closed', () => {
-
-    app.quit();
-})
+app.on('window-all-closed', () => app.quit())
