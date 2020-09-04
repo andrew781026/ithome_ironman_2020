@@ -105,6 +105,9 @@ const mainWindow = new BrowserWindow({
 </html>
 ``` 
 
+
+如果做不太出來 , 可以下載 [第 2 天成品](https://github.com/andrew781026/ithome_ironman_2020/tree/master/day-02) 然後用 `npm start` 看到玩耍的小貓 ![/images/emoticon/emoticon07.gif](https://ithelp.ithome.com.tw/images/emoticon/emoticon07.gif)
+
 ## 備註
 
 如果想要從 ilikesticker 使用其他小貓 , 

@@ -1,6 +1,5 @@
 const {app, BrowserWindow, globalShortcut} = require('electron');
 const path = require('path');
-require('electron-reload')(__dirname);
 
 function createWindow() {
     // Create the browser window.
@@ -10,7 +9,6 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
-        resizable: false, // 視窗大小不能調整
         frame: false,      // 標題列不顯示
         transparent: true, // 背景透明
         autoHideMenuBar: true, //  工具列不顯示

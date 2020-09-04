@@ -8,10 +8,30 @@
             user-select: none;
             -webkit-app-region: drag;
         }
-
     </style>
+
 </head>
 <body class="draggable">
 <img id="img" src="imgs/cat_01.gif" draggable="false">
+
+<script src="https://cdn.jsdelivr.net/npm/mousetrap@1.6.5/mousetrap.min.js"></script>
+<script>
+
+    const img = document.getElementById('img');
+    const switchCat = number => img.src = `imgs/cat_0${number}.gif`;
+
+    [4, 5, 6].map(number => {
+
+        // 將不同的組合鍵對應到同一個 callback
+        Mousetrap.bind([`command+${number}`, `ctrl+${number}`], () => {
+
+            switchCat(number);
+
+            // 回傳 false 防止預設行為被觸發，並避免事件向外傳遞
+            return false
+        })
+    })
+</script>
+
 </body>
 </html>
