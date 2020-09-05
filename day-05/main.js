@@ -1,17 +1,18 @@
-const {app, BrowserWindow, globalShortcut} = require('electron');
+const {app, BrowserWindow, Tray, Menu, globalShortcut} = require('electron');
 const path = require('path');
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 400,
-        height: 380,
+        height: 420,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
         frame: false,      // 標題列不顯示
         transparent: true, // 背景透明
         autoHideMenuBar: true, //  工具列不顯示
+        show: false,      // 不顯示 BrowserWindow
     });
 
     mainWindow.loadFile('index.html');
@@ -19,9 +20,55 @@ function createWindow() {
     return mainWindow;
 }
 
+function createTray(win) {
+
+    const iconPath = path.join(__dirname, './imgs/tray_cat.png');
+    const tray = new Tray(iconPath)
+    const contextMenu = Menu.buildFromTemplate([
+        {
+            label: '貓咪 4', click: () => {
+                win.show();
+                win.webContents.send('switch-cat', 4);
+            }
+        },
+        {
+            label: '貓咪 5', click: () => {
+                win.show();
+                win.webContents.send('switch-cat', 5);
+            }
+        },
+        {
+            label: '貓咪 6', click: () => {
+                win.show();
+                win.webContents.send('switch-cat', 6);
+            }
+        },
+        {
+            label: '縮小',
+            click: () => win.hide()
+        },
+        {
+            label: '結束',
+            click: () => {
+                app.isQuiting = true;
+                app.quit();
+            }
+        }
+    ])
+    tray.setToolTip('這是縮小的小貓')
+    tray.setContextMenu(contextMenu);
+
+    tray.on('click', () => win.show())
+
+    return tray;
+}
+
 app.on('ready', () => {
 
     const win = createWindow();
+    createTray(win);
+
+    // win.on('minimize', win.hide);
 
     [1, 2, 3].map(number => {
 
