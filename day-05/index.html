@@ -2,10 +2,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+    <title>縮小的小貓</title>
+    <style>
+        .draggable {
+            user-select: none;
+            -webkit-app-region: drag;
+        }
+    </style>
+
 </head>
-<body style="-webkit-app-region: drag;user-select: none">
-<img src="playing-cat-loop.gif">
+<body class="draggable">
+<img id="img" src="imgs/cat_01.gif" draggable="false">
 </body>
 </html>

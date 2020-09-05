@@ -49,3 +49,6 @@
 - [Electron - Debugging](https://www.tutorialspoint.com/electron/electron_debugging.htm)
 - [electron 自定義快捷鍵](https://www.electronjs.org/docs/tutorial/keyboard-shortcuts)
 - [canvas_clock](https://www.w3schools.com/graphics/canvas_clock_start.asp)
+
+## 一些神奇的圖片
+- [giphy](https://giphy.com/search/infinite)

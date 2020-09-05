@@ -1,49 +1,41 @@
-# 第七天 - 股票到價通知(一) - later.js 介紹 & 使用
+# 第六天 - 股票查價(五) - 更換貓咪圖片
 
-open-to-start 系統起動時 , APP 一同啟動
+### dialog
+> 顯示系統原生對話框，以便開啟檔案、儲存檔案，發出警告等。
 
-https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
-
-```javascript
-const AutoLaunch = require('auto-launch');
-
-// Then add this after app.on('ready', ()=>{:
-  let autoLaunch = new AutoLaunch({
-    name: 'Your app name goes here',
-    path: app.getPath('exe'),
-  });
-  autoLaunch.isEnabled().then((isEnabled) => {
-    if (!isEnabled) autoLaunch.enable();
-  });
-```
+使用 dialog 
+- showOpenDialog : 選擇圖片位置
 
 ```javascript
-const appFolder = path.dirname(process.execPath)
-const updateExe = path.resolve(appFolder, '..', 'Update.exe')
-const exeName = path.basename(process.execPath)
-
-app.setLoginItemSettings({
-  openAtLogin: true,
-  path: updateExe,
-  args: [
-    '--processStart', `"${exeName}"`,
-    '--process-start-args', `"--hidden"`
-  ]
+dialog.showOpenDialog(mainWindow, {
+  properties: ['openFile', 'openDirectory']
+}).then(result => {
+  console.log(result.canceled)
+  console.log(result.filePaths)
+}).catch(err => {
+  console.log(err)
 })
 ```
 
-
-如果註冊成功 , 你可以在 "登入編輯程式" 中看到
-
-如何叫出 "登入編輯程式" - win + R => 輸入 regedit
-
-`auto-launch` add a registry entry under \HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
-
-![](https://i.imgur.com/dTNHNZ5.png)
+- showSaveDialog : 選擇檔案儲存位置
 
 
-使用開發模式註冊時 , 它會註冊 node_module 中的 electron.exe 檔案 , 重開機後 windwos 會自動開啟 electron 
+- showMessageBox : 訊息框
 
-所以重開機後會長這樣
+type String (optional) - Can be "none", "info", "error", "question" or "warning". On Windows, "question" displays the same icon as "info", unless you set an icon using the "icon" option. On macOS, both "warning" and "error" display the same warning icon.
 
-![](https://i.imgur.com/1paLuhJ.png)
+- showErrorBox : 錯誤提示框
+- showCertificateTrustDialog : 憑證確認框
+
+
+showOpenDialog, showOpenDialogSync, showSaveDialog, and showSaveDialogSync will return a bookmarks array.
+
+#### 額外說明
+
+在 macOs 上 , 處理 dialog 可能需要多做一些事 
+
+On macOS, dialogs are presented as sheets attached to a window 
+
+## 參考資料
+
+- [electron 官方文件 - dialog](https://www.electronjs.org/docs/api/dialog)

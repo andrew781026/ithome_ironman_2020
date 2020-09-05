@@ -1,8 +1,6 @@
-# 第十四天 - 自動更新 autoUpdater
+# 第十二天 - 聊天室畫面
 
-使用 electron-update
+如果想要美化你的聊天室 , 可以用六角學院 F2E 第 7 週 , 設計師的設計搞做一些美化
 
-#### 相關文章 
-- [auto-update](https://www.electron.build/auto-update)
-- [Electron使用electron-builder配合electron-updater實現自動更新](https://segmentfault.com/a/1190000012904543)
-- [官方指南 auto-update](https://www.electronjs.org/docs/tutorial/updates)
+## 參考資料
+- [F2E Letitia73 的第 7 週挑戰](https://challenge.thef2e.com/user/1930?schedule=4019#works-4019)

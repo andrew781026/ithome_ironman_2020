@@ -1,73 +1,103 @@
-// Modules to control application life and create native browser window
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, Menu, MenuItem, BrowserWindow, ipcMain, globalShortcut, Notification} = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 350,
+        height: 400,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
-        autoHideMenuBar: true
+        frame: false,      // 標題列不顯示
+        transparent: true, // 背景透明
+        autoHideMenuBar: true //  工具列不顯示
     });
 
-    // and load the index.html of the app.
-    mainWindow.loadFile('index.html')
+    const template = [
+        {label: '關閉', role: 'close'},
+        {label: '全螢幕', role: 'togglefullscreen'},
+        {label: '刷新', role: 'reload'},
+    ];
 
-    // Open the DevTools.
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+
+    // mainWindow.loadURL(`https://www.google.com`);
+    mainWindow.loadFile('index.html');
+
     // mainWindow.webContents.openDevTools()
+
+    return mainWindow;
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-    createWindow();
+app.on('ready', () => {
 
-    app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    const win = createWindow();
+
+    win.setProgressBar(0.3);  // 工具列 icon 進度條 ( 0 ~ 1 )
+    win.flashFrame(true);        // 工具列 icon 閃爍
+
+    globalShortcut.register('CommandOrControl+P', () => win.webContents.send('hide-bg'))
+    globalShortcut.register('CommandOrControl+O', () => win.webContents.send('show-bg'))
+})
+
+app.on('web-contents-created', (event, win) => {
+
+    const template = [
+        {label: '關閉', role: 'close'},
+        {label: '全螢幕', role: 'togglefullscreen'},
+        {label: '重新載入', role: 'reload'},
+        {
+            label: '隱藏背景',
+            accelerator: 'CommandOrControl+P',
+            click: () => win.webContents.send('hide-bg')
+        },
+        {
+            label: '顯示背景',
+            accelerator: 'CommandOrControl+O',
+            click: () => win.webContents.send('show-bg')
+        },
+    ];
+
+    const ctxMenu = new Menu();
+    template.map(item => ctxMenu.append(new MenuItem(item)));
+
+    win.webContents.on('context-menu', (e, params) => {
+        ctxMenu.popup(win, params.x, params.y)
     })
-});
+})
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-    // On macOS it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') app.quit()
-});
 
-const {listAllStocks, getData} = require('./utils/test-twse-api');
+app.on('window-all-closed', () => {
 
-ipcMain.handle('search-stocks', async (event, q) => {
+    app.quit();
+})
 
-    const data = await listAllStocks(q);
+app.on('will-quit', () => {
 
-    return data.suggestions
-        .map(str => str.split('\t'))
-        .map(arr => ({id: arr[0], name: arr[1]}));
-});
+    // 取消註冊快速鍵。
+    globalShortcut.unregister('CommandOrControl+P')
+    globalShortcut.unregister('CommandOrControl+O')
 
-ipcMain.handle('get-stock-info', async (event, stockId) => {
+    // 取消註冊所有快速鍵。
+    globalShortcut.unregisterAll()
+})
 
-    const data = await getData([{
-        id: stockId,
-        date: null,
-        type: 'tse',
-    }]);
+ipcMain.on('change-drag', (event, {draggable}) => {
 
-    return data.msgArray
-        .map(single => ({
-            ...single,
-            currentPrice: single.z,
-            openPrice: single.o,
-            stockId: single.c,
-            stockName: single.n,
-            todayLowest: single.l,
-            todayHighest: single.h,
-        }));
-});
+    // 通知
+    new Notification({
+
+        title: '改變背景',
+        // subtitle: '背景可見',
+        body: draggable ? 'Ctrl+O 顯示背景' : 'Ctrl+P 隱藏背景',
+        icon: path.join(__dirname, '/cat.png'),
+
+        // hasReply: true,               // only work on macOs
+        // replyPlaceholder: '回應訊息',  // only work on macOs
+
+    }).show();
+
+})
