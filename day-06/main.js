@@ -1,8 +1,10 @@
 const {app, Menu, BrowserWindow} = require('electron');
+const path = require('path');
 
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
+        icon: path.join(__dirname, 'cat.png'),
         width: 320,
         height: 350,
         frame: false,      // 標題列不顯示

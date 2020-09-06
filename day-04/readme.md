@@ -2,6 +2,8 @@
 
 如果昨天沒有做出來 , 可以從 [第 3 天成品](https://github.com/andrew781026/ithome_ironman_2020/tree/master/day-03) 然後用 `npm start` 看到無限的神奇狗 ![haha-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon39.gif)
 
+-----
+
 只有一隻貓咪 , 或是一隻狗狗 , 好像`療癒系數`不太夠用 , 今天我們加碼更多的貓咪
 
 [下載 貓咪 GIFs](https://github.com/andrew781026/ithome_ironman_2020/tree/master/day-04/imgs)

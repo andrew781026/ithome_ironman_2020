@@ -1,17 +1,6 @@
 # 第二天 - 股票查價(一) - 用 electron-quick-start 當初始版型
 
-今天先動手做一個 Electron 小程式 , 感受一下 Electron 
-
-首先 , 我們先做個療癒小貓咪放到桌面上吧
-
-預計效果
-![](https://i.imgur.com/MfEjj5I.gif)
-
-小貓圖 - 可愛吧 😁 
-
-<a href="https://i.imgur.com/6O1RzBu.gif" download="playing-cat">
-  <img src="https://i.imgur.com/6O1RzBu.gif" alt="玩耍的小貓">
-</a>
+-[electron debug 工具](https://github.com/electron-userland/devtron)
 
 `npm init` 建立 package.json 檔案
 
