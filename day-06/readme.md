@@ -108,3 +108,7 @@ $ node build.js
 ## 參考資料
 
 - [electron-builder 官方文件](https://www.electron.build/)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```
