@@ -12,6 +12,7 @@ gen
 *.log
 logs
 
+dist_electron
 package-lock.json
 build
 serviceAccountKey.json
