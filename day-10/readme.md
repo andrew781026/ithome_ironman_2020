@@ -2,6 +2,8 @@
 
 動物聊天室預計使用 firebase 的 firestore 當作資料庫儲存歷史聊天紀錄
 
+## 申請 firestore 與取得 serverAccountKey
+
 設定 firestore 
 1.建立專案 -> 開啟 firestore 的使用
 
@@ -16,6 +18,8 @@
 以免 google 偵測到 github 上有公開的 serverAccountKey.json   
 而把這組 serverAccountKey.json 停權 ,  
 之後就無法使用這組  serverAccountKey.json 訪問 firestore 了 !
+
+## firestore API 設定與使用
 
 > 安裝 firebase-admin 套件
 ```shell script
@@ -48,20 +52,20 @@ module.exports = db;
 const db = require('./firestore');
 
 // 監聽 chat 的變化
-const doc = db.collection('chat');
+const doc = db.collection('chatroom');
 
 // 監聽各自不同的 chatroom 新增 . 刪除 . 修改的實時訊息
 const observer = doc.onSnapshot(docSnapshot => {
 
     docSnapshot.docChanges().forEach(change => {
         if (change.type === 'added') {
-            console.log('New city: ', change.doc.data());
+            console.log('New message: ', change.doc.data());
         }
         if (change.type === 'modified') {
-            console.log('Modified city: ', change.doc.data());
+            console.log('Modified message: ', change.doc.data());
         }
         if (change.type === 'removed') {
-            console.log('Removed city: ', change.doc.data());
+            console.log('Removed message: ', change.doc.data());
         }
     });
 
@@ -79,7 +83,7 @@ const observer = doc.onSnapshot(docSnapshot => {
 ```javascript
 const db = require('./firestore');
 
-const chatRef = db.collection('chat');
+const chatRef = db.collection('chatroom').doc('room-1');
 
 const sendOneMessage = async () => {
 
