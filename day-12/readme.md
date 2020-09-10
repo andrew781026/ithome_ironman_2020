@@ -7,7 +7,6 @@
 
 => Setting - 服務帳戶 - Firebase Admin SDK - 產生新的私密金鑰
 
-![](https://i.imgur.com/OwMlFjj.png)
 ![](https://i.imgur.com/wH85IbC.png)
 ![](https://i.imgur.com/ksSeJkj.png)
 

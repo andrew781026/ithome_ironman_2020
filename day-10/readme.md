@@ -1,49 +1,103 @@
-# 第七天 - 股票到價通知(一) - later.js 介紹 & 使用
+# [ Day 10 ] -  動物聊天室(三) - firestore 與貓狗聊天訊息 
 
-open-to-start 系統起動時 , APP 一同啟動
+動物聊天室預計使用 firebase 的 firestore 當作資料庫儲存歷史聊天紀錄
 
-https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup
+設定 firestore 
+1.建立專案 -> 開啟 firestore 的使用
 
-```javascript
-const AutoLaunch = require('auto-launch');
+下載 serverAccountKey.json 
 
-// Then add this after app.on('ready', ()=>{:
-  let autoLaunch = new AutoLaunch({
-    name: 'Your app name goes here',
-    path: app.getPath('exe'),
-  });
-  autoLaunch.isEnabled().then((isEnabled) => {
-    if (!isEnabled) autoLaunch.enable();
-  });
+=> Setting - 服務帳戶 - Firebase Admin SDK - 產生新的私密金鑰
+
+![](https://i.imgur.com/OjsROLX.png)
+
+如果使用 git 別忘了在 .gitignore 中加上 上有    
+告訴 git 不要上傳 serverAccountKey.json 含有 privateKey 資訊的檔案    
+以免 google 偵測到 github 上有公開的 serverAccountKey.json   
+而把這組 serverAccountKey.json 停權 ,  
+之後就無法使用這組  serverAccountKey.json 訪問 firestore 了 !
+
+> 安裝 firebase-admin 套件
+```shell script
+# 安裝 firebase-admin 套件
+$ npm i -s firebase-admin
 ```
 
-```javascript
-const appFolder = path.dirname(process.execPath)
-const updateExe = path.resolve(appFolder, '..', 'Update.exe')
-const exeName = path.basename(process.execPath)
+> 設定 firestore 的 API-KEY
 
-app.setLoginItemSettings({
-  openAtLogin: true,
-  path: updateExe,
-  args: [
-    '--processStart', `"${exeName}"`,
-    '--process-start-args', `"--hidden"`
-  ]
-})
+```javascript
+const admin = require('firebase-admin');
+
+const serviceAccount = require("./serviceAccountKey.json"); // 載入 serviceAccountKey.json
+
+admin.initializeApp({
+    projectId:'ezoom-test',
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://ezoom-test.firebaseio.com"
+});
+
+const db = admin.firestore();
+
+module.exports = db;
+```
+
+> 如果要接收聊天訊息 , 設定 receiver.js 
+
+```javascript
+// receiver.js 
+const db = require('./firestore');
+
+// 監聽 chat 的變化
+const doc = db.collection('chat');
+
+// 監聽各自不同的 chatroom 新增 . 刪除 . 修改的實時訊息
+const observer = doc.onSnapshot(docSnapshot => {
+
+    docSnapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+            console.log('New city: ', change.doc.data());
+        }
+        if (change.type === 'modified') {
+            console.log('Modified city: ', change.doc.data());
+        }
+        if (change.type === 'removed') {
+            console.log('Removed city: ', change.doc.data());
+        }
+    });
+
+}, err => {
+    console.log(`Encountered error: ${err}`);
+});
+
+// Stop listening for changes
+// observer();
 ```
 
 
-如果註冊成功 , 你可以在 "登入編輯程式" 中看到
+> 如果要發送聊天訊息 , 設定 sender.js 
 
-如何叫出 "登入編輯程式" - win + R => 輸入 regedit
+```javascript
+const db = require('./firestore');
 
-`auto-launch` add a registry entry under \HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+const chatRef = db.collection('chat');
 
-![](https://i.imgur.com/dTNHNZ5.png)
+const sendOneMessage = async () => {
+
+    await chatRef.doc('John').set({
+        name: 'Taipei',
+        state: 'TP',
+        country: 'TWD',
+        capital: false,
+        population: 42000
+    });
+};
+
+sendOneMessage().catch(err => console.error(err));
+```
+
+之後會將畫面與 firestore 功能連接
 
 
-使用開發模式註冊時 , 它會註冊 node_module 中的 electron.exe 檔案 , 重開機後 windwos 會自動開啟 electron 
+## 參考資料
 
-所以重開機後會長這樣
-
-![](https://i.imgur.com/1paLuhJ.png)
+[Firebase 教學 - Node.js 操作 Firestore](https://www.oxxostudio.tw/articles/201907/firebase-nodejs-firestore.html)
