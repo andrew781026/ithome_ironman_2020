@@ -8,63 +8,59 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-let catWin;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
     {scheme: 'app', privileges: {secure: true, standard: true}}
 ])
 
-function createWindow(devPath, prodPath) {
+function createWindow() {
 
     // Create the browser window.
-    const window = new BrowserWindow({
+    win = new BrowserWindow({
         icon: './cat.png',
         width: 800,
         height: 600,
         autoHideMenuBar: true,  //  工具列不顯示
         webPreferences: {
+            // Use pluginOptions.nodeIntegration, leave this alone
+            // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+            nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             preload: path.join(__dirname, 'preload.js'),
         }
     })
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
-        window.loadURL(process.env.WEBPACK_DEV_SERVER_URL + devPath)
+        win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
         // if (!process.env.IS_TEST) win.webContents.openDevTools()
     } else {
-        // createProtocol('app')
+        createProtocol('app')
         // Load the index.html when not in development
-        window.loadURL(`app://./${prodPath}`)
+        win.loadURL('app://./index.html')
     }
 
-    return window;
-}
-
-function createCatWindow(devPath, prodPath) {
-
-    // Create the browser window.
-    const window = new BrowserWindow({
-        icon: './cat.png',
-        width: 380,
-        height: 350,
-        autoHideMenuBar: true,  //  工具列不顯示
-        frame: false,      // 標題列不顯示
-        transparent: true, // 背景透明
-        // show: false,      // 不顯示 BrowserWindow
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-        }
+    win.on('closed', () => {
+        win = null
     })
-
-    const url = (process.env.WEBPACK_DEV_SERVER_URL) ? (process.env.WEBPACK_DEV_SERVER_URL + devPath) : `app://./${prodPath}`;
-    window.loadURL(url)
-
-    return window;
 }
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => app.quit())
+app.on('window-all-closed', () => {
+    // On macOS it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+})
+
+app.on('activate', () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) {
+        createWindow()
+    }
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -78,18 +74,13 @@ app.on('ready', async () => {
             console.error('Vue Devtools failed to install:', e.toString())
         }
     }
-
-    if (!process.env.WEBPACK_DEV_SERVER_URL) {
-        createProtocol('app')
-    }
-    win = createWindow('', 'index.html')
-    catWin = createCatWindow('subpage', 'subpage.html')
+    createWindow();
 })
 
 ipcMain.on('switch-cat', (event, number) => {
 
-    catWin.webContents.send('switch-cat', number);
-    catWin.show();  // Shows and gives focus to the window.
+    win.webContents.send('switch-cat', number);
+    win.show();  // Shows and gives focus to the window.
 });
 
 // Exit cleanly on request from parent process in development mode.

@@ -1,6 +1,6 @@
 {
-  "name": "electron-practice-day10",
-  "version": "0.0.10",
+  "name": "electron-practice-day11",
+  "version": "0.0.11",
   "private": true,
   "main": "background.js",
   "scripts": {
