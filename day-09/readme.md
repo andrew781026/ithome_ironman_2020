@@ -25,65 +25,67 @@ Electron 提供了 IpcRenderer 與 IpcMain 方便工程師實作 IPC
 
 由 IpcMain.on 監聽 IpcRenderer.send 傳來的訊息  
 之後用 event.reply 回傳   
-說人話 : 你請別人盯著價格 , 由他來處理後續  
+說人話 : 你將小貓帶回家後 , 你請媽媽幫忙照顧你的小貓 , 由她幫忙餵食  
 
 ![](https://i.imgur.com/hTnFHi4.png)
 
 ```javascript
 // main.js - 在主處理序裡。
 const { ipcMain } = require('electron')
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
+ipcMain.on('take-cat-home-message', (event, arg) => {
+  console.log(arg) // prints "帶小貓回家"
+  event.reply('need-clean-reply', '貓咪肚子餓')
 })
 
 // preload.js - 在畫面轉譯處理序中 (網頁)。
 const { ipcRenderer } = require('electron')
-ipcRenderer.on('asynchronous-reply', (event, arg) => {
-  console.log(arg) // 印出 "pong"
+ipcRenderer.on('need-clean-reply', (event, arg) => {
+  console.log(arg) // 印出 "貓咪肚子餓"
 })
-ipcRenderer.send('asynchronous-message', 'ping')
+ipcRenderer.send('take-cat-home-message', '帶小貓回家')
 
 ```
 
 - 等待回應  
-你一直在盯盤等到價格過低才購買 , 這中間你不做任何事情
+你一直在盯著小貓怕她肚子餓 , 這中間你不做任何事情
 
 ![](https://i.imgur.com/2E7ONWb.png)
 
 ```javascript
 // main.js - 在主處理序裡。
 const { ipcMain } = require('electron')
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
+ipcMain.on('take-cat-home-message', (event, arg) => {
+  console.log(arg) // prints "帶小貓回家"
+  // event 回傳前你一直關注著小貓
+  event.returnValue = '小貓肚子餓'
 })
 
 // preload.js - 在畫面轉譯處理序中 (網頁)。
 const { ipcRenderer } = require('electron')
-console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+console.log(ipcRenderer.sendSync('take-cat-home-message', '帶小貓回家')) // prints "小貓肚子餓"
 ```
 
 - 通知回應  
-你註冊到價通知 , 到達指定價格時 , 有人會通知你
+你打掃家裡，小貓肚子餓會 "喵喵叫"
 
 ![](https://i.imgur.com/i8nNnBR.png)
 
 ```javascript
 // main.js - 在主處理序裡。
 const { ipcMain } = require('electron')
-ipcMain.handle('asynchronous-handle', async (event, arg) => {
-  console.log(arg) // prints "ping"
-  return 'pong'
+ipcMain.handle('take-cat-home-handle', async (event, arg) => {
+  console.log(arg) // prints "帶小貓回家"
+  return '小貓肚子餓，喵喵叫'
 })
 
 // preload.js - 在畫面轉譯處理序中 (網頁)。
 const { ipcRenderer } = require('electron')
-ipcRenderer.invoke('synchronous-message', 'ping')
-           .then(msg => console.log(msg)) // prints "pong"
+ipcRenderer.invoke('take-cat-home-handle', '帶小貓回家')
+           // then 回傳前可以做其他事，例如打掃家裡
+           .then(msg => console.log(msg)) // prints "小貓肚子餓，喵喵叫"
 ```
 
-上方 3 種方式都是由 畫面端開始 , 如果要由 主處理序 開始要如何做 ?
+上方 3 種方式都是由 畫面端開始 , 如果要由 主處理序 開始觸發消息要如何做 ?
 
 ![](https://i.imgur.com/RnmBjcM.png)
 
@@ -96,8 +98,8 @@ const { ipcRenderer } = require('electron')
 ipcRenderer.on('switch-cat', (event, args) => switchCat(args));
 ```
 
-不知道上方程式碼 , 邦友有沒有覺得熟悉 ?   
-沒錯 ! 本魯在 day-04 那就已經偷偷使用了 IPC ![Snicker-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon39.gif)
+不知道上方程式碼 , 邦友有沒有覺得熟悉 ? 
+沒錯 ! 本魯在 [[Day 4]-鍵盤快速鍵與更多的貓咪](https://ithelp.ithome.com.tw/articles/10234094) 那就已經偷偷使用了 IPC ![/images/emoticon/emoticon39.gif](https://ithelp.ithome.com.tw/images/emoticon/emoticon39.gif)
 
 
 ## 參考資料
