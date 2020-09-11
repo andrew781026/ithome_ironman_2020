@@ -1,13 +1,12 @@
-const db = require('./firestore');
+const db = require('./init');
 
-const chatRef = db.collection('chatroom').doc('room-1').collection('message');
+const SenderUtils = {
 
-const sendOneMessage = async () => {
+    sendMessage: async (roomId, message) => {
 
-    await chatRef.add({
-        name: "Tokyo",
-        country: "Japan"
-    })
-};
+        const chatRef = db.collection('chatroom').doc(roomId).collection('message');
+        return await chatRef.add(message);
+    },
+}
 
-sendOneMessage().catch(err => console.error(err));
+module.exports = SenderUtils;
