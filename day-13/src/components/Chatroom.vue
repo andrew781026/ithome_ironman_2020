@@ -1,7 +1,7 @@
 <template>
     <div class="chatroom">
         <div v-for="(chat) in chats"
-             :key="chat.id"
+             :key="chat.uuid"
              class="msg-wrap"
              :class="[chat.team === 'right' && 'row-reverse']"
         >
@@ -33,19 +33,6 @@
 
 <script>
 
-    // _uuid() 的參考資料 : https://cythilya.github.io/2017/03/12/uuid/
-    function _uuid() {
-        var d = Date.now();
-        if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-            d += performance.now(); //use high-precision timer if available
-        }
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-    }
-
     const scrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
     export default {
@@ -53,6 +40,12 @@
         updated() {
 
             scrollToBottom();
+        },
+        mounted() {
+
+            window.ipcRenderer.on('new-message', (event, msg) => this.chats.push(msg));
+
+            window.ipcRenderer.send('start-observe', 'init-room');
         },
         methods: {
             imgSrc(avatar) {
@@ -63,13 +56,14 @@
 
                 if (this.text) {
 
-                    this.chats.push({
-                        id: _uuid(),
+                    const msg = {
                         name: '你',
                         team: 'right',
                         avatar: 'cat-3.png',
                         msg: this.text
-                    });
+                    }
+
+                    window.ipcRenderer.send('add-message', {roomId: 'init-room', message: msg});
 
                     this.text = '';
                 }
@@ -78,51 +72,9 @@
         data() {
 
             return {
+                roomId: 'init-room',
                 text: "",
-                chats: [
-                    {
-                        id: 'DVWGr',
-                        name: '訪客一號',
-                        team: 'left',
-                        avatar: 'cat-1.png',
-                        msg: 'Redis 是記憶體式的鍵值對儲存資料庫，除了可作為應用程式的快取之外，因為 Redis 可提供額外運算處理，因此非常適合搭配關聯式資料庫使用，而 Azure Cache for Redis則是微軟的全託管記憶體資料儲存服務，使用Redis伺服器，原生支援字串、列表和雜湊等Redis資料結構，讓用戶不需要自己部署與管理資料庫，需要時即可快速啟動，並且按需求擴展規模。'
-                    },
-                    {
-                        id: 'VerbEw',
-                        name: '訪客二號',
-                        team: 'right',
-                        avatar: 'cat-2.png',
-                        msg: '安安，萬華彭于晏～哪裡人？萬華彭于晏是真的嗎？'
-                    },
-                    {
-                        id: 'Tfg',
-                        name: '訪客一號',
-                        team: 'left',
-                        avatar: 'cat-1.png',
-                        msg: '現在開發者就可以從 VS Code 市集中，下載 Azure Cache for Redis 擴充套件，用戶只要在擴充套件中登入 Azure 帳戶，便能夠從 Azure 訂閱中查看Azure Cache的資源，選擇執行個體就能檢視其中的資料庫以及資料，如果是叢集配置，用戶則會看到多個分片。'
-                    },
-                    {
-                        id: 'fregesdfdsfetr',
-                        name: '訪客一號',
-                        team: 'left',
-                        avatar: 'cat-1.png',
-                        msg: '瑞士及美國大學研究發現藍牙標準存在一項漏洞，可使攻擊者突破藍牙內建的加密機制而駭入裝置，或發動中間人攻擊，目前這項漏洞並沒有修補程式。'
-                    },
-                    {
-                        id: 'frsdfdsegeetr',
-                        name: '訪客一號',
-                        team: 'left',
-                        avatar: 'cat-1.png',
-                        msg: '這項漏洞編號列為 CVE-2020-15802，又被研究人員稱為 BLURtooth。相關的攻擊則被統稱為 BLUR 攻擊。它可用來發動多種攻擊，包括透過原本已配對的裝置，對另一臺裝置發動中間人攻擊（Man-in-the-Middle, MiTM），像是利用社交工程手法誘使用戶接受另一臺裝置藍牙配對。'
-                    },
-                    {
-                        id: 'vsfv',
-                        name: '訪客一號',
-                        team: 'left',
-                        avatar: 'cat-1.png',
-                        msg: 'Fundo 總經理 John Gregg 表示，Fundo 的宗旨是建構一個虛擬活動與虛擬體驗的平臺，而且專為創作者所設計，該平臺上的所有活動都是即時且可互動，也能利用視訊聊天來營造碰面的情境，且只要透過手機或電腦就能進行；該平臺允許活動主持人設定入場券的票價或折扣條件，也可推出免費活動。'
-                    },
-                ]
+                chats: []
             }
         }
     }
