@@ -1,5 +1,5 @@
 <template>
-    <div class="chatroom">
+    <div class="chatroom style-2">
         <div v-for="(chat) in chats"
              :key="chat.uuid"
              class="msg-wrap"
@@ -108,14 +108,6 @@
 
 <style scoped>
 
-    .flaticon {
-        transform: translateX(-25%);
-    }
-
-    .cursor-pointer {
-        cursor: pointer;
-    }
-
     .input-wrap {
         user-select: none;
         width: 70vw;
@@ -160,7 +152,8 @@
     .chatroom {
         overflow-y: auto;
         padding-bottom: 30px;
-        min-height: 100%;
+        min-height: calc(100vh - var(--title-bar-height));
+        max-height: calc(100vh - var(--title-bar-height));
         display: flex;
         flex-direction: column;
         background-color: var(--bg-color);

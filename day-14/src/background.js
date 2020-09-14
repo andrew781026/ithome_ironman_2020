@@ -28,6 +28,7 @@ function createWindow() {
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             preload: path.join(__dirname, 'preload.js'),
+            // devTools: false
         }
     })
 
@@ -72,10 +73,7 @@ ipcMain.on('maximize', () => {
     win.setFullScreen(!win.isFullScreen());
 });
 
-ipcMain.on('close', () => {
-    const win = BrowserWindow.getFocusedWindow();
-    win.close();
-});
+ipcMain.on('close', () => app.quit());
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {

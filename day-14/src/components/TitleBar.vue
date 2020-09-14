@@ -1,15 +1,17 @@
 <template>
     <header class="ui-titlebar">
-        <div class="ui-titletext">Window title</div>
+        <div class="ui-titletext">
+            {{title}}
+        </div>
         <div class="ui-titlecontrols">
-            <button class="ui-btn minimize">
-                <i class="flaticon-minus"></i>
+            <button class="ui-btn minimize" @click="min" title="縮小">
+                <i class="flaticon flaticon-minus"></i>
             </button>
-            <button class="ui-btn maximize">
-                <i class="flaticon-size"></i>
+            <button class="ui-btn maximize" @click="max" title="全螢幕">
+                <i class="flaticon flaticon-size"></i>
             </button>
-            <button class="ui-btn close">
-                <i class="flaticon-clear"></i>
+            <button class="ui-btn close" @click="close" title="關閉">
+                <i class="flaticon flaticon-clear"></i>
             </button>
         </div>
     </header>
@@ -31,6 +33,12 @@
 
                 window.ipcRenderer.send('close');
             },
+        },
+        computed: {
+            title() {
+
+                return document.title;
+            }
         }
     }
 </script>
@@ -40,20 +48,20 @@
     .ui-titlebar {
         display: flex;
         width: 100%;
-        height: 50px;
-        background: #0072c6;
+        height: var(--title-bar-height);
+        background: #333;
         user-select: none;
         cursor: pointer;
     }
 
     .ui-titletext {
         -webkit-app-region: drag;
-        flex-grow: 2;
-        max-height: 20px;
-        width: auto;
-        font: 12px/20px "Segoe UI", Arial, sans-serif;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding-left: 15px;
+        font-size: 30px;
         color: #fff;
-        text-indent: 10px;
     }
 
     .ui-titlecontrols {
@@ -61,12 +69,11 @@
     }
 
     .ui-btn {
-        text-align: center;
         height: 100%;
-        margin: 0;
         border: 0;
         outline: 0;
         background: transparent;
+        color: white;
     }
 
     .ui-btn:hover {
@@ -77,15 +84,7 @@
         background: #e81123;
     }
 
-    .ui-btn svg path,
-    .ui-btn svg rect,
-    .ui-btn svg polygon {
-        fill: #fff;
+    .ui-btn.close:active {
+        background: #b10d1b;
     }
-
-    .ui-btn svg {
-        width: 10px;
-        height: 10px;
-    }
-
 </style>

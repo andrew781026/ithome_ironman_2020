@@ -24,6 +24,27 @@
         --bg-color: #746c6c;
         --msg-color: #524A4A;
         --input-color: #968686;
+        --title-bar-height: 50px;
+    }
+
+    .style-2::-webkit-scrollbar
+    {
+        display: none;
+    }
+
+    .style-2:hover::-webkit-scrollbar
+    {
+        display: block;
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    .style-2:hover::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+        background: linear-gradient(90deg, #fff, #555 50%, #555 75%, #fff 100%);
     }
 
     * {
@@ -37,42 +58,4 @@
     body {
         margin: 0;
     }
-
-    @font-face {
-        font-family: 'Material Icons';
-        font-style: normal;
-        font-weight: 400;
-        src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
-        src: local('Material Icons'),
-        local('MaterialIcons-Regular'),
-        url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
-        url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
-        url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
-    }
-
-    .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px; /* Preferred icon size */
-        display: inline-block;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
-
-        /* Support for all WebKit browsers. */
-        -webkit-font-smoothing: antialiased;
-        /* Support for Safari and Chrome. */
-        text-rendering: optimizeLegibility;
-
-        /* Support for Firefox. */
-        -moz-osx-font-smoothing: grayscale;
-
-        /* Support for IE. */
-        font-feature-settings: 'liga';
-    }
-
 </style>
