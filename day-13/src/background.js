@@ -83,24 +83,6 @@ ipcMain.on('switch-cat', (event, number) => {
     win.show();  // Shows and gives focus to the window.
 });
 
-import firestoreUtils from './firestore/firestoreUtils';
-
-// 開始監聽 chatroom 的訊息
-ipcMain.on('start-observe', (event, roomId) => {
-
-    firestoreUtils.observer.observeRoom(roomId)
-        .on('new-message', msg => event.reply('new-message', msg))
-        .on('update-message', msg => event.reply('update-message', msg))
-        .on('delete-message', msg => event.reply('delete-message', msg));
-});
-
-// 新增訊息
-ipcMain.on('add-message', (event, {roomId, message}) => {
-
-    firestoreUtils.sender.addMessage(roomId, message)
-        .catch(e => console.error(e));
-});
-
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
     if (process.platform === 'win32') {

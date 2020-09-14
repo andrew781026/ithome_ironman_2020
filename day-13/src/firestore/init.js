@@ -1,13 +1,9 @@
-const admin = require('firebase-admin');
+const firebase = require('firebase');
 
 const serviceAccount = require("./serviceAccountKey.json");
 
-admin.initializeApp({
-    projectId:'ezoom-test',
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://ezoom-test.firebaseio.com"
-});
+firebase.initializeApp(serviceAccount);
 
-const db = admin.firestore();
+const db = firebase.firestore();
 
 module.exports = db;

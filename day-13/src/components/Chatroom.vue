@@ -32,6 +32,8 @@
 </template>
 
 <script>
+    import firebase from 'firebase';
+    import firestoreUtils from '../firestore/firestoreUtils';
 
     const scrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
@@ -43,9 +45,31 @@
         },
         mounted() {
 
-            window.ipcRenderer.on('new-message', (event, msg) => this.chats.push(msg));
+            firebase.auth()
+                .signInAnonymously()
+                .then(user => {
 
-            window.ipcRenderer.send('start-observe', 'init-room');
+                    // User is signed in.
+                    // const isAnonymous = user.isAnonymous;
+                    // const uid = user.uid;
+                    window.localStorage.setItem('user', user);
+
+                    firestoreUtils.observer
+                        .observeRoom(this.roomId)
+                        .on('new-message', msg => this.chats.push(msg))
+                        .on('update-message', msg => {
+
+                            const index = this.chats.findIndex(chat => chat.uuid === msg.uuid);
+                            this.chats.splice(index, 1, msg);
+                        })
+                        .on('delete-message', msg => {
+
+                            const index = this.chats.findIndex(chat => chat.uuid === msg.uuid);
+                            this.chats.splice(index, 1);
+                        });
+                })
+                .catch();
+
         },
         methods: {
             imgSrc(avatar) {
@@ -56,14 +80,16 @@
 
                 if (this.text) {
 
-                    const msg = {
+                    const message = {
                         name: '你',
                         team: 'right',
                         avatar: 'cat-3.png',
                         msg: this.text
                     }
 
-                    window.ipcRenderer.send('add-message', {roomId: 'init-room', message: msg});
+                    firestoreUtils.sender
+                        .addMessage(this.roomId, message)
+                        .catch(e => console.error(e));
 
                     this.text = '';
                 }
