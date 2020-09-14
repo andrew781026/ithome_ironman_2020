@@ -1,4 +1,4 @@
-# [ Day 11 ] -  動物聊天室(四) - 貓狗聊天畫面 
+# [ Day 11 ] - 動物聊天室(四) - preload 在 vue 中的特殊設定
 
 在 [ Day 09 ] 時了解要用到 IPC 需要在 preload.js 中取得 ipcRenderer 才能跟 Main Process 的 ipcMain 傳遞訊息
 而在 vue 框架上要如何設定 preload.js 呢 ? 
@@ -48,12 +48,10 @@ const {ipcRenderer} = require('electron');
 window.ipcRenderer = ipcRenderer;
 ```
 
-// 5 個按鈕開啟不同的貓咪 ? + 隱藏貓咪的按鈕 
-// 用 input 儲存訊息到檔案中 
+在 vue 的 component 中我們就可以使用 `window.ipcRenderer.on` 與 `window.ipcRenderer.send` 與 ipcMain 傳遞訊息了 !  
 
 ## 參考資料
 
-- [DongGuaLemon - f2e7week](https://github.com/DongGuaLemon/f2e7week)
 - [vue-cli-plugin-electron-builder 文件](https://nklayman.github.io/vue-cli-plugin-electron-builder/guide/guide.html#preload-files)
 
 ```

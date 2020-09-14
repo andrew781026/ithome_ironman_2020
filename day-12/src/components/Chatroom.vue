@@ -32,8 +32,8 @@
 </template>
 
 <script>
+    import faker from 'faker';
 
-    // _uuid() 的參考資料 : https://cythilya.github.io/2017/03/12/uuid/
     function _uuid() {
         var d = Date.now();
         if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
@@ -50,11 +50,57 @@
 
     export default {
         name: "Chatroom",
+        created() {
+
+            this.username = this.getUsername();
+            this.avatar = this.getAvatar();
+
+            console.log('this.username =', this.username);
+            console.log('this.avatar =', this.avatar);
+        },
         updated() {
 
             scrollToBottom();
         },
         methods: {
+            getUsername() {
+
+                // 從 localStorage 取得之前設定的名稱
+                const savedName = localStorage.getItem("username");
+
+                if (savedName) return savedName;
+                else {
+
+                    // random user name
+                    const randomName = faker.name.findName(); // Rowan Nikolaus
+                    localStorage.setItem("username", randomName);
+                    return randomName;
+                }
+            },
+            getAvatar() {
+
+                const generateAvatar = () => {
+
+                    const avatars = [
+                        'cat-1.png', 'cat-2.png', 'cat-3.png', 'cat-4.png',
+                        'dog-1.png', 'dog-2.png', 'dog-3.png', 'dog-4.png',
+                    ];
+
+                    // random avatar
+                    return Math.floor(Math.random() * (avatars.length + 1));
+                };
+
+                // 從 localStorage 取得之前設定的名稱
+                const savedAvatar = localStorage.getItem("avatar");
+
+                if (savedAvatar) return savedAvatar;
+                else {
+
+                    const newAvatar = generateAvatar();
+                    localStorage.setItem("avatar", newAvatar);
+                    return newAvatar;
+                }
+            },
             imgSrc(avatar) {
 
                 return require(`@/assets/head/${avatar}`);
@@ -78,6 +124,8 @@
         data() {
 
             return {
+                username: '',
+                avatar: '',
                 text: "",
                 chats: [
                     {
@@ -155,6 +203,7 @@
         justify-content: space-evenly;
         align-items: center;
     }
+
 
     .input-right {
         flex: 1;

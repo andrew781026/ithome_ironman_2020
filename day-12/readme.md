@@ -8,15 +8,12 @@
 開啟 chrome 瀏覽器到 `localhost:8080` 將瀏覽器調整成 800 x 600 px 就可以完整開發今天的畫面  
 
 ```
-開發頁面做下方的調整
+開發頁面可以這樣調整
 ```
 
 ![](https://i.imgur.com/xXAYYrq.png)
 
-如果期望使用 `npm run electron:serve` 進行開發的話 , 
-需要記得刷新畫面的快捷鍵不是 `F5` 而是 `ctrl+r`
-
-## 開始製作畫面
+如果期望使用 `npm run electron:serve` 進行開發的話 , 需要記得刷新畫面的快捷鍵不是 `F5` 而是 `ctrl+r`
 
 > 第一步 , 下載 貓狗頭像圖片
 
@@ -369,30 +366,19 @@
 </style>
 ```
 
-改動 `App.vue` 與 `Chatroom.vue` 後 , 執行 `npm run electron:serve` , 
-聊天室畫面完成了 ![haha-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon01.gif)
+改動 `App.vue` 與 `Chatroom.vue` 後 , 執行 `npm run electron:serve` , 聊天室畫面完成了 ![haha-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon01.gif)
 
 ![](https://i.imgur.com/rO6tbaN.png)
 
-今天我們完成工程界的 `How to draw an owl` 教學 , 
-不過我們的跟畫師比多一個步驟 , 真是太好了 ![haha-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon37.gif) ~~(瞎)~~
-
+今天我們完成工程界的 `How to draw an owl` 教學 , 不過我們跟畫師比多一個步驟 , 真是太好了 ![haha-man](https://ithelp.ithome.com.tw/images/emoticon/emoticon39.gif)
 
 ![](https://i.imgur.com/DVzQn26.png)
 
-如果想要了解 `vue.js` 如何完成一個聊天室可以參考邦友的 [vue.js 30天學習軌跡](https://ithelp.ithome.com.tw/users/20119787/ironman/2251) 
-然後加上個人的想像力 , 這樣就可以做出自己想要的聊天室了 ! 
-
-## 備註
-
-如果覺得 `Chatroom.vue` 太長 , 不方便 `ctrl+c` , 
-可以到本魯的 codesandbox 直接下載檔案
-[![Edit animal-chatroom](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/animal-chatroom-z5cmc?fontsize=14&hidenavigation=1&theme=dark)
+如果想要了解 `vue.js` 如何完成一個聊天室可以參考邦友的 [vue.js 30天學習軌跡](https://ithelp.ithome.com.tw/users/20119787/ironman/2251) 然後加上個人的想像力 , 這樣就可以做出自己想要的聊天室了 ! 
 
 ## 題外話
 
-在 chrome 上面有一個名叫 [gitzip-for-github](https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn) 的插件
-可方便下載 github 上的指定資料夾
+在 chrome 上面有一個 [gitzip-for-github](https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn) 插件方便下載 github 上的指定資料夾
 
 如果想了解 `gitzip-for-github` 如何使用可到 [gitzip 的官網](https://gitzip.org/) 看教學
 
