@@ -1,4 +1,4 @@
-# [ Day 13 ] - 動物聊天室(五) - 聊天室資料與 firestore 
+# [ Day 13 ] - 動物聊天室(六) - 聊天室資料與 firestore 
 
 今天我們要開始將 firestore 與聊天室畫面接上關係 ,  
 利用 IPC 處理 Main Process 與 BrowserWindow 處理資料交換
