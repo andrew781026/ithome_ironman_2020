@@ -22,40 +22,21 @@ function createWindow() {
 
 function createTray(win) {
 
+    const switchCat = (catNo) => () => {
+        win.show();
+        win.webContents.send('switch-cat', catNo);
+    }
+
     const iconPath = path.join(__dirname, './imgs/tray_cat.png');
     const tray = new Tray(iconPath)
     const contextMenu = Menu.buildFromTemplate([
-        {
-            label: '貓咪 4', click: () => {
-                win.show();
-                win.webContents.send('switch-cat', 4);
-            }
-        },
-        {
-            label: '貓咪 5', click: () => {
-                win.show();
-                win.webContents.send('switch-cat', 5);
-            }
-        },
-        {
-            label: '貓咪 6', click: () => {
-                win.show();
-                win.webContents.send('switch-cat', 6);
-            }
-        },
-        {
-            label: '縮小',
-            click: () => win.hide()
-        },
-        {
-            label: '結束',
-            click: () => {
-                app.isQuiting = true;
-                app.quit();
-            }
-        }
-    ])
-    tray.setToolTip('這是縮小的小貓')
+        {label: '貓咪 4', click: switchCat(4)},
+        {label: '貓咪 5', click: switchCat(5)},
+        {label: '貓咪 6', click: switchCat(6)},
+        {label: '縮小', click: () => win.hide()},
+        {label: '結束', click: () => app.quit()}
+    ]);
+    tray.setToolTip('這是縮小的小貓');
     tray.setContextMenu(contextMenu);
 
     tray.on('click', () => win.show())

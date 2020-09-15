@@ -1,4 +1,4 @@
-import {app, protocol, ipcMain, BrowserWindow} from 'electron'
+import {app, protocol, ipcMain, Menu, BrowserWindow} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer'
 import path from 'path'
@@ -12,7 +12,7 @@ let win;
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
     {scheme: 'app', privileges: {secure: true, standard: true}}
-])
+]);
 
 function createWindow() {
 
@@ -21,8 +21,8 @@ function createWindow() {
         icon: './cat.png',
         width: 800,
         height: 600,
-        autoHideMenuBar: true,  //  工具列不顯示
-        frame: false,
+        // autoHideMenuBar: true,  //  工具列不顯示
+        // frame: false,           //  標題列不顯示
         webPreferences: {
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -31,6 +31,34 @@ function createWindow() {
             // devTools: false
         }
     })
+
+    const applicationMenu = Menu.buildFromTemplate([
+
+        {
+            label: '編輯',
+            submenu: [
+                {role: 'undo', label: '返回'},
+                {role: 'redo', label: '重做'},
+                {type: 'separator'},
+                {
+                    label: '常用功能',
+                    submenu: [
+                        {role: 'cut'},
+                        {role: 'copy'},
+                        {role: 'paste'},
+                        {role: 'delete'},
+                    ]
+                },
+                {type: 'separator'},
+                {role: 'selectAll', label: '全選'}
+            ]
+        },
+        {
+            label: '關閉',
+            click: () => app.quit(),
+        },
+    ]);
+    Menu.setApplicationMenu(applicationMenu);
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
