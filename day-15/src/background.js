@@ -22,7 +22,7 @@ function createWindow() {
         width: 800,
         height: 600,
         // autoHideMenuBar: true,  //  工具列不顯示
-        // frame: false,           //  標題列不顯示
+        frame: false,           //  標題列不顯示
         webPreferences: {
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -63,7 +63,7 @@ function createWindow() {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode
         win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-        // if (!process.env.IS_TEST) win.webContents.openDevTools()
+        if (!process.env.IS_TEST) win.webContents.openDevTools()
     } else {
         createProtocol('app')
         // Load the index.html when not in development
@@ -102,6 +102,16 @@ ipcMain.on('maximize', () => {
 });
 
 ipcMain.on('close', () => app.quit());
+
+ipcMain.on('open-contextmenu', (event, chat) => {
+
+    Menu.buildFromTemplate([
+        {label: '複製', click: () => event.reply('chatroom:copy-msg', chat)},
+        {label: '刪除', click: () => event.reply('chatroom:delete-msg', chat)},
+        {label: '收回', click: () => event.reply('chatroom:take-back-msg', chat)},
+    ])
+        .popup(BrowserWindow.getFocusedWindow())
+});
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {

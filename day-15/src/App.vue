@@ -23,6 +23,7 @@
     :root {
         --bg-color: #746c6c;
         --msg-color: #524A4A;
+        --take-back-msg-color: #8F8989;
         --input-color: #968686;
         --title-bar-height: 50px;
     }

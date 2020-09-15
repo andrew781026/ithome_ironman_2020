@@ -1,29 +1,39 @@
 <template>
     <div class="chatroom style-2">
-        <div v-for="(chat) in chats"
-             :key="chat.uuid"
-             class="msg-wrap"
-             :class="[chat.team === 'right' && 'row-reverse']"
-        >
-            <div class="avatar-wrap">
-                <img class="head-img" :src="imgSrc(chat.avatar)" :alt="chat.avatar">
-                <span class="name-text">{{chat.name}}</span>
+        <template v-for="(chat) in chats">
+            <div v-if="chat.takeBack"
+                 :key="chat.uuid"
+                 class="msg-wrap justify-center"
+            >
+                <div class="take-back-msg">
+                    <span> {{chat.name}} 已收回訊息 </span>
+                </div>
             </div>
-            <div>
-                <div class="msg" :class="[chat.team]">
+            <div v-else
+                 :key="chat.uuid"
+                 class="msg-wrap"
+                 :class="[chat.team === 'right' && 'row-reverse']"
+            >
+                <div class="avatar-wrap">
+                    <img class="head-img" :src="imgSrc(chat.avatar)" :alt="chat.avatar">
+                    <span class="name-text">{{chat.name}}</span>
+                </div>
+                <div>
+                    <div class="msg" :class="[chat.team]" @contextmenu="openMenu(chat)">
                     <span class="break-words">
                        {{chat.msg}}
                     </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
         <div class="input-wrap">
             <div class="input-left">
                 <i class="flaticon flaticon-happy cursor-pointer" title="emoji"></i>
                 <i class="flaticon flaticon-image cursor-pointer" title="圖片"></i>
                 <i class="flaticon flaticon-attachment cursor-pointer" title="檔案"></i>
             </div>
-            <input class="input" v-model="text" @keyup.enter="submit" placeholder="輸入文字"/>
+            <input ref="text-input" class="input" v-model="text" @keyup.enter="submit" placeholder="輸入文字"/>
             <div class="input-right" @click="submit">
                 <i class="flaticon flaticon-send-button cursor-pointer" title="送出"></i>
             </div>
@@ -35,13 +45,18 @@
     import firebase from 'firebase';
     import firestoreUtils from '../firestore/firestoreUtils';
 
-    const scrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
-
     export default {
         name: "Chatroom",
-        updated() {
+        created() {
 
-            scrollToBottom();
+            // 複製訊息
+            window.ipcRenderer.on('chatroom:copy-msg', (event, chat) => this.copyMessage(chat));
+
+            //  刪除訊息
+            window.ipcRenderer.on('chatroom:delete-msg', (event, chat) => this.deleteMessage(chat));
+
+            //  收回訊息
+            window.ipcRenderer.on('chatroom:take-back-msg', (event, chat) => this.takeBackMessage(chat));
         },
         mounted() {
 
@@ -69,9 +84,35 @@
                         });
                 })
                 .catch();
-
         },
         methods: {
+            addMessage(chat) {
+
+                firestoreUtils.sender
+                    .addMessage(this.roomId, chat)
+                    .catch(e => console.error(e));
+            },
+            copyMessage(chat) {
+
+                this.text = chat.msg;
+                this.$refs['text-input'].focus();
+            },
+            deleteMessage(chat) {
+
+                firestoreUtils.sender
+                    .deleteMessage(this.roomId, chat.uuid)
+                    .catch(e => console.error(e));
+            },
+            takeBackMessage(chat) {
+
+                firestoreUtils.sender
+                    .updateMessage(this.roomId, {...chat, takeBack: true})
+                    .catch(e => console.error(e));
+            },
+            openMenu(chat) {
+
+                window.ipcRenderer.send('open-contextmenu', chat);
+            },
             imgSrc(avatar) {
 
                 return require(`@/assets/head/${avatar}`);
@@ -87,9 +128,7 @@
                         msg: this.text
                     }
 
-                    firestoreUtils.sender
-                        .addMessage(this.roomId, message)
-                        .catch(e => console.error(e));
+                    this.addMessage(message);
 
                     this.text = '';
                 }
@@ -170,6 +209,10 @@
         margin-top: 10px;
     }
 
+    .justify-center {
+        justify-content: center;
+    }
+
     .row-reverse {
         flex-direction: row-reverse;
     }
@@ -188,6 +231,13 @@
         margin-left: 16px;
         margin-right: 16px;
         color: white;
+    }
+
+    .take-back-msg{
+        padding: 3px 20px 3px 20px;
+        border-radius: 30px;
+        color: white;
+        background-color: var(--take-back-msg-color);
     }
 
     .msg {
