@@ -8,6 +8,26 @@
 
 ![](https://i.imgur.com/5HXcbK4.png)
 
+## 實作 Start
+
+> 第一步 , 當然是將系統預設的標題列藏起來
+
+在 new BrowserWindow 時 , 追加參數 `frame: false` 
+
+```diff
+// in background.js
+win = new BrowserWindow({
+        icon: './cat.png',
+        width: 800,
+        height: 600,
+        autoHideMenuBar: true,  //  工具列不顯示
++        frame: false,         //   標題列不顯示
+        ...
+    })
+```
+
+![](https://i.imgur.com/w1zo0di.png)
+
 新增元件 `TitleBar.vue` 
 
 ```html
