@@ -7,9 +7,15 @@
 
 下面我們來介紹一下 , 3 種 Menu 各是甚麼 , 以及其存在的環境 
 
+
+
+-----
+
+
+
 ### applicationMenu 
 
-系統工具列 - 本身就有預設一些功能 , 
+- 系統工具列 - 本身就有預設一些功能 
 
 ![](https://i.imgur.com/KvWx6an.png)
 
@@ -58,9 +64,13 @@ vscode：將標題列與工具列整合在一起
 
 ![](https://i.imgur.com/AMajxDt.png)
 
+
+-----
+
+
 ### contextMenu on BrowserWindow ( popupMenu )
 
-在應用程式上面的彈跳選單
+- 在應用程式上面的彈跳選單
 
 ![](https://i.imgur.com/xORHHiF.png)
 
@@ -172,9 +182,13 @@ created() {
 
 ![](https://i.imgur.com/vN29pdk.gif)
 
+
+-----
+
+
 ### contextMenu on Tray ( trayMenu )
 
-在系統通知區內小圖示上面的右鍵選單
+- 在系統通知區內小圖示上面的右鍵選單
 
 ```javascript
   const switchCat = catNo => () => { 
@@ -194,7 +208,8 @@ created() {
   tray.setContextMenu(contextMenu);   // 右鍵選單
 ```
 
-不知道邦友有沒有覺得熟悉 ? 其實在 [[ Day 5 ] - 桌面小圖示(四) - 系統通知區與縮小的貓咪](https://ithelp.ithome.com.tw/articles/10234294) 我們已經使用過了 ! 
+不知道邦友有沒有覺得很熟悉 ? 
+其實在 [[ Day 5 ] - 桌面小圖示(四) - 系統通知區與縮小的貓咪](https://ithelp.ithome.com.tw/articles/10234294) 我們已經使用過了 ![/images/emoticon/emoticon34.gif](https://ithelp.ithome.com.tw/images/emoticon/emoticon34.gif)
 
 ## 參考資料
 

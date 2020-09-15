@@ -51,6 +51,12 @@ use the panel 設定 > 一般設定 > 您的應用程式
 
 ![](https://i.imgur.com/dcxYurP.png)
 
+=> 直接使用 firestore -> 無法使用 -> 修改 firestore 的規則
+
+將其改成登入使用者可以使用
+
+=> 使用 signInAnonymously 做匿名登入
+
 ```javascript
 firebase.auth().signInAnonymously()
 .then(function(user) {
