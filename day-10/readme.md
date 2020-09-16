@@ -1,4 +1,4 @@
-# [ Day 10 ] -  動物聊天室(三) - firestore 與貓狗聊天訊息 
+# [ Day 10 ] - 動物聊天室(三) - firestore 介紹
 
 ```
 原本以為 firebase-admin 套件可以在 electron+vue 上面簡單運作
@@ -11,28 +11,50 @@
 
 ## 使用 web 前端做 firestore 
 
+> Step 1 . 安裝 firebase@7.20
+
 ```html
 <!-- add below cdn of firebase.js -->
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
 ```
 
 or
 
 ```shell script
-# 安裝 firebase@7.20
+# 本機安裝 firebase@7.20
 $ npm install firebase@7.20.0 --save
 ```
 
-```javascript
-// Initialize Cloud Firestore through Firebase
-firebase.initializeApp({
-    apiKey: '### FIREBASE API KEY ###',
-    authDomain: '### FIREBASE AUTH DOMAIN ###',
-    projectId: '### CLOUD FIRESTORE PROJECT ID ###'
-});
+> Step 2 . 設定 firebase 的連線資訊
 
-var db = firebase.firestore();
+這個步驟我們需要先到 firebase 的控制面板找出我們的連線資訊 firebaseConfig
+
+use the panel > 設定 > 一般設定 > 您的應用程式
+
+![](https://i.imgur.com/YYAZoWa.png)
+
+script 區塊中設定 firebaseConfig
+
+```javascript
+// Set the firebaseConfig 
+const firebaseConfig = {
+    apiKey: "### FIREBASE API KEY ###",
+    authDomain: "ezoom-test.firebaseapp.com",
+    databaseURL: "https://ezoom-test.firebaseio.com",
+    projectId: "ezoom-test",
+    storageBucket: "ezoom-test.appspot.com",
+    messagingSenderId: "653212361558",
+    appId: "1:653212361558:web:c3163679b79dd7f358acf7"
+}
+
+// Initialize Cloud Firestore through Firebase
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
 
 db.collection("users").add({
     first: "Ada",
@@ -47,37 +69,62 @@ db.collection("users").add({
     });
 ```
 
-use the panel 設定 > 一般設定 > 您的應用程式
+這時我們可能會在 devtool 中看到 `FirebaseError: Missing or insufficient permissions.` 的錯誤訊息 
 
-![](https://i.imgur.com/dcxYurP.png)
+![](https://i.imgur.com/cG2kxk2.png)
 
-=> 直接使用 firestore -> 無法使用 -> 修改 firestore 的規則
-
-將其改成登入使用者可以使用
-
-=> 使用 signInAnonymously 做匿名登入
+這是因為預設的 firestore 規則 , 不允許寫入資料 , 
+因此我們需要修改 firestore 規則 , 准許寫入資料 `write: if true`
 
 ```javascript
-firebase.auth().signInAnonymously()
-.then(function(user) {
-    if (user) {
-      // User is signed in.
-      var isAnonymous = user.isAnonymous;
-      var uid = user.uid;
-      // ...
-    } else {
-      // User is signed out.
-      // ...
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+         allow read, write: if true;
     }
-    // ...
-})
-.catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
+  }
+}
 ```
+
+修改後的規則如下圖所示
+
+![](https://i.imgur.com/b5odFk1.png)
+
+回到 html 我們可以看到資料成功 added
+
+![](https://i.imgur.com/34eNpE5.png)
+
+如果我們想要取得 collection("users") 中的所有資料 ,   
+且新增資料時收到通知 , 需要設定 observer
+
+```javascript
+// 監聽 collection users 新增 . 刪除 . 修改的實時訊息
+const observer = db.collection('users').onSnapshot(docSnapshot => {
+
+    docSnapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+            console.log('New user: ', change.doc.data());
+        }
+        if (change.type === 'modified') {
+            console.log('Modified user: ', change.doc.data());
+        }
+        if (change.type === 'removed') {
+            console.log('Removed user: ', change.doc.data());
+        }
+    });
+
+}, err => {
+    console.log(`Encountered error: ${err}`);
+});
+
+// Stop listening for changes
+// observer();
+```
+
+追加 observer 後 , 有新的 user 加入時 , 都會收到通知
+
+![](https://i.imgur.com/Okv6hgs.png)
 
 ## 參考資料
 

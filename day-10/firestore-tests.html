@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Firestore Web 練習</title>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+    <script>
+
+        // Initialize Cloud Firestore through Firebase
+        firebase.initializeApp({
+            apiKey: "### FIREBASE API KEY ###",
+            authDomain: "ezoom-test.firebaseapp.com",
+            databaseURL: "https://ezoom-test.firebaseio.com",
+            projectId: "ezoom-test",
+            storageBucket: "ezoom-test.appspot.com",
+            messagingSenderId: "653212361558",
+            appId: "1:653212361558:web:c3163679b79dd7f358acf7"
+        });
+
+        const db = firebase.firestore();
+
+        const addUser = () => {
+
+            const username = document.getElementById('input').value;
+
+            db.collection("users").add({
+                username,
+                born: Math.floor(Math.random() * 2052)
+            })
+                .then(function (docRef) {
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch(function (error) {
+                    console.error("Error adding document: ", error);
+                });
+        };
+
+        const observer = db.collection('users').onSnapshot(docSnapshot => {
+
+            docSnapshot.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    console.log('New user: ', change.doc.data());
+                }
+                if (change.type === 'modified') {
+                    console.log('Modified user: ', change.doc.data());
+                }
+                if (change.type === 'removed') {
+                    console.log('Removed user: ', change.doc.data());
+                }
+            });
+
+        }, err => {
+            console.log(`Encountered error: ${err}`);
+        });
+
+    </script>
+</head>
+<body>
+<h1>測試 Firestore on Web</h1>
+新增使用者：<input id="input" type="text">
+<button onclick="addUser()">新增</button>
+</body>
+</html>
