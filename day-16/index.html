@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title> Dialog 展示區</title>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
 </head>
-<body style="-webkit-app-region: drag;user-select: none">
-<img src="playing-cat-loop.gif">
+<body>
+<button id="open">Open</button>
+<button id="save">Save</button>
+<button id="message-box">MessageBox</button>
+<button id="error-box">ErrorBox</button>
+<button id="certificate-trust">CertificateTrust</button>
 </body>
 </html>
