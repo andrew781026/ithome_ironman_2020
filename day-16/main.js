@@ -21,16 +21,32 @@ function createWindow() {
 app.on('ready', () => createWindow()) // Main Process 準備 OK 後 , 建立一個 瀏覽器視窗 顯示給使用者
 app.on('window-all-closed', () => app.quit()) // 所有 BrowserWindow 關閉後 , 結束 Main Process
 
-ipcMain.on("open", () => {
+// 選擇檔案
+ipcMain.on("open-file", () => {
 
-    dialog.showOpenDialogSync({
+    dialog.showOpenDialog({
         filters: [
             {name: 'Images', extensions: ['jpg', 'png', 'gif']},
             {name: 'Movies', extensions: ['mkv', 'avi', 'mp4']},
             {name: 'Custom File Type', extensions: ['as']},
             {name: 'All Files', extensions: ['*']}
         ],
-        properties: ['openFile', 'openDirectory'] // if you set both , on windows it will only show openDirectory dialog
+        properties: ['openFile', 'multiSelections'] // if you set both , on windows it will only show openDirectory dialog
+    })
+        .then(result => {
+            console.log(result.canceled)
+            console.log('filePaths=', result.filePaths)
+        })
+        .catch(err => {
+            console.log(err)
+        });
+});
+
+// 選擇資料夾
+ipcMain.on("open-directory", () => {
+
+    dialog.showOpenDialog({
+        properties: ['openDirectory'] // if you set both , on windows it will only show openDirectory dialog
     })
         .then(result => {
             console.log(result.canceled)
@@ -40,54 +56,44 @@ ipcMain.on("open", () => {
             console.log(err)
         });
 });
+
 ipcMain.on("save", () => {
 
     dialog.showSaveDialog({
 
-        title: 'Save panel',
-        defaultPath: 'D:/test/ithome_ironman_2020',
-        buttonLabel: '是' //  label for the confirmation button
+        title: '儲存圖片',  // dialog 標題
+        buttonLabel: '是', //  label for the confirmation button
+        defaultPath: 'D:\\test\\ithome_ironman_2020', // dialog 的預設路徑
 
     })
         .then(result => {
-            console.log(result.canceled)
-            console.log(result.filePath)
+
+            if (result.canceled) {
+
+                console.log('使用者關閉 SaveDialog')
+
+            } else {
+
+                console.log(result.filePath)
+                // create a file
+
+            }
+
         })
         .catch(err => {
             console.log(err)
         });
 });
+
 ipcMain.on("message-box", () => {
 
-    dialog.showOpenDialogSync(win, {
-        filters: [
-            {name: 'Images', extensions: ['jpg', 'png', 'gif']},
-            {name: 'Movies', extensions: ['mkv', 'avi', 'mp4']},
-            {name: 'Custom File Type', extensions: ['as']},
-            {name: 'All Files', extensions: ['*']}
-        ]
+    dialog.showMessageBox({
+        title: '提示框',
+        message: '這是提示框的內容訊息',
     });
 });
+
 ipcMain.on("error-box", () => {
 
-    dialog.showOpenDialogSync(win, {
-        filters: [
-            {name: 'Images', extensions: ['jpg', 'png', 'gif']},
-            {name: 'Movies', extensions: ['mkv', 'avi', 'mp4']},
-            {name: 'Custom File Type', extensions: ['as']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    });
+    dialog.showErrorBox('錯誤訊息', '您的貓咪主人禁止您進入');
 });
-ipcMain.on("certificate-trust", () => {
-
-    dialog.showOpenDialogSync(win, {
-        filters: [
-            {name: 'Images', extensions: ['jpg', 'png', 'gif']},
-            {name: 'Movies', extensions: ['mkv', 'avi', 'mp4']},
-            {name: 'Custom File Type', extensions: ['as']},
-            {name: 'All Files', extensions: ['*']}
-        ]
-    });
-});
-

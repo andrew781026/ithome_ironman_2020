@@ -3,15 +3,30 @@
 <head>
     <title> Dialog 展示區</title>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self'; style-src 'unsafe-inline'">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<button id="open">Open</button>
-<button id="save">Save</button>
-<button id="message-box">MessageBox</button>
-<button id="error-box">ErrorBox</button>
-<button id="certificate-trust">CertificateTrust</button>
+<form style="padding: 20px">
+    <div class="form-group row">
+        <button id="open-file" type="button" class="btn btn-primary">選擇檔案</button>
+        <label class="col-sm-2 col-form-label">檔案位置：</label>
+        <div class="col-sm-5">
+            <span class="form-control-plaintext" >asdd</span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword">
+        </div>
+    </div>
+</form>
+
+<button id="open-directory" type="button" class="btn btn-primary">選擇資料夾</button>
+<button id="save" type="button" class="btn btn-primary">儲存</button>
+<button id="message-box" type="button" class="btn btn-primary">提示框</button>
+<button id="error-box" type="button" class="btn btn-primary">錯誤框</button>
 </body>
 </html>
