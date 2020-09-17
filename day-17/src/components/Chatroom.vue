@@ -100,7 +100,7 @@
                             avatar: 'cat-3.png',
                             type: 'image',
                             base64,
-                            msg: base64,
+                            msg: '這是圖片',
                         }
 
                         this.addMessage(message);
@@ -169,10 +169,8 @@
 
                 return [...this.chats].sort((a, b) => {
 
-                    console.log('a=', a);
-                    console.log('a.create_at=', a.create_at);
-
                     if (!a.create_at) return 1;
+                    else if (!b.create_at) return -1;
                     else if (!b.create_at) return -1;
                     else return a.create_at.seconds - b.create_at.seconds;
                 });
