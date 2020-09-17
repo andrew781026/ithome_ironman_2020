@@ -1,6 +1,6 @@
 <template>
     <div class="chatroom style-2">
-        <template v-for="(chat) in chats">
+        <template v-for="(chat) in sortedChats">
             <div v-if="chat.takeBack"
                  :key="chat.uuid"
                  class="msg-wrap justify-center"
@@ -20,9 +20,8 @@
                 </div>
                 <div>
                     <div class="msg" :class="[chat.team]" @contextmenu="openMenu(chat)">
-                    <span class="break-words">
-                       {{chat.msg}}
-                    </span>
+                        <img v-if="chat.type === 'image'" width="100%" :src="chat.base64" :alt="chat.avatar">
+                        <span v-else class="break-words">{{chat.msg}}</span>
                     </div>
                 </div>
             </div>
@@ -30,7 +29,7 @@
         <div class="input-wrap">
             <div class="input-left">
                 <i class="flaticon flaticon-happy cursor-pointer" title="emoji"></i>
-                <i class="flaticon flaticon-image cursor-pointer" title="圖片"></i>
+                <i class="flaticon flaticon-image cursor-pointer" title="圖片" @click="uploadImage"></i>
                 <i class="flaticon flaticon-attachment cursor-pointer" title="檔案"></i>
             </div>
             <input ref="text-input" class="input" v-model="text" @keyup.enter="submit" placeholder="輸入文字"/>
@@ -57,6 +56,9 @@
 
             //  收回訊息
             window.ipcRenderer.on('chatroom:take-back-msg', (event, chat) => this.takeBackMessage(chat));
+
+            //  下載圖片
+            window.ipcRenderer.on('chatroom:save-img', (event, chat) => this.saveImage(chat));
         },
         mounted() {
 
@@ -86,6 +88,34 @@
                 .catch();
         },
         methods: {
+            uploadImage() {
+
+                window.ipcRenderer
+                    .invoke('image:choose-image')
+                    .then(({base64}) => {
+
+                        const message = {
+                            name: '你',
+                            team: 'right',
+                            avatar: 'cat-3.png',
+                            type: 'image',
+                            base64,
+                            msg: base64,
+                        }
+
+                        this.addMessage(message);
+                    })
+                    .catch(e => console.error(e));
+            },
+            saveImage(chat) {
+
+                console.log('image:save-image');
+
+                window.ipcRenderer
+                    .invoke('image:save-image', chat)
+                    .then(data => console.log('data=', data))
+                    .catch(e => console.error(e));
+            },
             addMessage(chat) {
 
                 firestoreUtils.sender
@@ -106,7 +136,7 @@
             takeBackMessage(chat) {
 
                 firestoreUtils.sender
-                    .updateMessage(this.roomId, {...chat, takeBack: true})
+                    .updateMessage(this.roomId, {uuid: chat.uuid, takeBack: true})
                     .catch(e => console.error(e));
             },
             openMenu(chat) {
@@ -132,6 +162,20 @@
 
                     this.text = '';
                 }
+            }
+        },
+        computed: {
+            sortedChats() {
+
+                return [...this.chats].sort((a, b) => {
+
+                    console.log('a=', a);
+                    console.log('a.create_at=', a.create_at);
+
+                    if (!a.create_at) return 1;
+                    else if (!b.create_at) return -1;
+                    else return a.create_at.seconds - b.create_at.seconds;
+                });
             }
         },
         data() {
@@ -233,7 +277,7 @@
         color: white;
     }
 
-    .take-back-msg{
+    .take-back-msg {
         padding: 3px 20px 3px 20px;
         border-radius: 30px;
         color: white;

@@ -1,7 +1,8 @@
-import {app, protocol, ipcMain, Menu, BrowserWindow} from 'electron'
+import {app, protocol, ipcMain, Menu, MenuItem, BrowserWindow} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer'
 import path from 'path'
+import './ipcmains/image'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -105,12 +106,16 @@ ipcMain.on('close', () => app.quit());
 
 ipcMain.on('open-contextmenu', (event, chat) => {
 
-    Menu.buildFromTemplate([
+    const menu = Menu.buildFromTemplate([
         {label: '複製', click: () => event.reply('chatroom:copy-msg', chat)},
         {label: '刪除', click: () => event.reply('chatroom:delete-msg', chat)},
         {label: '收回', click: () => event.reply('chatroom:take-back-msg', chat)},
-    ])
-        .popup(BrowserWindow.getFocusedWindow())
+    ]);
+
+    if (chat.type === 'image') {
+        menu.append(new MenuItem({label: '下載', click: () => event.reply('chatroom:save-img', chat)}));
+    }
+    menu.popup(BrowserWindow.getFocusedWindow())
 });
 
 // Exit cleanly on request from parent process in development mode.

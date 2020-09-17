@@ -22,7 +22,7 @@ app.on('ready', () => createWindow()) // Main Process 準備 OK 後 , 建立一�
 app.on('window-all-closed', () => app.quit()) // 所有 BrowserWindow 關閉後 , 結束 Main Process
 
 // 選擇檔案
-ipcMain.on("open-file", () => {
+ipcMain.on("open-file", event => {
 
     dialog.showOpenDialog({
         filters: [
@@ -36,6 +36,7 @@ ipcMain.on("open-file", () => {
         .then(result => {
             console.log(result.canceled)
             console.log('filePaths=', result.filePaths)
+            event.reply('open-file-path', result.filePaths)
         })
         .catch(err => {
             console.log(err)
