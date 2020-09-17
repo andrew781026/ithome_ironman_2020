@@ -1,0 +1,43 @@
+.mr-6 {
+    margin-right: 0.6rem;
+}
+
+.pr-6 {
+    padding-right: 0.6rem;
+}
+
+.p-16 {
+    padding: 1.6rem;
+}
+
+.pl-16 {
+    padding-left: 1.6rem;
+}
+
+.pr-16 {
+    padding-right: 1.6rem;
+}
+
+.pt-16 {
+    padding-top: 1.6rem;
+}
+
+.m-16 {
+    margin: 1.6rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.border-r-6 {
+    border-radius:  0.6rem;
+}
+
+.border-black {
+    border: 1px solid rgba(0,0,0,0.4);
+}

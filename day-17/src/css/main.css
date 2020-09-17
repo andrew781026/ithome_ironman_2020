@@ -1,0 +1,12 @@
+.flaticon {
+    display: inline-block;
+    transform: translateX(-25%);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.w-full {
+    width: 100%;
+}

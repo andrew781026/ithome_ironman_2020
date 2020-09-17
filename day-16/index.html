@@ -1,32 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Dialog 展示區</title>
+    <title>Dialog 展示區</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- CSS only -->
+    <!-- bootstrap CSS only -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- tailwind CSS -->
+    <!--    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<form style="padding: 20px">
-    <div class="form-group row">
-        <button id="open-file" type="button" class="btn btn-primary">選擇檔案</button>
-        <label class="col-sm-2 col-form-label">檔案位置：</label>
-        <div class="col-sm-5">
-            <span class="form-control-plaintext" >asdd</span>
+<h1 class="pl-16 pt-16">Dialog 展示區</h1>
+<form class="p-16 m-16 border-black border-r-6">
+    <div class="form-group flex">
+        <button id="open-file" type="button" class="btn btn-primary mr-6" style="width: 130px">
+            <svg width="1em" height="1em"
+                 viewBox="0 0 16 16"
+                 class="bi bi-file-earmark-text-fill"
+                 style="transform: translateY(-15%)"
+                 fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <path fill-rule="evenodd"
+                      d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7 2l.5-2.5 3 3L10 5a1 1 0 0 1-1-1zM4.5 8a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            選擇檔案
+        </button>
+        <label class="col-form-label">檔案位置：</label>
+        <div>
+            <span id="open-file-path" class="form-control-plaintext">[在此顯示檔案路徑]</span>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-        <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword">
+    <div class="form-group flex">
+        <button id="open-directory" type="button" class="btn btn-primary mr-6" style="width: 130px">
+            <svg width="1em" height="1em"
+                 viewBox="0 0 16 16"
+                 class="bi bi-folder-fill"
+                 style="transform: translateY(-15%)"
+                 fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <path fill-rule="evenodd"
+                      d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+            </svg>
+            選擇資料夾
+        </button>
+        <label class="col-form-label">資料夾位置：</label>
+        <div>
+            <span id="open-directory-path" class="form-control-plaintext">[在此顯示資料夾路徑]</span>
         </div>
+    </div>
+    <div class="form-group flex">
+        <button id="save" type="button" class="btn btn-primary mr-6" style="width: 130px">
+            <svg width="1em" height="1em"
+                 viewBox="0 0 32 32"
+                 style="transform: translateY(-15%)"
+                 fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M9,7V2H19V7a1,1,0,0,1-1,1H10A1,1,0,0,1,9,7ZM8,30H24V26.56H8Zm0-5.44H24v-2H8ZM29,8.7,24.37,3.09A3,3,0,0,0,22.06,2H21V7a3,3,0,0,1-3,3H10A3,3,0,0,1,7,7V2H5A3,3,0,0,0,2,5V27a3,3,0,0,0,3,3H6V20a3,3,0,0,1,3-3H23a3,3,0,0,1,3,3V30h1a3,3,0,0,0,3-3V10.92A3,3,0,0,0,29,8.7ZM23,19H9a1,1,0,0,0-1,1v.56H24V20A1,1,0,0,0,23,19Z"/>
+            </svg>
+            儲存
+        </button>
+        <label class="col-form-label">儲存文字：</label>
+        <div class="flex-1">
+            <input id="save-input" type="password" class="form-control">
+        </div>
+    </div>
+    <div class="form-group flex">
+        <button id="message-box" type="button" class="btn btn-info mr-6" style="width: 130px">
+            <svg width="1em" height="1em"
+                 fill="currentColor"
+                 viewBox="0 0 512 512"
+                 style="transform: translateY(-15%)"
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M256,0C115.2,0,0,115.2,0,256s115.2,256,256,256s256-115.2,256-256S396.8,0,256,0z M256,51.2
+			c28.16,0,48.64,23.04,46.08,51.2L281.6,307.2h-51.2l-20.48-204.8C207.36,74.24,227.84,51.2,256,51.2z M256,460.8
+			c-28.16,0-51.2-23.04-51.2-51.2c0-28.16,23.04-51.2,51.2-51.2s51.2,23.04,51.2,51.2C307.2,437.76,284.16,460.8,256,460.8z"/>
+            </svg>
+            提示框
+        </button>
+    </div>
+    <div class="form-group flex">
+        <button id="error-box" type="button" class="btn btn-danger mr-6" style="width: 130px">
+            <svg width="1em" height="1em"
+                 fill="currentColor"
+                 viewBox="0 0 51.976 51.976"
+                 style="transform: translateY(-15%)"
+                 xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M44.373,7.603c-10.137-10.137-26.632-10.138-36.77,0c-10.138,10.138-10.137,26.632,0,36.77s26.632,10.138,36.77,0
+		C54.51,34.235,54.51,17.74,44.373,7.603z M36.241,36.241c-0.781,0.781-2.047,0.781-2.828,0l-7.425-7.425l-7.778,7.778
+		c-0.781,0.781-2.047,0.781-2.828,0c-0.781-0.781-0.781-2.047,0-2.828l7.778-7.778l-7.425-7.425c-0.781-0.781-0.781-2.048,0-2.828
+		c0.781-0.781,2.047-0.781,2.828,0l7.425,7.425l7.071-7.071c0.781-0.781,2.047-0.781,2.828,0c0.781,0.781,0.781,2.047,0,2.828
+		l-7.071,7.071l7.425,7.425C37.022,34.194,37.022,35.46,36.241,36.241z"/>
+            </svg>
+            錯誤框
+        </button>
     </div>
 </form>
-
-<button id="open-directory" type="button" class="btn btn-primary">選擇資料夾</button>
-<button id="save" type="button" class="btn btn-primary">儲存</button>
-<button id="message-box" type="button" class="btn btn-primary">提示框</button>
-<button id="error-box" type="button" class="btn btn-primary">錯誤框</button>
 </body>
 </html>
