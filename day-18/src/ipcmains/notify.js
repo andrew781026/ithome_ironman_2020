@@ -58,11 +58,13 @@ ipcMain.on('notify:new-msg', (event, chat) => {
     const mainWindow = BrowserWindow.fromWebContents(event.sender); // 利用 event.sender 取得 currentWindow
     const isFocused = mainWindow.isFocused(); // 確認 mainWindow 是否在最上面
 
-    const myNotification = new Notification(`${chat.name}有新的對話`, {
-        body: chat.msg
-    })
+    const myNotification = new Notification({
+        title: `${chat.name}有新的對話`,
+        subtitle: chat.msg
+    });
 
-    myNotification.onclick = () => mainWindow.show(); // 將 mainWindow 帶到最上面
+    // myNotification.on('click', () => mainWindow.show()); // 將 mainWindow 帶到最上面
+    // myNotification.on('close', () => mainWindow.show()); // 將 mainWindow 帶到最上面
     myNotification.show();
 
     if (!isFocused) {
