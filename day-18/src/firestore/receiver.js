@@ -17,6 +17,9 @@ const ObserveUtils = {
      */
     observeRoom: roomId => {
 
+        let initState = true;
+        setTimeout(() => initState = false, 1000); // 1 秒內的 added 資訊 , 視為初始化 message
+
         const emitter = new EventEmitter();
 
         // 監聽 chat 的變化 => /chatroom/${roomId}/message 中的聊天訊息串
@@ -25,7 +28,8 @@ const ObserveUtils = {
         const observer = collect.onSnapshot(docSnapshot => {
 
             docSnapshot.docChanges().forEach(change => {
-                if (change.type === 'added') emitter.emit('new-message', change.doc.data());
+                if (initState && change.type === 'added') emitter.emit('init-message', change.doc.data());
+                if (!initState && change.type === 'added') emitter.emit('new-message', change.doc.data());
                 if (change.type === 'modified') emitter.emit('update-message', change.doc.data());
                 if (change.type === 'removed') emitter.emit('delete-message', change.doc.data());
             });

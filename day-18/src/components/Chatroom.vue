@@ -74,6 +74,7 @@
 
                     firestoreUtils.observer
                         .observeRoom(this.roomId)
+                        .on('init-message', msg => this.chats.push(msg))
                         .on('new-message', msg => {
                             this.chats.push(msg);
 
