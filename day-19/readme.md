@@ -1,82 +1,52 @@
-# 第十天 - 右鍵選單 ( context-menu )
+# [ Day 19 ] - 動物聊天室(十二) - Electron API 與其生產地
 
-原本今天要討論 , 右鍵選單 ( context-menu ) , 
-在官網上發現一個不幸的消息 , 
-在 win 10 中 frame = false , zone = draggable 的區塊 , 
-預設的 DOM 事件會被取代成系統 ( win 10 ) 預設的右鍵選單
- ( 說人話 : 右鍵選單 . 左鍵雙擊 ...等操作會被替換成下方選單 )
+[day-03] 時我們有提過 , Main Process 與 BrowserWindow ( 也就是 Renderer Process )
 
-![系統右鍵選單](https://i.imgur.com/n4yGWqy.png)
+[![electron 基礎架構](https://i.imgur.com/N9r4qT9.png)](https://www.udemy.com/course/electron-from-scratch/)
+[ 圖片來源 : Udemy 課程 - Electron From Scratch: Build Desktop Apps With JavaScript ]
 
-所以 , 我們需要追加 "拖曳條" , 並且改成只有拖曳條才能被拖曳 , 這樣我們就可以在小貓圖案上自定義右鍵選單
+經過了 10 多天後 , 我們也介紹了 7 個 Electron API
 
-使用 frame = false , 是自製一個 drag-bar 
+- [[day-04] - globalShortcut](https://ithelp.ithome.com.tw/articles/10234094) 
+- [[day-05] - Tray](https://ithelp.ithome.com.tw/articles/10234294)
+- [[day-09] - ipcMain](https://ithelp.ithome.com.tw/articles/10235110)
+- [[day-09] - ipcRenderer](https://ithelp.ithome.com.tw/articles/10235110)
+- [[day-15] - Menu](https://ithelp.ithome.com.tw/articles/10237146)
+- [[day-17] - Dialog](https://ithelp.ithome.com.tw/articles/10238623)
+- [[day-18] - Notification](https://ithelp.ithome.com.tw/articles/10239313)
 
-新增一個 div block 當作 drag-bar 使用
-```html
-<body class="mt-30 draggable">
-+ <div id="drag-bar" class="drop-bar">拖曳條</div>
-<img id="img" src="playing-cat-loop.gif">
-</body>
-```
+那我們如何知道各 Electron API 可以只能在 Main Process 中使用 , 或是 Main Process 與 BrowserWindow 都可使用呢 ?
 
-![](https://i.imgur.com/nOT36mm.png)
+官方網站上的在 API 說明的最開頭就會了解這支 API 可以在哪裡執行 , 
 
+> 下方舉例說明
 
-預設的 "拖曳條" 不太好看 , 新增 index.css , 裝飾一下 drag-bar 
-```css
-.drag-bar {
-    -webkit-app-region: drag;
-    background-color: #636363;
-    color: #eeeeee;
-    padding: 3px;
-    width: 100vw;
-    font-size: 30px;
-    min-height: var(--title-bar-height);
-}
-```
+#### ipcMain
 
-![](https://i.imgur.com/Ud2WyTD.png)
+我們可以看到 `Process: 主程序` , 因此可知 ipcMain 只能在 Main Process 中做使用
 
-拖曳條 左方有一塊留白 , 這是由於 body 預設的 margin : 8px 造成的 , 
-我們把 body 的 margin 調整成 0 
+![](https://i.imgur.com/IsjnQf7.png)
 
-```css
-body {
-    margin : 0
-}
-```
+#### ipcRenderer
 
-![body margin 0](https://i.imgur.com/BNiQIFv.png)
+我們可以看到 `處理序: 畫面轉譯器` , 因此可知 ipcRenderer 只能在 BrowserWindow ( 也就是 Renderer Process ) 中做使用
 
-下方跑出一個 scrollbar , 造成這的原因是我們 drag-bar 設定 padding : 3px & width : 100vw ,
-最終 ,  drag-bar 的總長度為 100vw + 3px * 2 = 100vw + 6px , 
-我們可以設定 `box-sizing: border-box;` 讓 padding 不影響元素的總長度
+![](https://i.imgur.com/F6o2roE.png)
 
-```css
-* {
-    box-sizing: border-box;
-}
-```
+#### clipboard
 
-![box-sizing: border-box](https://i.imgur.com/a8VtMJZ.png)
+我們可以看到 `處理序: 主處理序, 畫面轉譯器` , 因此可知 clipboard 在 Main Process 與 BrowserWindow 都可使用
 
+![](https://i.imgur.com/djc84Ep.png)
 
-有時會忘記貓咪不能拖曳的 , 造成出現 `幽靈圖片(ghost image)` ( 如下圖所示 ) , 
-如果想讓 ghost image 不要出現 , 
-就需要在 index.html 中的 img 上追加 `draggable="false"` 屬性 ,
-之後 , ghost image 就不會出現
+下方附上網友整理好的圖片 , 方便快速了解正在使用的 Electron API 可在哪種 Process 中執行
 
-![貓咪圖片可拖曳](https://i.imgur.com/1bC0dfM.png)
-
-
-
-## 完整程式
-
-
+![](https://i.imgur.com/do3z8w7.png)
 
 ## 參考資料
 
-- [electron-builder 官方文件](https://www.electron.build/)
-- [Electron 无边框窗口的拖动](https://sin.pub/blog/electron-frameless-drag/)
-- [windowMouseOutFix.js](https://gist.github.com/louisameline/1213bb112c6cb12a98b2ab525dfb8b07)
+- [electron 官方文件](https://www.electronjs.org/docs/api)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```
