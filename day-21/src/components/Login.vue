@@ -1,10 +1,3 @@
-# [ Day 21 ] - 動物聊天室(十四) - 登入畫面
-
-昨天介紹登入功能 , 今天來串接畫面
-
-### 新增 Login.vue 
-
-```html
 <template>
     <div class="root">
         <div class="login">
@@ -164,65 +157,3 @@
         height: 25px;
     }
 </style>
-```
-
-### 將 vue-router 載入使用
-
-```shell script
-$ npm i -s vue-router
-```
-
-### 設定 vue-router 
-
-```javascript
-// ./router/index.js
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter);
-
-const routes = [
-    {
-        path: '/chatroom',
-        name: 'chatroom',
-        component: () => import ('../components/Chatroom.vue'),
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: () => import ('../components/Login.vue')
-    },
-    {path: '*', redirect: {name: 'login'}},
-];
-
-const router = new VueRouter({
-    routes
-});
-
-export default router
-```
-
-### 在 App.vue 中使用 vue-router
-
-```diff
-<template>
-    <div id="app">
-        <title-bar/>
--        <chatroom/>
-+        <router-view/>
-    </div>
-</template>
-```
-
-### 成果
-
-![](https://i.imgur.com/qrKphSJ.png)
-
-## 參考資料
-
-- [Firebase 身份驗證](https://firebase.google.com/docs/auth)
-- [DongGuaLemon - f2e7week](https://github.com/DongGuaLemon/f2e7week)
-
-```
-今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
-```
