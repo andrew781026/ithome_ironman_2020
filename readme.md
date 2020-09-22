@@ -60,6 +60,13 @@ EToro => 股票買賣模擬器
 - 第二十六天 - 將當機報告送給遠端伺服器。 - crashReporter
 - 第二十七天 - 在應用程式沒有取得鍵盤焦點的情況下偵測鍵盤事件。 - globalShortcut
 
+## 聲音相關
+
+- [ａｅｓｔｈＥｔｉｃ，ＣＹＢＥＲの ａｕｄｉｏ / ＶＩＳＵＡＬ，網頁中的聲音與影像研究 系列](https://ithelp.ithome.com.tw/users/20107828/ironman/1552)
+- [JavaScript 音樂漫遊 - 30 天探索 Web Audio！](https://ithelp.ithome.com.tw/users/20111380/ironman/1783)
+- [Tone.js](https://tonejs.github.io/)
+- [【Web】Text to Speech (TTS) 文字轉語音](https://spicyboyd.blogspot.com/2018/07/webtext-to-speech-tts.html)
+
 ## 官方文檔
  - 螢幕截圖  - https://www.electronjs.org/docs/api/structures/desktop-capturer-source
 
