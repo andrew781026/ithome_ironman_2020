@@ -1,41 +1,62 @@
-const {app, BrowserWindow, Menu, Tray} = require('electron');
+const {app, BrowserWindow, clipboard, globalShortcut} = require('electron');
 
-// https://www.electronjs.org/docs/api/tray
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 320,
         height: 350,
-        frame: false,      // 標題列不顯示
-        transparent: true, // 背景透明
         autoHideMenuBar: true //  工具列不顯示
     });
 
     mainWindow.loadFile('index.html');
+
+
+    clipboard.writeText('範例字串');
+    console.log(clipboard.readText());
+
+    // 將聊天對話複製到 clipboard 中
+
+    // 將複製的圖片 ctrl + v 時 , 上傳到 firestore 中
+    globalShortcut.register('CommandOrControl+E', () => {
+        console.log('CommandOrControl+E is pressed');
+        const availableFormats = clipboard.availableFormats();
+        console.log(availableFormats); // need contain image
+
+        const isImageFormat = availableFormats.find(format => format.includes('image'));
+        const isHtmlFormat = availableFormats.find(format => format.includes('text/html'));
+        const isTextFormat = availableFormats.find(format => format.includes('text/plain'));
+        const isRtfFormat = availableFormats.find(format => format.includes('text/rtf'));
+
+        if (isImageFormat) {
+
+            const nativeImage = clipboard.readImage(); // 取得 clipboard 中的圖片
+            const base64Image = nativeImage.toDataURL(); // data:image/png;
+            console.log('base64Image=', base64Image);
+
+        } else if (isTextFormat) {
+
+            const textStr = clipboard.readText(); // 取得 clipboard 中的文字
+            console.log('textStr=', textStr);
+
+        } else if (isHtmlFormat) {
+
+            const htmlStr = clipboard.readHTML(); // 取得 clipboard 中的 html
+            console.log('htmlStr=', htmlStr);
+
+        } else if (isRtfFormat) {
+
+            const rtfStr = clipboard.readRTF(); // 取得 clipboard 中的 rtf
+            console.log('rtfStr=', rtfStr);
+
+        }
+
+    })
 }
 
 
-let tray = null;
-
 app.on('ready', () => {
 
-    // createWindow();
-
-    tray = new Tray('./cat.png')
-    const contextMenu = Menu.buildFromTemplate([
-        {label: '可愛小貓', click: () => {
-                createWindow()
-                tray.destroy();
-            }},
-        {label: 'Item2', type: 'radio'},
-        {label: 'Item3', type: 'radio', checked: true},
-        {label: 'Item4', type: 'radio'}
-    ])
-    tray.setToolTip('This is my application.')
-    tray.setContextMenu(contextMenu)
+    createWindow();
 })
 
-app.on('window-all-closed', () => {
-
-    app.quit();
-})
+app.on('window-all-closed', () => app.quit())
