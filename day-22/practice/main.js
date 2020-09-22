@@ -10,7 +10,6 @@ function createWindow() {
 
     mainWindow.loadFile('index.html');
 
-
     clipboard.writeText('範例字串');
     console.log(clipboard.readText());
 
