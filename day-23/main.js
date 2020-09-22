@@ -1,41 +1,40 @@
-const {app, BrowserWindow, Menu, Tray} = require('electron');
+const {app, BrowserWindow,} = require('electron');
+const path = require('path');
+const {ipcMain} = require('electron');
 
 // https://www.electronjs.org/docs/api/tray
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 320,
-        height: 350,
-        frame: false,      // 標題列不顯示
-        transparent: true, // 背景透明
-        autoHideMenuBar: true //  工具列不顯示
+        width: 350,
+        height: 400,
+        autoHideMenuBar: true, //  工具列不顯示
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
     });
 
     mainWindow.loadFile('index.html');
+
+    mainWindow.openDevTools();
+
+    return mainWindow;
 }
 
 
-let tray = null;
-
 app.on('ready', () => {
 
-    // createWindow();
+    createWindow();
 
-    tray = new Tray('./cat.png')
-    const contextMenu = Menu.buildFromTemplate([
-        {label: '可愛小貓', click: () => {
-                createWindow()
-                tray.destroy();
-            }},
-        {label: 'Item2', type: 'radio'},
-        {label: 'Item3', type: 'radio', checked: true},
-        {label: 'Item4', type: 'radio'}
-    ])
-    tray.setToolTip('This is my application.')
-    tray.setContextMenu(contextMenu)
+
 })
 
-app.on('window-all-closed', () => {
+app.on('window-all-closed', app.quit)
 
-    app.quit();
+ipcMain.on('ondragstart', (event) => {
+    event.sender.startDrag({
+        files: [path.join(__dirname, 'head.jpg')],
+        icon: path.join(__dirname, 'head.jpg'),
+    })
+
 })

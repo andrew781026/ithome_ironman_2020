@@ -1,6 +1,6 @@
 {
-  "name": "electron-practice-day02",
-  "version": "0.0.2",
+  "name": "electron-practice-day23",
+  "version": "0.0.23",
   "description": "a startup template of electron",
   "scripts": {
     "start": "electron ./main.js"
@@ -8,7 +8,6 @@
   "author": "andrew",
   "license": "MIT",
   "devDependencies": {
-    "electron": "9.0.3",
-    "electron-reload": "1.5.0"
+    "electron": "9.0.3"
   }
 }
