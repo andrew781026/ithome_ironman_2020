@@ -2,7 +2,13 @@
 
 目前上傳圖片的方式只能按下 ![](https://i.imgur.com/F7fN8hl.png) 然後選擇電腦中的圖片做上傳 
 
-如果想要上傳網頁上的圖片 , 就變成 "下載圖片到電腦 -> 點擊 ![](https://i.imgur.com/F7fN8hl.png) -> 找到下載的圖片存在電腦的路徑 -> 上傳" 這種非常繞的方式
+如果想要上傳網頁上的圖片 , 就變成 
+1.下載圖片到電腦  
+2.點擊 ![](https://i.imgur.com/F7fN8hl.png)   
+3.找到下載的圖片存在電腦的路徑   
+4.上傳  
+這種非常繞的方式
+
 
 那我們有沒有可能 ,   
 1.網頁複製   
@@ -93,6 +99,7 @@ module.exports = {
         },
         paste() {
 
+            // 別忘了 import clipboardUtils 
             const str = clipboardUtils.read(window.clipboard);
 
             if (str.startsWith('data:image')) {
