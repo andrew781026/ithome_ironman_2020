@@ -20,7 +20,11 @@
                 </div>
                 <div>
                     <div class="msg" :class="[chat.team]" @contextmenu="openMenu(chat)">
-                        <img v-if="chat.type === 'image'" width="100%" :src="chat.base64" :alt="chat.avatar">
+                        <img v-if="chat.type === 'image'"
+                             width="100%"
+                             :src="chat.base64" :alt="chat.avatar"
+                             @dragstart="dragstart($event,chat)"
+                        >
                         <span v-else class="break-words">{{chat.msg}}</span>
                     </div>
                 </div>
@@ -102,6 +106,11 @@
             this.captureCtrl_V_Event(this.$refs['text-input']);
         },
         methods: {
+            dragstart(event, chat) {
+
+                event.preventDefault();
+                window.ipcRenderer.send('chatroom:img-dragstart', chat);
+            },
             // 參考資料 : https://stackoverflow.com/questions/22092762/how-to-detect-ctrlc-and-ctrlv-key-pressing-using-regular-expression/22092839
             captureCtrl_V_Event(element) {
 

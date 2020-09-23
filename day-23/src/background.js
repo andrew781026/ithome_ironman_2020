@@ -1,9 +1,10 @@
 import {app, protocol, ipcMain, Menu, MenuItem, BrowserWindow} from 'electron'
 import {createProtocol} from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer'
-import path from 'path'
-import './ipcmains/image'
+import path from 'path';
+import './ipcmains/image';
 import {BadgeManager} from './ipcmains/notify';
+import './ipcmains/drag';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
