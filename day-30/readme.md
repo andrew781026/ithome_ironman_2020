@@ -1,6 +1,10 @@
 # [ Day 21 ] - 動物聊天室(十四) - 應用程式自動化測試
 
-使用 cypress.io 做自動化測試 
+如何 Debug 已經打包好的應用程式 ? 輸入下方指令 , 開啟 debug mode 
+
+```shell script
+$ [目標應用程式.exe] --remote-debugging-port=8315
+```
 
 ## 參考資料
 
