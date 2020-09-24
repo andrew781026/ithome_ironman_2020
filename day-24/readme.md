@@ -1,8 +1,62 @@
-# 第十四天 - 自動更新 autoUpdater
+# [ Day 24 ] - 動物聊天室(十六) - 屏幕擷取
 
-使用 electron-update
+### desktopCapturer
 
-#### 相關文章 
-- [auto-update](https://www.electron.build/auto-update)
-- [Electron使用electron-builder配合electron-updater實現自動更新](https://segmentfault.com/a/1190000012904543)
-- [官方指南 auto-update](https://www.electronjs.org/docs/tutorial/updates)
+> 取得桌面上可透過 [`navigator.mediaDevices.getUserMedia`] API 擷取影片或音訊的媒體來源資訊。
+
+處理序: 主處理序, 畫面轉譯器
+
+![](https://i.imgur.com/I0onV6L.gif)
+
+下列範例展示如何將桌面上標題為 `Electron` 的視窗擷取為影像檔:
+
+```javascript
+// 在畫面轉譯處理序裡。
+const { desktopCapturer } = require('electron')
+
+desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+  for (const source of sources) {
+    if (source.name === 'Electron') {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: source.id,
+              minWidth: 1280,
+              maxWidth: 1280,
+              minHeight: 720,
+              maxHeight: 720
+            }
+          }
+        })
+        handleStream(stream)
+      } catch (e) {
+        handleError(e)
+      }
+      return
+    }
+  }
+})
+
+function handleStream (stream) {
+  const video = document.querySelector('video')
+  video.srcObject = stream
+  video.onloadedmetadata = (e) => video.play()
+}
+
+function handleError (e) {
+  console.log(e)
+}
+````
+
+
+## 參考資料
+
+- [Saving desktopCapturer to video file in Electron](https://stackoverflow.com/questions/36753288/saving-desktopcapturer-to-video-file-in-electron)
+- [electron 官方文件 - desktop-capturer](https://www.electronjs.org/docs/api/desktop-capturer)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```
