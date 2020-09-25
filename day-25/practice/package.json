@@ -1,0 +1,14 @@
+{
+  "name": "electron-practice-day23",
+  "version": "0.0.23",
+  "description": "a startup template of electron",
+  "scripts": {
+    "start:server": "electron ./server/main.js",
+    "start:client": "electron ./client/main.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "9.0.3"
+  }
+}

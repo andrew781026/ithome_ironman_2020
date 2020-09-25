@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/andrew781026/ithome_ironman_2020/issues"
   },
-  "homepage": "https://github.com/andrew781026/ithome_ironman_2020#readme"
+  "homepage": "https://github.com/andrew781026/ithome_ironman_2020#readme",
+  "dependencies": {
+    "socket.io-stream": "^0.9.1"
+  }
 }

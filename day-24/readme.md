@@ -1,5 +1,7 @@
 # [ Day 24 ] - 動物聊天室(十六) - 屏幕擷取
 
+有時可能想要與工程師朋友分享一下桌面 , 討論一下 , 今天遇到的某個問題要如何解決 , 這時要如何處理呢 ? `desktopCapturer`
+
 ### desktopCapturer
 
 > 取得桌面上可透過 [`navigator.mediaDevices.getUserMedia`] API 擷取影片或音訊的媒體來源資訊。
@@ -51,6 +53,7 @@ function handleError (e) {
 }
 ````
 
+這樣我們就有
 
 ## 參考資料
 

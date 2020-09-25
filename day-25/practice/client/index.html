@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        div.block {
+            cursor: pointer;
+            height: 280px;
+            width: 300px;
+            float: left;
+            border-radius: 10px;
+            background-color: #b8daff;
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 10px;
+        }
+
+        div.img {
+            overflow: hidden;
+        }
+
+        div.text-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img {
+            width: 100%;
+            height: 210px;
+            transition: all 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.2) translateY(15px);
+        }
+
+        span.font {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span.font::selection {
+
+            background-color: orange;
+            color: aqua;
+        }
+    </style>
+</head>
+<body>
+<div style="display: flex;flex-direction:column;height: 100vh;width: 98vw;padding: 10px;">
+    <h1>屏幕擷取</h1>
+    <div>
+        <button id="listAllSources">列表所有可擷取屏幕</button>
+        <button id="stopRecord" style="display: none">停止錄製</button>
+    </div>
+    <div id="showAllScreens" style="display: flex;flex-wrap: wrap;"></div>
+    <video id="entireVideo" style="width: 1000px;height: 700px"></video>
+</div>
+</body>
+</html>
