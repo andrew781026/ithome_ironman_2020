@@ -1,12 +1,11 @@
 const {app, BrowserWindow,} = require('electron');
 const path = require('path');
-const {ipcMain} = require('electron');
 
 // https://www.electronjs.org/docs/api/tray
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 1200,
+        width: 1050,
         height: 600,
         autoHideMenuBar: true, //  工具列不顯示
         webPreferences: {
@@ -28,11 +27,3 @@ app.on('ready', () => {
 })
 
 app.on('window-all-closed', app.quit)
-
-ipcMain.on('ondragstart', (event) => {
-    event.sender.startDrag({
-        files: [path.join(__dirname, 'head.jpg')],
-        icon: path.join(__dirname, 'head.jpg'),
-    })
-
-})
