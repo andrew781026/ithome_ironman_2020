@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/andrew781026/ithome_ironman_2020#readme",
   "dependencies": {
+    "socket.io": "^2.3.0",
     "socket.io-stream": "^0.9.1"
   }
 }
