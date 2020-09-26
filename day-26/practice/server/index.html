@@ -12,12 +12,31 @@
             margin: 0;
         }
 
+        #myVideo{
+            width: 200px;
+            height: 200px;
+            background: #2D41C1;
+            transform: scaleX(-1);
+        }
+
+        #remoteVideo{
+            width: 400px;
+            height: 400px;
+            background: #75ce1a;
+        }
+
     </style>
 </head>
 <body>
-<div style="display: flex;flex-direction:column;height: 100vh;width: 98vw;padding: 10px;">
+<div style="display: flex;flex-direction:column;height: 90vh;width: 90vw;padding: 10px;">
     <h1>屏幕擷取 - 取得分享</h1>
-    <video id="entireVideo" style="width: 90%;height: 450px"></video>
+    <button onclick="window.initPeerConnection()">開啟攝像頭</button>
+    <div style="display: flex;">
+        <video width="200" height="200" class="rtc" autoplay
+               id="myVideo" muted playsinline></video>
+        <video width="500" height="500" class="rtc ml-5" autoplay
+               id="remoteVideo" playsinline></video>
+    </div>
 </div>
 </body>
 </html>
