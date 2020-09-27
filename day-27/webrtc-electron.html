@@ -109,14 +109,6 @@
                     return await navigator.mediaDevices.getUserMedia(constraints);
                 };
 
-                // 取得 Electron 的 sourceId
-                // const sources = await desktopCapturer.getSources({types: ['window', 'screen']});
-                // const electronSource = sources.find(src => src.name === 'Electron');
-                // console.log('sources=', sources);
-                // const sourceId = electronSource.id;
-
-                console.log('this.sourceId=', this.sourceId);
-
                 // 儲存本地流到全域
                 this.localstream = await desktopCapture(this.sourceId);
 
