@@ -136,7 +136,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const createSignal = async (isOffer) => {
+    window.createSignal = async (isOffer) => {
         try {
             if (!window.vars.pc) {
                 console.log('尚未開啟視訊')
@@ -161,7 +161,7 @@ window.addEventListener('DOMContentLoaded', () => {
             if (desc && !window.vars.pc.currentRemoteDescription) {
                 console.log('desc => ', desc);
                 await window.vars.pc.setRemoteDescription(new RTCSessionDescription(desc));
-                await createSignal(desc.type === 'answer');
+                await window.createSignal(desc.type === 'answer');
             } else if (candidate) {
                 console.log('candidate =>', candidate);
                 window.vars.pc.addIceCandidate(new RTCIceCandidate(candidate));

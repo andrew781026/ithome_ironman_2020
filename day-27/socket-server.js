@@ -34,9 +34,8 @@ io.on('connection', client => {
     client.on('peerconnectSignaling', message => {
         console.log('接收資料：', message);
 
-        // const nowRoom = findNowRoom(client);
-        // client.to(nowRoom).emit('peerconnectSignaling', message)
-        client.emit('peerconnectSignaling', message)
+        const nowRoom = findNowRoom(client);
+        client.to(nowRoom).emit('peerconnectSignaling', message)
     });
 
     client.on('disconnect', () => {

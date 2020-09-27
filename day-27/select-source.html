@@ -56,16 +56,28 @@
             background-color: orange;
             color: aqua;
         }
+
+        #root {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 98vw;
+            padding: 10px;
+        }
+
+        #showAllScreens {
+            display: flex;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
-<div style="display: flex;flex-direction:column;height: 100vh;width: 98vw;padding: 10px;">
+<div id="root">
     <h1>屏幕擷取</h1>
     <div>
         <button id="listAllSources">列表所有可擷取屏幕</button>
-        <button id="stopRecord" style="display: none">停止錄製</button>
     </div>
-    <div id="showAllScreens" style="display: flex;flex-wrap: wrap;"></div>
+    <div id="showAllScreens"></div>
     <video id="entireVideo" style="width: 1000px;height: 700px"></video>
 </div>
 </body>

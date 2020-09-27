@@ -1,60 +1,3 @@
-# [ Day 27 ] - 分享螢幕(四) - 分享螢幕 Electron 版
-
-我們使用 WebRTC 分享螢幕的工具 , 今天先製作存 HTML 可用的版本 , 天將其轉換成 Electron 的版本
-
-需要使用 Socket.io 傳遞 WebRTC 的 Signaling , 下方建立 socket.io 的 server 
-
-```javascript
-// Node.js
-const port = process.env.PORT || 3000;
-
-const server = require('http').createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write('Hello World!');
-    res.end();
-}).listen(port);
-
-// Socket.io
-const io = require('socket.io')(server);
-
-function findNowRoom(client) {
-    return Object.keys(client.rooms).find(item => {
-        return item !== client.id
-    });
-}
-
-io.on('connection', client => {
-    console.log(`socket 用戶連接 ${client.id}`);
-
-    client.on('joinRoom', room => {
-        console.log(room);
-
-        const nowRoom = findNowRoom(client);
-        if (nowRoom) {
-            client.leave(nowRoom);
-        }
-        client.join(room, () => {
-            io.sockets.in(room).emit('roomBroadcast', '已有新人加入聊天室！');
-        });
-    });
-
-    client.on('peerconnectSignaling', message => {
-        console.log('接收資料：', message);
-
-        const nowRoom = findNowRoom(client);
-        client.to(nowRoom).emit('peerconnectSignaling', message)
-        // client.emit('peerconnectSignaling', message)
-    });
-
-    client.on('disconnect', () => {
-        console.log(`socket 用戶離開 ${client.id}`);
-    });
-});
-```
-
-然後下方做一個 HTML 使用 WebRTC 
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -235,6 +178,7 @@ io.on('connection', client => {
                 });
             },
             joinRoom() {
+                console.log(this.room);
                 if (!this.room) {
                     return;
                 }
@@ -273,18 +217,3 @@ io.on('connection', client => {
 </style>
 </body>
 </html>
-```
-
-之後成功用 WebRTC 做視訊聊天
-
-![](https://i.imgur.com/buG7JAV.gif)
-
-## 參考資料
-
-- [初探 WebRTC — 手把手建立線上視訊 (3)](https://medium.com/@jedy05097952/%E5%88%9D%E6%8E%A2-webrtc-%E6%89%8B%E6%8A%8A%E6%89%8B%E5%BB%BA%E7%AB%8B%E7%B7%9A%E4%B8%8A%E8%A6%96%E8%A8%8A-3-65e14b07cc87)
-- [且戰且走HTML5(28) 建立視訊會議](https://ithelp.ithome.com.tw/articles/10109585)
-- [Getting Started with WebRTC](https://www.html5rocks.com/en/tutorials/webrtc/basics/)
-
-```
-今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
-```

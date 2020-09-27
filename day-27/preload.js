@@ -1,36 +1,43 @@
-const {remote,ipcRenderer} = require('electron');
+const {desktopCapturer, ipcRenderer} = require('electron');
+window.desktopCapturer = desktopCapturer;
+window.ipcRenderer = ipcRenderer;
 
+// 螢幕分享 . 視頻錄製
 window.addEventListener('DOMContentLoaded', () => {
 
-    const body = document.getElementsByTagName('body')[0];
-    const dragBar = document.getElementById('drag-bar');
+    window.desktopCapture = (sourceId) => {
 
-    let draggable = false;
+        console.log('pick-sourceId=', window.sourceId);
+        ipcRenderer.send('pick-sourceId', sourceId);
+    };
 
-    const startDrag = () => {
+    const listRenderer = sources => {
 
-        draggable = true;
-        if (!body.classList.contains('draggable')) {
-            body.classList.add('draggable');
-            dragBar.style.display = 'block';
-            //  visibility: visible . hidden 會造成 dragBar 變成不可拖曳
-        }
-        ipcRenderer.send('change-drag', {draggable});
-    }
+        document.getElementById("entireVideo").style.display = 'none';
+        const screenWrapper = document.getElementById("showAllScreens");
 
-    const stopDrag = () => {
+        screenWrapper.innerHTML = ''; // clear all showAllScreens children
 
-        draggable = false;
-        if (body.classList.contains('draggable')) {
-            body.classList.remove('draggable');
-            dragBar.style.display = 'none';
-        }
-        ipcRenderer.send('change-drag', {draggable});
-    }
+        sources.forEach(item => {
 
-    // Returns BrowserWindow - The window to which this web page belongs.
-    remote.getCurrentWindow(); // 在 顯示端 ( renderer 端 ) , 取得 BrowserWindow 並操作它
+            const htmlStr = `<div class="block" onclick="window.desktopCapture('${item.id}')">
+                                <div class="img">
+                                    <img src="${item.thumbnail.toDataURL()}" alt="圖片">
+                                </div>
+                                <div class="text-container">
+                                    <span class="font">${item.name}</span>
+                                </div>
+                            </div>`;
 
-    ipcRenderer.on('show-bg', startDrag);
-    ipcRenderer.on('hide-bg', stopDrag);
+            screenWrapper.insertAdjacentHTML('beforeend', htmlStr);
+        });
+    };
+
+    const listAllSources = document.getElementById('listAllSources');
+
+    listAllSources && listAllSources.addEventListener('click', () => {
+
+        desktopCapturer.getSources({types: ['window', 'screen']}).then(sources => listRenderer(sources));
+    });
+
 });
