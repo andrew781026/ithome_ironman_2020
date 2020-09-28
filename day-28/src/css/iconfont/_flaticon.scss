@@ -1,0 +1,62 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 28/09/2020 09:12
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-size:before { content: "\f100"; }
+.flaticon-clear:before { content: "\f101"; }
+.flaticon-minus:before { content: "\f102"; }
+.flaticon-plus:before { content: "\f103"; }
+.flaticon-send-button:before { content: "\f104"; }
+.flaticon-image:before { content: "\f105"; }
+.flaticon-attachment:before { content: "\f106"; }
+.flaticon-happy:before { content: "\f107"; }
+.flaticon-computer-screen-1:before { content: "\f108"; }
+.flaticon-computer-screen:before { content: "\f109"; }
+.flaticon-share:before { content: "\f10a"; }
+    
+    $font-Flaticon-size: "\f100";
+    $font-Flaticon-clear: "\f101";
+    $font-Flaticon-minus: "\f102";
+    $font-Flaticon-plus: "\f103";
+    $font-Flaticon-send-button: "\f104";
+    $font-Flaticon-image: "\f105";
+    $font-Flaticon-attachment: "\f106";
+    $font-Flaticon-happy: "\f107";
+    $font-Flaticon-computer-screen-1: "\f108";
+    $font-Flaticon-computer-screen: "\f109";
+    $font-Flaticon-share: "\f10a";
