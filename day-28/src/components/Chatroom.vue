@@ -34,12 +34,7 @@
             <div class="input-left">
                 <i class="flaticon flaticon-happy cursor-pointer relative" title="emoji"
                    @click="emojiChooserShow = !emojiChooserShow">
-                    <template v-if="emojiChooserShow">
-                        <div class="emoji-list-wrap">
-                            <span v-for="(emoji) in emojis" :key="emoji" @click="chooseEmoji(emoji)">{{emoji}}</span>
-                        </div>
-                        <div class="emoji-list-triangle"></div>
-                    </template>
+                    <emoji-list v-if="emojiChooserShow" @choose="text += $event"/>
                 </i>
                 <i class="flaticon flaticon-image cursor-pointer" title="圖片" @click="uploadImage"></i>
                 <i class="flaticon flaticon-share cursor-pointer" title="螢幕分享"></i>
@@ -61,9 +56,13 @@
     import firebase from 'firebase';
     import firestoreUtils from '../firestore/firestoreUtils';
     import clipboardUtils from '../utils/clipboardUtils';
+    import EmojiList from './EmojiList';
 
     export default {
         name: "Chatroom",
+        components: {
+            'emoji-list': EmojiList
+        },
         created() {
 
             // 複製訊息
@@ -114,11 +113,6 @@
             this.captureCtrl_V_Event(this.$refs['text-input']);
         },
         methods: {
-            chooseEmoji(emoji) {
-
-                console.log(emoji);
-                this.text += ' ' + emoji;
-            },
             dragstart(event, chat) {
 
                 event.preventDefault();
@@ -247,10 +241,6 @@
             }
         },
         computed: {
-            emojis() {
-
-                return '😀 😃 😄 😁 😆 😅 😂 🤣 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 😖'.split(' ');
-            },
             sortedChats() {
 
                 return [...this.chats].sort((a, b) => {
@@ -291,6 +281,8 @@
 
     .emoji-list-wrap {
 
+        display: flex;
+        flex-wrap: wrap;
         position: absolute;
         bottom: 40px;
         left: -30px;
@@ -298,20 +290,30 @@
         height: 120px;
         padding: 10px;
         overflow: auto;
-        background-color: #a72c85;
+        background-color: #574040;
     }
 
     .emoji-list-triangle {
         position: absolute;
         bottom: 10px;
         left: 23px;
-        border-color: #a72c85 transparent transparent transparent;
+        border-color: #574040 transparent transparent transparent;
         border-style: solid solid solid solid;
         border-width: 15px 7px 15px 7px;
 
         /* 設定 width、height 可更好理解原理 */
         height: 0;
         width: 0;
+    }
+
+    .emoji {
+
+        transition: all 0.3s;
+    }
+
+    .emoji:hover {
+
+        transform: scale(1.5);
     }
 
     .input-left {
