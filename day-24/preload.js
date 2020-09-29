@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
         video.onloadedmetadata = (e) => video.play()
     }
 
-    window.desktopCapture = (sourceId) =>
+    window.desktopCapture = (sourceId) =>{
 
         navigator.mediaDevices
             .getUserMedia({
@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 handleStream(stream, 'entireVideo');
             })
             .catch(err => console.error(err));
-
+    }
 
     const listRenderer = sources => {
 

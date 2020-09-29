@@ -1,6 +1,9 @@
 # [ Day 24 ] - 分享螢幕(一) - 屏幕擷取
 
-有時可能殺蟲失敗 , 要找大神朋友幫忙殺蟲 , 但是描述狀況的能力又差 , 這時分享桌面就好了 ! 可是在 Electron 中要如何處理呢 ? `desktopCapturer`
+```
+有時遇到 BUG 時 , 需要其他人幫忙解決 , 最近疫情又不適合約咖啡廳見面 , 
+因此需要分享螢幕 , 請其他人幫忙解決問題 , 之後我將花一些篇幅討問分享螢幕那回事
+```
 
 ### desktopCapturer
 
@@ -8,52 +11,75 @@
 
 處理序: 主處理序, 畫面轉譯器
 
-![](https://i.imgur.com/I0onV6L.gif)
+下面介紹如何列表所有可選擇之影像來源 & 擷取影像放入 video 標籤中顯示影像
 
-下列範例展示如何將桌面上標題為 `Electron` 的視窗擷取為影像檔:
+> 建立擷取螢幕的按鈕
+
+```html
+ <button id="listAllSources">列表所有可擷取屏幕</button>
+```
+
+![](https://i.imgur.com/TVLm1EZ.png)
+
+> 取得所有可擷取螢幕，並列表出來
 
 ```javascript
-// 在畫面轉譯處理序裡。
-const { desktopCapturer } = require('electron')
+const listRenderer = sources => {
 
-desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
-  for (const source of sources) {
-    if (source.name === 'Electron') {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: false,
-          video: {
-            mandatory: {
-              chromeMediaSource: 'desktop',
-              chromeMediaSourceId: source.id,
-              minWidth: 1280,
-              maxWidth: 1280,
-              minHeight: 720,
-              maxHeight: 720
+    document.getElementById("entireVideo").style.display = 'none';
+    const screenWrapper = document.getElementById("showAllScreens");
+
+    screenWrapper.innerHTML = ''; // clear all showAllScreens children
+
+    sources.forEach(item => {
+
+        const htmlStr = `<div class="block" onclick="window.desktopCapture('${item.id}')">
+                            <div class="img">
+                                <img src="${item.thumbnail.toDataURL()}" alt="圖片">
+                            </div>
+                            <div class="text-container">
+                                <span class="font">${item.name}</span>
+                            </div>
+                        </div>`;
+
+        screenWrapper.insertAdjacentHTML('beforeend', htmlStr);
+    });
+};
+```
+
+![](https://i.imgur.com/zJ31hjP.png)
+
+> 使用特定螢幕的 sourceId , 利用 getUserMedia 取得 MediaStream , 將其灌入 video.srcObject 中
+
+```javascript
+window.desktopCapture = (sourceId) =>{
+
+    navigator.mediaDevices
+        .getUserMedia({
+            audio: false,
+            video: {
+                mandatory: {
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: sourceId,
+                    minWidth: 1280,
+                    maxWidth: 1280,
+                    minHeight: 720,
+                    maxHeight: 720
+                }
             }
-          }
         })
-        handleStream(stream)
-      } catch (e) {
-        handleError(e)
-      }
-      return
-    }
-  }
-})
-
-function handleStream (stream) {
-  const video = document.querySelector('video')
-  video.srcObject = stream
-  video.onloadedmetadata = (e) => video.play()
+        .then(stream => {
+            document.getElementById("showAllScreens").innerHTML = '';
+            document.getElementById("entireVideo").style.display = 'flex';
+            const video = document.getElementById('entireVideo');
+            video.srcObject = stream;
+            video.onloadedmetadata = () => video.play();
+        })
+        .catch(err => console.error(err));
 }
+```
 
-function handleError (e) {
-  console.log(e)
-}
-````
-
-這樣我們就有
+![](https://i.imgur.com/tXmW7N8.png)
 
 ## 參考資料
 
