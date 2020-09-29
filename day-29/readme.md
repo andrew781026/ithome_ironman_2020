@@ -1,145 +1,87 @@
-# 第二天 - 股票查價(二) - 利用 twse API , 取得當日股票資訊
+# [ Day 29 ] - 開機啟動應用程式 
 
-我們的股票資訊將從證交所那取得 , 以下說明取得方式
+Slack . Teams 可以在開機時 , 開啟應用程式到 Tray 那是如何做到的 ?
 
-- 列表所有的上市股票資料
+如果我們想要開機時 , 讓應用程式自動開啟 ,   
+人工的方式可以將應用程式放到啟動資料夾 ,  
+那程序的方式該如何做到呢 ? 
 
-https://www.twse.com.tw/zh/api/codeQuery?query=[股票代碼或公司簡稱]
+### auto-launch
 
-參數說明 : query - 股票代碼或公司簡稱 , "" 代表查出前 200 筆資料
+Auto-launch your app on login.
 
-回傳資訊 : 
-```json
-{
-    "query": "台",
-    "suggestions": [
-        "0050\t元大台灣50",
-        "0054\t元大台商50",
-        "0057\t富邦摩台",
-        "0060\t新台灣",
-        "006203\t元大MSCI台灣",
-        "006208\t富邦台50",
-        ...
-    ]
-}
+### `auto-launch` 如何運作 ?
+
+它會將你的應用程式註冊到 `機碼` 中的 `\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run` 
+讓 Windows 登入時 , 自動開啟你的應用程式 ,
+
+本魯的筆電中有安裝 Teams & Slack 在實作之前 , 讓我們來看一下機碼吧
+
+Windows + R -> regedit -> 啟動 `登入編輯程式`
+
+![](https://i.imgur.com/rmrATx6.png)
+
+我們可以看到 Slack 與 Teams 都有註冊登入的機碼 , 所以開機時他們會自動啟動 APP   
+
+下面 , 我們用 [day-06](https://ithelp.ithome.com.tw/articles/10234399) 接著做出開機啟動的 APP
+
+## 實作 GO 
+
+> 第一步 , 當然是安裝 & 引用 auto-launch
+
+用 npm 安裝 auto-launch
+
+```shell script
+$ npm i -s auto-launch
 ```
 
-目前的證交所即時資訊API的URL格式(JSON格式)為 :
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=參數&json=1&delay=0
+然後 , 引用它
 
-`參數 = 上市別_證券代碼.tw[_日期]`
-
-| Part     | Description                                                  |
-| -------- | ------------------------------------------------------------ |
-| 上市別   | 必需參數  <br/> 上市為tse <br/> 上櫃為otc                     |
-| 證券代碼 | 必需參數  <br/> 例如 : <br/> 台積電 : 2330.tw <br/>環球晶 : 6488.tw <br/>上市加權指數 : t00.tw <br/>櫃買指數 : o00.tw |
-| 日期     | 選用參數，格式YYYYMMDD                                       |
-
-註:若要一次取得多個即時資料，參數請用「|」分隔
-例如:取得台積電與環球晶，參數 = tse_2330.tw|otc_6488.tw
-
-台積電即時資訊 : 
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw&json=1&delay=0
-
-環球晶即時資訊 : 
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=otc_6488.tw&json=1&delay=0
-
-2019年12月11日的台積電資訊 : 
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw_20191212&json=1&delay=0
-
-上市加權指數即時資訊 : 
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_t00.tw&json=1&delay=0
-
-櫃買指數即時資訊 : 
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=otc_o00.tw&json=1&delay=0
-
-取得台積電與環球晶即時資訊:
-https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_2330.tw|otc_6488.tw&json=1&delay=0
-
-成功取得資訊時，應該會取得如下的JSON格式資料
-```json=
-{
-  "msgArray":
-  [
-    {
-      "ts":"0",
-      "tk0":"2330.tw_tse_20200106_B_9999280689",
-      "tk1":"2330.tw_tse_20200106_B_9999280433",
-      "tlong":"1578282160000",
-      "f":"1122_1149_759_705_625_",
-      "ex":"tse",
-      "g":"1400_1778_678_1226_873_",
-      "d":"20200106",
-      "it":"12",
-      "b":"332.50_332.00_331.50_331.00_330.50_",
-      "c":"2330",
-      "mt":"868332",
-      "a":"333.00_333.50_334.00_334.50_335.00_",
-      "n":"台積電",
-      "o":"333.00",
-      "l":"332.50",
-      "h":"334.50",
-      "ip":"0",
-      "i":"24",
-      "w":"306.00",
-      "v":"29121",
-      "u":"373.00",
-      "t":"11:42:40",
-      "s":"4",
-      "pz":"333.00",
-      "tv":"4",
-      "p":"0",
-      "nf":"台灣積體電路製造股份有限公司",
-      "ch":"2330.tw",
-      "z":"333.00",
-      "y":"339.50",
-      "ps":"2304"
-    }
-  ],
-  "userDelay":5000,
-  "rtmessage":"OK",
-  "referer":"",
-  "queryTime":
-  {
-    "sysTime":"11:42:44",
-    "sessionLatestTime":-1,
-    "sysDate":"20200106",
-    "sessionFromTime":-1,
-    "stockInfoItem":2607,
-    "showChart":false,
-    "sessionStr":"UserSession",
-    "stockInfo":388257
-  },
-  "rtcode":"0000"
- }
+```diff
+// on the top of main.js
+const {app, BrowserWindow} = require('electron');
+const path = require('path');
++ const AutoLaunch = require('auto-launch');
 ```
 
-`response` 參數對照表 :
+> 第二步 , 在 APP 開啟第一次時 ( app.on('ready' ) , 使用 AutoLaunch
 
-| Name  | Description                                   |
-| ----- | --------------------------------------------- |
-| tlong | epoch毫秒數                                   |
-| f     | 揭示賣量(配合「a」，以_分隔資料)              |
-| ex    | 上市別(上市:tse，上櫃:otc，空白:已下市或下櫃) |
-| g     | 揭示買量(配合「b」，以_分隔資料)              |
-| d     | 最近交易日期(YYYYMMDD)                        |
-| b     | 揭示買價(從高到低，以_分隔資料)               |
-| c     | 股票代號                                      |
-| a     | 揭示賣價(從低到高，以_分隔資料)               |
-| n     | 公司簡稱                                      |
-| o     | 開盤                                          |
-| l     | 最低                                          |
-| h     | 最高                                          |
-| w     | 跌停價                                        |
-| v     | 累積成交量                                    |
-| u     | 漲停價                                        |
-| t     | 最近成交時刻(HH:MM:SS)                        |
-| tv    | 當盤成交量                                    |
-| nf    | 公司全名                                      |
-| z     | 當盤成交價                                    |
-| y     | 昨收                                          |
+```javascript
+app.on('ready', () => {
 
+    createWindow();
+
+    // add below to app ready     
+    let autoLaunch = new AutoLaunch({
+        name: '小貓玩耍',
+        path: app.getPath('exe'),
+    });
+    
+    autoLaunch.isEnabled().then((isEnabled) => {
+        if (!isEnabled) autoLaunch.enable();
+    });
+})
+```
+
+> 第三步 , 打包應用程式與查看機碼確認 ＼(★^∀^★)／
+
+```shell script
+$ npm run build
+```
+
+使用 `小貓玩耍 Setup 0.0.29.exe` 做安裝 
+
+![](https://i.imgur.com/JyLx4sZ.png)
+
+![](https://i.imgur.com/nH6Vo3C.png)
+
+太好了 `⁽⁽ ◟(∗ ˊωˋ ∗)◞ ⁾⁾` 我們有自動顯示的 "小貓" (★^O^★)
 
 ## 參考資料
 
-- ( [ZY's notes](https://zys-notes.blogspot.com/) - 證交所即時資訊API)[https://zys-notes.blogspot.com/2020/01/api.html]
+- [auto-launch](https://www.npmjs.com/package/auto-launch)
+- [how-to-use-auto-launch-to-start-app-on-system-startup](https://stackoverflow.com/questions/46318177/how-to-use-auto-launch-to-start-app-on-system-startup)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```

@@ -1,13 +1,19 @@
 {
-  "name": "electron-practice-day03",
-  "version": "0.0.3",
-  "description": "test for twse api",
+  "name": "electron-practice-day29",
+  "version": "0.0.29",
+  "description": "a startup template of electron",
+  "main": "./main.js",
   "scripts": {
-    "start": "node test-twse-api.js"
+    "start": "electron .",
+    "build": "node build.js"
   },
   "author": "andrew",
   "license": "MIT",
+  "devDependencies": {
+    "electron": "9.0.3",
+    "electron-builder": "22.8.0"
+  },
   "dependencies": {
-    "axios": "0.19.2"
+    "auto-launch": "^5.0.5"
   }
 }
