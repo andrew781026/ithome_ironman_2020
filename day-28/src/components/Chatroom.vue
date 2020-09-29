@@ -32,11 +32,14 @@
         </template>
         <div class="input-wrap">
             <div class="input-left">
-                <i class="flaticon flaticon-happy cursor-pointer relative" title="emoji">
-                    <div class="emoji-list-wrap">
-                        😀 😃 😄 😁 😆 😅 😂 🤣 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 😖
-                    </div>
-                    <div class="emoji-list-triangle"></div>
+                <i class="flaticon flaticon-happy cursor-pointer relative" title="emoji"
+                   @click="emojiChooserShow = !emojiChooserShow">
+                    <template v-if="emojiChooserShow">
+                        <div class="emoji-list-wrap">
+                            <span v-for="(emoji) in emojis" :key="emoji" @click="chooseEmoji(emoji)">{{emoji}}</span>
+                        </div>
+                        <div class="emoji-list-triangle"></div>
+                    </template>
                 </i>
                 <i class="flaticon flaticon-image cursor-pointer" title="圖片" @click="uploadImage"></i>
                 <i class="flaticon flaticon-share cursor-pointer" title="螢幕分享"></i>
@@ -111,6 +114,11 @@
             this.captureCtrl_V_Event(this.$refs['text-input']);
         },
         methods: {
+            chooseEmoji(emoji) {
+
+                console.log(emoji);
+                this.text += ' ' + emoji;
+            },
             dragstart(event, chat) {
 
                 event.preventDefault();
@@ -239,6 +247,10 @@
             }
         },
         computed: {
+            emojis() {
+
+                return '😀 😃 😄 😁 😆 😅 😂 🤣 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 😖'.split(' ');
+            },
             sortedChats() {
 
                 return [...this.chats].sort((a, b) => {
@@ -253,6 +265,7 @@
         data() {
 
             return {
+                emojiChooserShow: false,
                 roomId: 'init-room',
                 text: "",
                 chats: []
@@ -276,7 +289,7 @@
         background-color: #b1a6a6;
     }
 
-    .emoji-list-wrap{
+    .emoji-list-wrap {
 
         position: absolute;
         bottom: 40px;
@@ -292,7 +305,7 @@
         position: absolute;
         bottom: 10px;
         left: 23px;
-        border-color: #a72c85 transparent  transparent  transparent;
+        border-color: #a72c85 transparent transparent transparent;
         border-style: solid solid solid solid;
         border-width: 15px 7px 15px 7px;
 
