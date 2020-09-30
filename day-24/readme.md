@@ -19,6 +19,8 @@
  <button id="listAllSources">列表所有可擷取屏幕</button>
 ```
 
+追加按鈕後長這樣：
+
 ![](https://i.imgur.com/TVLm1EZ.png)
 
 > 取得所有可擷取螢幕，並列表出來
@@ -46,6 +48,8 @@ const listRenderer = sources => {
     });
 };
 ```
+
+列表可擷取的螢幕長這樣：
 
 ![](https://i.imgur.com/zJ31hjP.png)
 
@@ -79,7 +83,13 @@ window.desktopCapture = (sourceId) =>{
 }
 ```
 
-![](https://i.imgur.com/tXmW7N8.png)
+將 MediaStream 灌入 video.srcObject 後長這樣：
+
+![](https://i.imgur.com/ylLowFF.png)
+
+最終的成果長這樣：
+
+![](https://i.imgur.com/vzXRq8c.gif)
 
 ## 參考資料
 
