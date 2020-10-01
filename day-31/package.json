@@ -1,0 +1,16 @@
+{
+  "name": "electron-practice-day3",
+  "version": "0.0.31",
+  "description": "day31 apps",
+  "main": "./main.js",
+  "scripts": {
+    "start": "chcp 65001 && electron .",
+    "build": "node build.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "9.0.3",
+    "electron-builder": "22.8.0"
+  }
+}

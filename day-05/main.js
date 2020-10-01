@@ -49,8 +49,6 @@ app.on('ready', () => {
     const win = createWindow();
     createTray(win);
 
-    // win.on('minimize', win.hide);
-
     [1, 2, 3].map(number => {
 
         globalShortcut.register(`CommandOrControl+${number}`, () => {
