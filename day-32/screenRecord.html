@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>桌面錄製</title>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        div.block {
+            cursor: pointer;
+            height: 280px;
+            width: 300px;
+            float: left;
+            border-radius: 10px;
+            background-color: #b8daff;
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 10px;
+        }
+
+        div.img {
+            overflow: hidden;
+        }
+
+        div.text-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        img {
+            width: 100%;
+            height: 210px;
+            transition: all 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.2) translateY(15px);
+        }
+
+        span.font {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span.font::selection {
+
+            background-color: orange;
+            color: aqua;
+        }
+
+        .root {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 98vw;
+            padding: 10px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .entireVideo {
+            width: 1000px;
+            height: 700px
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="root">
+    <h1>屏幕擷取</h1>
+    <div>
+        <button v-if="recording" @click="stopRecord">停止錄製</button>
+        <button v-else @click="listAllSources">列表所有可擷取屏幕</button>
+    </div>
+    <div id="showAllScreens" v-if="!recording" class="flex flex-wrap">
+        <div class="block"
+             @click="getDesktopMedia(item.id)"
+             :key="index" v-for="(item,index) in sources">
+            <div class="img">
+                <img :src="item.thumbnail.toDataURL()" alt="圖片">
+            </div>
+            <div class="text-container">
+                <span class="font">{{item.name}}</span>
+            </div>
+        </div>
+    </div>
+    <video v-show="recording" ref="entireVideo" class="entireVideo"></video>
+</div>
+
+<script>
+
+    function download(recordedChunks) {
+        const blob = new Blob(recordedChunks, {type: "video/webm"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = url;
+        a.download = "test.webm";
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            recording: false,
+            mediaRecorder: null,
+            sources: [],
+        },
+        methods: {
+            handleStream(stream) {
+
+                this.recording = true;
+
+                const video = this.$refs.entireVideo;
+                video.srcObject = stream;
+                video.onloadedmetadata = (e) => video.play();
+                this.startRecord(stream);
+            },
+            stopRecord() {
+
+                this.mediaRecorder.stop();
+                this.recording = false;
+            },
+            startRecord(stream) {
+
+                let chunks = [];
+                this.mediaRecorder = new MediaRecorder(stream);
+
+                this.mediaRecorder.onstart = () => chunks = [];
+                this.mediaRecorder.ondataavailable = e => chunks.push(e.data);
+                this.mediaRecorder.onstop = () => download(chunks);
+
+                this.mediaRecorder.start();
+            },
+            listAllSources() {
+
+                window.desktopCapturer
+                    .getSources({types: ['window', 'screen']})
+                    .then(sources => this.sources = sources)
+                    .catch(err => console.error(err));
+            },
+            getDesktopMedia(sourceId) {
+
+                navigator.mediaDevices
+                    .getUserMedia({
+                        audio: false,
+                        video: {
+                            mandatory: {
+                                chromeMediaSource: 'desktop',
+                                chromeMediaSourceId: sourceId,
+                                minWidth: 1280,
+                                maxWidth: 1280,
+                                minHeight: 720,
+                                maxHeight: 720
+                            }
+                        }
+                    })
+                    .then(stream => this.handleStream(stream, 'entireVideo'))
+                    .catch(err => console.error(err));
+            },
+        },
+    });
+</script>
+</body>
+</html>

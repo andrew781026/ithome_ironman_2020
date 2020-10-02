@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>請選擇要使用的應用程式類型</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .big-font {
+            font-weight: 900;
+            font-size: 50px;
+        }
+
+        .mt-24{
+            margin-top: 2.4rem;
+        }
+
+        li{
+            margin-top: 10px;
+            font-size:30px ;
+            font-weight: 600;
+            color: #119e20;
+        }
+    </style>
+</head>
+<body>
+<h1>請選擇要使用的應用程式類型</h1>
+<li>Ctrl + W 返回此頁</li>
+<button class="btn btn-primary big-font mt-24" onclick="pickHtml('screenRecord.html')">桌面錄製</button>
+<button class="btn btn-success big-font mt-24" onclick="pickHtml('webrtc.html')">視訊聊天</button>
+<button class="btn btn-danger big-font mt-24" onclick="pickHtml('select-source.html')">螢幕分享</button>
+<script>
+    function pickHtml(html) {
+
+        ipcRenderer.send('select-html', html);
+    }
+</script>
+</body>
+</html>

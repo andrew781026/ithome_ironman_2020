@@ -1,0 +1,20 @@
+{
+  "name": "electron-practice-day32",
+  "version": "0.0.32",
+  "description": "a startup template of electron",
+  "main": "./main.js",
+  "scripts": {
+    "start": "chcp 65001 && electron .",
+    "build": "node build.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "9.0.3",
+    "electron-builder": "22.8.0"
+  },
+  "dependencies": {
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  }
+}
