@@ -13,7 +13,7 @@ builder.build({
             "output": "build/win"
         },
         "win": {
-            "icon": path.resolve(__dirname, 'imgs/computer-screen.png'),
+            "icon": path.resolve(__dirname, 'computer-screen.png'),
         }
     },
 })
