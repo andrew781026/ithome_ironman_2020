@@ -21,7 +21,7 @@
 
 開啟 Windows 時，桌面小貓也會一同顯示 ヾ(^ω^*)
 
-> 下方可下載 "桌面應用程式" 安裝檔
+> 點擊下方圖示可下載 "桌面應用程式" 安裝檔
 
 [下載安裝檔 - ![](https://i.imgur.com/ds3eXhC.png)](https://minhaskamal.github.io/DownGit/#/home?url=https:%2F%2Fgithub.com%2Fandrew781026%2Fithome_ironman_2020%2Fblob%2Fmaster%2Fday-31%2Fplaying-cat-installer.exe)
 
@@ -34,6 +34,8 @@
 ```shell script
 $ [目標應用程式.exe] --remote-debugging-port=8315
 ```
+
+下圖範例
 
 ![](https://i.imgur.com/rZN8hj4.gif)
 

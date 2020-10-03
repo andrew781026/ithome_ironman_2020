@@ -17,6 +17,10 @@
 
 ![](https://i.imgur.com/TCLXDOe.gif)
 
+> 下方可下載 "桌面應用程式" 安裝檔
+
+[下載安裝檔 - ![](https://i.imgur.com/vOYYZKp.png)](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andrew781026/ithome_ironman_2020/blob/master/day-32/share-screen-installer.exe)
+
 ```
 完賽後，我將慢慢整理鐵人賽中，做了哪些事 ヾ(・ω・)メ(・ω・)ノ
 ```

@@ -1,17 +1,39 @@
-# [ Day 21 ] - 動物聊天室(十四) - 應用程式自動化測試
+# [ Day 33 ] - 動物聊天室的整理與功能展示
 
-如何 Debug 已經打包好的應用程式 ? 輸入下方指令 , 開啟 debug mode 
+今天來整理一下 , day-8 ~ day-23 的動物聊天室 , 
+與說明已實裝了哪些功能
 
-```shell script
-$ [目標應用程式.exe] --remote-debugging-port=8315
+---
+
+> [客製化標題列](https://ithelp.ithome.com.tw/articles/10236651)
+
+![](https://i.imgur.com/5HXcbK4.png)
+
+> 即時聊天
+
+- [firestore 介紹](https://ithelp.ithome.com.tw/articles/10235473)
+- [firestore 與 electron 整合](https://ithelp.ithome.com.tw/articles/10236332)
+
+> Email . Google 登入
+
+- [firebase-auth 介紹](https://ithelp.ithome.com.tw/articles/10240835)
+- [firebase-auth 與 electron 整合](https://ithelp.ithome.com.tw/articles/10241458)
+
+> 分享個人螢幕
+
+- [DesktopCapturer 介紹](https://ithelp.ithome.com.tw/articles/10243356)
+- [WebRTC 使用](https://ithelp.ithome.com.tw/articles/10244748)
+- [WebRTC 與 electron 整合](https://ithelp.ithome.com.tw/articles/10245297)
+
+> [圖片上傳](https://ithelp.ithome.com.tw/articles/10245297)
+
+- [Dialog 介紹](https://ithelp.ithome.com.tw/articles/10237906)
+- [選擇圖片上傳](https://ithelp.ithome.com.tw/articles/10238623)
+- [複製圖片上傳](https://ithelp.ithome.com.tw/articles/10241862)
+- [拖曳圖片下載](https://ithelp.ithome.com.tw/articles/10242639)
+
+> [心情圖示上傳](https://ithelp.ithome.com.tw/articles/10245297)
+
 ```
-
-使用 cypress.io 做自動化測試 
-
-## 參考資料
-
-- [Testing Electron.js applications using Cypress](https://www.cypress.io/blog/2019/09/26/testing-electron-js-applications-using-cypress-alpha-release/)
-
-```
-今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+完賽後，我將慢慢整理鐵人賽中，做了哪些事 ヾ(・ω・)メ(・ω・)ノ
 ```
