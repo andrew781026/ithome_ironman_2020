@@ -1,15 +1,16 @@
 {
-  "name": "electron-practice-day02",
-  "version": "0.0.2",
-  "description": "a startup template of electron",
+  "name": "electron-practice-day34",
+  "version": "0.0.34",
+  "description": "day34 apps",
+  "main": "./main.js",
   "scripts": {
-    "start": "electron ./main.js"
+    "start": "chcp 65001 && electron .",
+    "build": "node build.js"
   },
   "author": "andrew",
   "license": "MIT",
   "devDependencies": {
     "electron": "9.0.3",
-    "electron-reload": "1.5.0",
-    "electron-updater": "^4.3.4"
+    "electron-builder": "22.8.0"
   }
 }
