@@ -25,7 +25,7 @@
 - [WebRTC 使用](https://ithelp.ithome.com.tw/articles/10244748)
 - [WebRTC 與 electron 整合](https://ithelp.ithome.com.tw/articles/10245297)
 
-> [圖片上傳](https://ithelp.ithome.com.tw/articles/10245297)
+> 圖片上傳
 
 - [Dialog 介紹](https://ithelp.ithome.com.tw/articles/10237906)
 - [選擇圖片上傳](https://ithelp.ithome.com.tw/articles/10238623)
