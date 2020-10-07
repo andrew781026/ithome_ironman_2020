@@ -46,7 +46,7 @@ npm i -D electron -- 安裝 electron 套件
   "author": "andrew",
   "license": "MIT",
   "devDependencies": {
-    "electron": "9.0.3"
+    "electron": "10.1.3"
   }
 }
 ```
