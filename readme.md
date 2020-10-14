@@ -74,4 +74,4 @@ EToro => 股票買賣模擬器
 ## 其他參考
 
  - [Serverless crash reporting for Electron apps](https://engineroom.teamwork.com/serverless-crash-reporting-for-electron-apps-fe6e62e5982a)
- 
+ - [今天教你烤一份香喷喷的 Electron](https://juejin.im/post/6854573221467914248)

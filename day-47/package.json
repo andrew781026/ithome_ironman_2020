@@ -1,0 +1,19 @@
+{
+  "name": "electron-practice-day47",
+  "version": "0.0.47",
+  "description": "day47 apps",
+  "main": "./main.js",
+  "scripts": {
+    "start": "chcp 65001 && electron .",
+    "build": "node build.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "10.1.3",
+    "electron-builder": "22.8.0"
+  },
+  "dependencies": {
+    "xterm": "^4.9.0"
+  }
+}
