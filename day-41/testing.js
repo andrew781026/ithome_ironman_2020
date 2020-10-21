@@ -1,5 +1,7 @@
-const Application = require('spectron').Application;
+const {Application} = require('spectron');
 const assert = require('assert');
+
+const wait = seconds => new Promise(resolve => setTimeout(resolve, seconds * 1000))
 
 const func01 = async () => {
 
@@ -10,7 +12,11 @@ const func01 = async () => {
     })
 
     await app.start();
+    await wait(3)
 
+    console.log(' app.client=', app.client)
+    console.log(' app.electron=', app.electron)
+    console.log(' app.webContents=', app.webContents)
     console.log(' app.mainProcess=', app.mainProcess)
     console.log(' app.browserWindow=', app.browserWindow)
 
