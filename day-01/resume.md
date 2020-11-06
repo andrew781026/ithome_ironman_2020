@@ -9,6 +9,7 @@
 > 鐵人賽 2020 - Electron.JS 系列 , 2020 - 09    
     目標 : 挑戰鐵人賽 30 天文章    
     Github : https://github.com/andrew781026/ithome_ironman_2020   
+    文章網址 : https://ithelp.ithome.com.tw/users/20111867/ironman/2941
 
 使用技術 :    
      V. 桌面應用程式    
