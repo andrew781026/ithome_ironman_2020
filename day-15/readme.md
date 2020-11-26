@@ -56,14 +56,14 @@ Menu.setApplicationMenu(applicationMenu);
 
 由於 electron 的 applicationMenu 無法調整高度 . 背景色 ...等樣式 ,   
 所以大部分的 electron 程式不會使用 applicationMenu ,   
-而是會自己用 html + css 自己刻一個 applicationMenu   
+而是會自己用 html + css 客製化一個標題列   
+( 如果想要客製化一個標題列 , 可參考 [昨天的文章](https://ithelp.ithome.com.tw/articles/10236651) )
 
 ![舉個例子](https://i.imgur.com/wF8jKEj.png)
 
-vscode：將標題列與工具列整合在一起  
+vscode：將標題列與工具列放在同一列顯示   
 
 ![](https://i.imgur.com/AMajxDt.png)
-
 
 -----
 
@@ -208,7 +208,7 @@ created() {
   tray.setContextMenu(contextMenu);   // 右鍵選單
 ```
 
-不知道邦友有沒有覺得很熟悉 ? 
+不知道邦友有沒有覺得熟悉 ? 
 其實在 [[ Day 5 ] - 桌面小圖示(四) - 系統通知區與縮小的貓咪](https://ithelp.ithome.com.tw/articles/10234294) 我們已經使用過了 ![/images/emoticon/emoticon34.gif](https://ithelp.ithome.com.tw/images/emoticon/emoticon34.gif)
 
 ## 參考資料
