@@ -21,6 +21,14 @@
 
 因此如果你要更新應用程式 , 你只要拿到新版的 NSIS 安裝檔並執行它 , 安裝完成後你就可以享用更新後的應用程式了 ! 
 
+下方圖片展示拿不同版本的安裝檔 , 安裝會有什麼樣的過程
+
+![](https://i.imgur.com/PUpWHm3.gif)
+
+如果想自己嘗試安裝看看 , 下方提供 3 個 NSIS 安裝檔 , 讓邦友玩玩看
+
+
+
 ## Mac 部分
 
 mac 上的自動化更新 , 就需要請邦友們幫忙研究了 !
@@ -29,7 +37,7 @@ mac 上的自動化更新 , 就需要請邦友們幫忙研究了 !
 
 其實 NSIS 程式更新的流程 , 我個人是想破頭腦都想不到原來這麼簡單就可以處理
 
-其實本魯是觀察 [electron-updater 的 NsisUpdater](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/NsisUpdater.ts#L89) 才知道原來更新 NSIS 應用程式這麼的輕鬆寫意
+其實本魯是觀察 [electron-updater 的 NsisUpdater](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/NsisUpdater.ts#L89) 才知道原來更新 NSIS 應用程式 = 執行新的安裝檔 (￣ ￣|||)
 
 ## 參考資料
 

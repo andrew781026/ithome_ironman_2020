@@ -1,6 +1,6 @@
 {
   "name": "electron-autoupdate",
-  "version": "0.6.3",
+  "version": "0.5.1",
   "main": "main.js",
   "description": "electron-updater 練習",
   "scripts": {

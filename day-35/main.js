@@ -4,7 +4,6 @@ let win;
 
 function createDefaultWindow() {
     win = new BrowserWindow();
-    win.webContents.openDevTools();
     win.on('closed', () => {
         win = null;
     });
@@ -12,10 +11,5 @@ function createDefaultWindow() {
     return win;
 }
 
-app.on('ready', function () {
-
-    createDefaultWindow();
-});
-app.on('window-all-closed', () => {
-    app.quit();
-});
+app.on('ready', () => createDefaultWindow());
+app.on('window-all-closed', () => app.quit());
