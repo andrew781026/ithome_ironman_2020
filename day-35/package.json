@@ -1,0 +1,20 @@
+{
+  "name": "electron-autoupdate",
+  "version": "0.6.3",
+  "main": "main.js",
+  "description": "electron-updater 練習",
+  "scripts": {
+    "electron-open": "electron .",
+    "electron-build": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^3.0.2",
+    "electron-builder": "^20.28.4"
+  },
+  "build": {
+    "appId": "com.andrewdeveloper.electron.autoupdate",
+    "win": {
+      "icon": "autoupdate.png"
+    }
+  }
+}
