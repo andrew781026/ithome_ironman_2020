@@ -27,7 +27,9 @@
 
 如果想自己嘗試安裝看看 , 下方提供 3 個 NSIS 安裝檔 , 讓邦友玩玩看
 
-
+- [v0.0.1 版本](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andrew781026/ithome_ironman_2020/blob/master/day-35/installer/electron-autoupdate-Setup-0.0.1.exe)
+- [v0.5.1 版本](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andrew781026/ithome_ironman_2020/blob/master/day-35/installer/electron-autoupdate-Setup-0.5.1.exe)
+- [v7.1.0 版本](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andrew781026/ithome_ironman_2020/blob/master/day-35/installer/electron-autoupdate-Setup-7.1.0.exe)
 
 ## Mac 部分
 
