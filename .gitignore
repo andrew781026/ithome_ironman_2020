@@ -16,3 +16,4 @@ dist_electron
 package-lock.json
 build
 serviceAccountKey.json
+installer.exe

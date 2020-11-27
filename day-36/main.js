@@ -1,7 +1,6 @@
-import {spawn} from "child_process";
-
+const {spawn} = require('child_process');
 const {app, BrowserWindow} = require('electron');
-const leftpad = require('./leftpad');
+const downloadUtil = require('./utils/downloadUtil');
 
 let win;
 
@@ -32,29 +31,56 @@ app.on('ready', () => {
 
     console.log(currentVersion);
 
-    if (currentVersion > 100) {
+    if (currentVersion < 100) {
 
-        const exe = options.installerPath;
-        const args = {};
+        // 需要先確認
+
+        const wait = seconds => new Promise(resolve => setTimeout(resolve, seconds * 1000))
 
         // 下載檔案
+        const doDownload = async (url, dest) => {
 
-        // 下載完成後 , 執行下載的安裝檔
+            return await downloadUtil(url, dest)
+                .on('got-data', ({downloadedLength, totalLength}) => {
 
-        try {
-            const process = spawn(exe, args, {
-                detached: true,
-                stdio: "ignore",
-            })
-            process.on("error", error => console.error(error))
-            process.unref()
-
-            if (process.pid) return true;
-
-        } catch (error) {
-            console.error('fail to exec installer exe')
+                    console.log(`totalLength= ${totalLength} and downloadedLength= ${downloadedLength} ,the progress is ${(downloadedLength / totalLength) * 100} %`);
+                });
         }
 
+        // 下載完成後 , 執行下載的安裝檔
+        const doInstall = (exe) => new Promise((resolve, reject) => {
+
+            const args = ["--updated"];
+
+            try {
+                const process = spawn(exe, args, {
+                    detached: true,
+                    stdio: "ignore",
+                })
+                process.on("error", error => reject(error))
+                process.unref()
+
+                if (process.pid) return resolve(true);
+
+            } catch (error) {
+                // 'fail to exec installer exe'
+                reject(error)
+            }
+        })
+
+        const exe = './downloads/installer.exe';
+        const installerUrl = 'https://github.com/andrew781026/ithome_ironman_2020/raw/master/day-35/installer/electron-autoupdate-Setup-0.5.1.exe';
+
+        doDownload(installerUrl, exe)
+            .then(() => wait(2))
+            .then(
+                () => doInstall(exe),
+                err => console.error(err)
+            )
+            .then(
+                () => app.quit(),
+                err => console.error(err)
+            )
 
     } else createDefaultWindow();
 });
