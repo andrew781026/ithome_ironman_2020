@@ -1,0 +1,21 @@
+{
+  "name": "electron-practice-day36",
+  "version": "0.0.36",
+  "description": "day36 apps",
+  "main": "main.js",
+  "scripts": {
+    "electron-open": "electron .",
+    "electron-build": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^3.0.2",
+    "electron-builder": "^20.28.4",
+    "download": "^8.0.0"
+  },
+  "build": {
+    "appId": "com.andrewdeveloper.electron.autoupdate",
+    "win": {
+      "icon": "autoupdate.png"
+    }
+  }
+}

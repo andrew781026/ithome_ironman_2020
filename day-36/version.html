@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electron AutoUpdate</title>
+</head>
+<body  style="font-size: 50px;text-align: center;line-height: 80vh">
+現今版本: <span id="version">vX.Y.Z</span>
+<script>
+    // Display the current version
+    let version = window.location.hash.substring(1);
+    document.getElementById('version').innerText = version;
+</script>
+</body>
+</html>
