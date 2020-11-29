@@ -9,7 +9,10 @@ const dest2 = './downloads/aaa.jpg';
 downloadUtil(url, dest)
     .on('got-data', ({downloadedLength, totalLength}) => {
 
-        // console.log(`totalLength= ${totalLength} and downloadedLength= ${downloadedLength} ,the progress is ${(downloadedLength / totalLength) * 100} %`);
+        const saved = new Intl.NumberFormat().format(downloadedLength);
+        const total = new Intl.NumberFormat().format(totalLength);
+        const percent = ((downloadedLength / totalLength) * 100).toFixed(4)
+        console.log(`downloaded :  ${saved} / ${total}  ( ${percent} % ) `);
     })
     .catch(err => console.error(err))
 

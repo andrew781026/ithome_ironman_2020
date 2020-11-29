@@ -1,24 +1,6 @@
 const download = require('download');
 const fs = require('fs');
-
-function throttle(func, threshhold = 250) {
-    var last, timer;
-    return function () {
-        var context = this
-        var args = arguments
-        var now = +new Date()
-        if (last && now < last + threshhold) {
-            clearTimeout(timer)
-            timer = setTimeout(function () {
-                last = now
-                func.apply(context, args)
-            }, threshhold)
-        } else {
-            last = now
-            func.apply(context, args)
-        }
-    }
-}
+const _ = require('lodash');
 
 const fileDownload = (url, dest) => {
 
@@ -31,7 +13,7 @@ const fileDownload = (url, dest) => {
     writeStream.on("error", err => duplexStream.emit('write-error',err) );
 
     // 限制每 0.5 秒至多執行 1 次
-    const throttleFunc = throttle(func => func(), 500);
+    const throttleFunc = _.throttle(func => func(), 500);
 
     duplexStream.on('response', res => {
         const totalLength = res.headers['content-length'];
