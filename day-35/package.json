@@ -8,8 +8,8 @@
     "electron-build": "electron-builder --win --x64"
   },
   "devDependencies": {
-    "electron": "^3.0.2",
-    "electron-builder": "^20.28.4"
+    "electron": "10.1.3",
+    "electron-builder": "22.8.0"
   },
   "build": {
     "appId": "com.andrewdeveloper.electron.autoupdate",

@@ -22,13 +22,13 @@ function throttle(func, threshhold = 250) {
 
 const fileDownload = (url, dest) => {
 
-    let downloadedLength = 0;
-    const writeStream = fs.createWriteStream(dest);
-    writeStream.on("finish", () => console.log('you success download the video'));
-    writeStream.on("error", err => console.error(err));
-
     // duplexStream is a Promise & EventEmitter
     const duplexStream = download(url);
+
+    let downloadedLength = 0;
+    const writeStream = fs.createWriteStream(dest);
+    writeStream.on("finish", () => duplexStream.emit('write-finish'));     // 完成寫入檔案到指定位置
+    writeStream.on("error", err => duplexStream.emit('write-error',err) );
 
     // 限制每 0.5 秒至多執行 1 次
     const throttleFunc = throttle(func => func(), 500);

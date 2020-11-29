@@ -38,13 +38,18 @@ app.on('ready', () => {
         const wait = seconds => new Promise(resolve => setTimeout(resolve, seconds * 1000))
 
         // 下載檔案
-        const doDownload = async (url, dest) => {
+        const doDownload = (url, dest) => {
 
-            return await downloadUtil(url, dest)
-                .on('got-data', ({downloadedLength, totalLength}) => {
+            return new Promise((resolve, reject) => {
 
-                    console.log(`totalLength= ${totalLength} and downloadedLength= ${downloadedLength} ,the progress is ${(downloadedLength / totalLength) * 100} %`);
-                });
+                downloadUtil(url, dest)
+                    .on('got-data', ({downloadedLength, totalLength}) => {
+
+                        console.log(`totalLength= ${totalLength} and downloadedLength= ${downloadedLength} ,the progress is ${(downloadedLength / totalLength) * 100} %`);
+                    })
+                    .on('write-finish', resolve)
+                    .catch(reject);
+            })
         }
 
         // 下載完成後 , 執行下載的安裝檔
@@ -72,7 +77,7 @@ app.on('ready', () => {
         const installerUrl = 'https://github.com/andrew781026/ithome_ironman_2020/raw/master/day-35/installer/electron-autoupdate-Setup-0.5.1.exe';
 
         doDownload(installerUrl, exe)
-            .then(() => wait(2))
+            // .then(() => wait(2))
             .then(
                 () => doInstall(exe),
                 err => console.error(err)
