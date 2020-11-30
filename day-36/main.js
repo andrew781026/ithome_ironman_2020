@@ -4,7 +4,7 @@ const downloadUtil = require('./utils/downloadUtil');
 
 let win;
 
-// 更新畫面
+// 更新對話框
 function createUpdateWindow() {
     const win = new BrowserWindow({
         width: 400,
@@ -17,7 +17,6 @@ function createUpdateWindow() {
         },
     });
     win.loadFile('./update.html');
-    win.webContents.openDevTools();
     return win;
 }
 
