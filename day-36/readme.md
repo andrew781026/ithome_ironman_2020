@@ -108,10 +108,9 @@ const doInstall = (exe = 'installer_path', args = '["--updated"]') => {
 
 ## 參考資料
 
-- [electron-builder Docs - Auto Update](https://www.electron.build/auto-update)
 - [download.js](https://www.npmjs.com/package/download)
+- [electron-builder Docs - Auto Update](https://www.electron.build/auto-update)
 - [how-electron-builder-auto-update-work](https://stackoverflow.com/questions/59922073/how-to-get-my-electron-auto-updater-to-work)
-- [electron-builder - Auto Update](https://github.com/electron-userland/electron-builder/tree/master/packages/electron-updater)
 
 ```
 今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
