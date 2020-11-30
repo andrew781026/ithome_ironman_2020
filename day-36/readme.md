@@ -175,9 +175,7 @@ const doInstall = (exe = 'installer_path', args = '["--updated"]') => {
 
 ![](https://i.imgur.com/1ytO8Qc.gif)
 
-之後你利用捷徑開啟應用程式 
-![](https://i.imgur.com/AJULof5.png)
-  , 就會看到更新後的版本了 !
+之後你利用捷徑  ![](https://i.imgur.com/AJULof5.png) 開啟應用程式 , 就會看到更新後的版本了 !
 
 ### 成果圖
 
