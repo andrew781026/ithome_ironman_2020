@@ -79,7 +79,11 @@ ipcMain.on('update-confirm', (event, arg) => {
   // 下載完成後 , 執行下載的安裝檔
   const doInstall = (exe) => new Promise((resolve, reject) => {
 
-    const args = ["--updated"];
+    const args = [
+      "--updated",   // for update
+      '/S',          // silent mode
+      "--force-run", // run app after install complete
+    ];
 
     try {
       const process = spawn(exe, args, {
