@@ -187,6 +187,9 @@ const doInstall = (exe = 'installer_path', args = '["--updated"]') => {
 
 ![](https://i.imgur.com/ZrD396G.gif)
 
+> 下方為範例的安裝檔
+
+[![](https://i.imgur.com/PBzYZZq.png)](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andrew781026/ithome_ironman_2020/blob/master/day-36/installer/electron-autoupdate-done-Setup-0.0.36.exe)
 
 ## 參考資料
 
