@@ -1,0 +1,17 @@
+{
+  "name": "electron-practice-day03",
+  "version": "0.0.3",
+  "description": "day03 apps",
+  "main": "./main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "10.1.3"
+  },
+  "dependencies": {
+    "electron-winstaller": "^4.0.1"
+  }
+}

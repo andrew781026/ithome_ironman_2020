@@ -1,26 +1,19 @@
-# Electron 好用工具分享
+# [ Day 37 ] - 當機報告 ( crashReporter )
 
-今天我們來分享一些用 Electron.JS 製作的好用工具 
+crashReporter - 當機報告
 
----
+```js
+const { crashReporter } = require('electron')
 
-官網推薦款
-
-- [vscode]
-- [whatsApp]
-- [twitch]
-- [slack]
-- [inVision]
-
----
-
-Etcher - USB開機碟製作工具
-
-
-![Etcher 圖片](https://i.imgur.com/Q4KDLvI.png)
-
+crashReporter.start({ submitURL: 'https://your-domain.com/url-to-submit' })
+```
 
 ## 參考資料
 
-- [electrocrud](https://www.electronjs.org/apps/electrocrud)
-- [Etcher 1.5.112 免安裝版 - USB開機碟製作工具](https://www.azofreeware.com/2019/11/etcher.html)
+- [bugsplat](https://www.bugsplat.com/docs/sdk/electron/)
+- [crashReporter](https://www.electronjs.org/docs/api/crash-reporter)
+- [electron-crash-report-server](https://github.com/electron-in-action/electron-crash-report-server/blob/master/server.js)
+
+```
+今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
+```
