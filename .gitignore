@@ -4,6 +4,7 @@
 .vscode
 .idea
 
+crashes
 node_modules
 
 # gen

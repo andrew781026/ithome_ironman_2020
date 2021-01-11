@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
+const port = 3007;
 
 // https://www.npmjs.com/package/multer
 const multer = require('multer');
@@ -51,6 +52,6 @@ app.post('/uncaughtexceptions', (request, response) => {
   response.end();
 });
 
-server.listen(3000, () => {
-  console.log('Crash report server running on Port 3000.');
+server.listen(port, () => {
+  console.log(`Crash report server running on Port ${port}.`);
 });
