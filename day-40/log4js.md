@@ -1,8 +1,12 @@
 # [ Day 40 ] - Log4JS 記錄下所有發生的錯誤
 
-當我們將安裝檔交給客戶安裝後 , 有時可能發生開發時 , 我們預想外的事情 , 
+當我們將安裝檔交給客戶安裝後 , 有時可能發生一些 BUG , 
 
-讓
+那我們要如何將 BUG 的當下狀態記錄下來 , 以避免客戶詢問時 , 
+
+我們完全不知道發生了什麼事情 , 完全不知從何開始 debug , 導致客戶信心全無 , 不再使用我們的產品 😢
+
+我們需要引進 Log4JS 來將出錯的訊息 , 寫入檔案中 , 如果客戶問我們為何出錯時 , 我們可以用 .log 檔進行分析 , 找出錯誤 ☺
 
 ---
 
@@ -42,6 +46,40 @@ logger 會根據不同的等級 , 對應輸出
 
 ![](https://i.imgur.com/vLk1WLl.png)
 
+#### appender - 輸出器
+
+```javascript
+const appenders = {
+  appender_name: { 
+      type: "file", 
+      filename: "app.log" 
+  } 
+};
+```
+
+appender 由下方幾個部分組成
+
+| 參數名 | 說明 | 參數值 |
+| -------- | -------- | -------- |
+| type     | 類型     | Text     |
+
+- categoryFilter - 
+- console - 輸出到 console
+- dateFile - 輸出到每日分割的檔案
+- file - 輸出到檔案
+- fileSync - 與檔案同步
+- [logLevelFilter](https://log4js-node.github.io/log4js-node/logLevelFilter.html) - 等級篩選器 ( 用於 1 level 需要做多種 appender 輸出使用 )
+- [multiFile](https://log4js-node.github.io/log4js-node/multiFile.html) - 輸出到多個檔案
+- [multiprocess](https://log4js-node.github.io/log4js-node/multiprocess.html) - 
+- [recording](https://log4js-node.github.io/log4js-node/recording.html) - 輸出到記憶體中 ( 利用 recording.replay() 可查看內容 )
+- [stderr](https://log4js-node.github.io/log4js-node/stderr.html) - This appender writes all log events to the standard error stream.
+- [stdout](https://log4js-node.github.io/log4js-node/stdout.html) - This appender writes all log events to the standard output stream. It is the default appender for log4js.
+- [tcp](https://log4js-node.github.io/log4js-node/tcp.html) - 輸出到 TCP server ?
+- [tcp-server](https://log4js-node.github.io/log4js-node/tcp-server.html) - 輸出到 TCP server ?
+
+
+
+ cheese: { type: "file", filename: "cheese.log" } 
 
 #### 如果我希望每次改變 config 檔時 , 重新加載 log4JS 的配置 , 我需要如何處理呢 ?
 
@@ -54,7 +92,6 @@ logger 會根據不同的等級 , 對應輸出
 
 - [Node.js 日誌系統 log4js 介紹](https://www.itread01.com/content/1543939339.html)
 - [log4js-node FAQ](https://log4js-node.github.io/log4js-node/faq.html)
-
 
 ```
 今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>
