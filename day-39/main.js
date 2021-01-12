@@ -1,17 +1,19 @@
 const {app, BrowserWindow, crashReporter} = require('electron');
 
 crashReporter.start({
-  uploadToServer: true,
+  // uploadToServer: true,
   companyName: 'ezoom',
   productName: 'test-crashReporter',
-  submitURL: 'https://ezoom_test.bugsplat.com/post/electron/crash',
-  ignoreSystemCrashHandler: true,
-  // submitURL: 'http://localhost:3007/crashreports',
+  // submitURL: 'https://ezoom_test.bugsplat.com/post/electron/crash',
+  // ignoreSystemCrashHandler: true,
+  submitURL: 'http://localhost:3007/crashreports',
+  /*
   extra: {
     'key': 'en-US',
     'email': 'andrewwang1@micb2b.com',
     'comments': 'BugSplat rocks!'
   }
+  */
 })
 
 let win;
