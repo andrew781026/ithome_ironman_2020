@@ -49,8 +49,9 @@ const levels = {
 }
  */
 
-logger.log('info', 'Hello winston ☺');
-logger.debug('Hello again distributed logs');
+// 下方為呼叫 log 的各種方式
+logger.log('info', 'Hello winston (・∀・)ノ');
+logger.error('Here we got an error (ノ﹏ヽ)');
 logger.log({
   level: 'verbose',
   message: 'here you will get some verbose'

@@ -1,111 +1,166 @@
 # [ Day 40 ] - winston 記錄下發生的錯誤
 
-當我們將安裝檔交給客戶安裝後 , 有時可能發生一些 BUG , 
+## 常見的故事 ...
 
-那我們要如何將 BUG 的當下狀態記錄下來 , 以避免客戶詢問時 , 
+客戶 : 系統出錯了 , 可以幫忙修一下嗎 【・ヘ・?】
 
-我們完全不知道發生了什麼事情 , 完全不知從何開始 debug , 導致客戶信心全無 , 不再使用我們的產品 ╥﹏╥
+工程師 : 我這邊看起來很正常啊 ! 系統沒有問題吧 (￣▽￣)ノ
 
-我們需要引進 winston 來將出錯的訊息 , 寫入檔案中 , 如果客戶問我們為何出錯時 , 我們可以用 .log 檔進行分析 , 找出錯誤 (＾ω＾)
+客戶 : 每天晚上要用的時候 , 系統都無法登入使用 (╯°Д°)╯ ┻━┻
+
+工程師 : 現在還沒晚上 , 今天晚上再我幫你看看 ಠ◡ಠ
+
+...經過了無數個夜晚 , 工程師終於找出了 BUG 並將其修改 , 但是客戶已經生氣離開了 (╥_╥)
 
 ---
 
 ## 為何我們需要日誌系統 ?
 
-一般工程師開發的時候 , 都會有一個 console 顯示目前的執行狀況與錯誤訊息  
+身為工程師 , 我們當然不希望每天晚上 , 燒肝處理這些 "系統出錯"
 
-但是 , 當我們將程式打包出去給其他人使用時 , 我們不可能讓使用者看到那個黑黑的 console 視窗  
+晚年需要吃 "人蔘" 來將 '小心肝' 給補回來 ,
 
-所以 , 我們會需要將程式碼中的 console.log 與 console.error 全部清除  
+既然這樣 , 我們就需要在出錯的時候 , 將錯誤訊息記錄下來 (๑•̀ㅂ•́)و✧
 
-可是 , 使用者反應程式碼出錯時 , 我們需要使用 "錯誤訊息" 來輔助我們 DEBUG 啊!  
+這時我們可以使用 "日誌系統" - [winston](https://www.npmjs.com/package/winston) 來進行處理 (^-^*)/
 
-這時 , 我們就可以使用日誌系統 , 將 "執行訊息" 與 "錯誤訊息" 寫入到 .log 檔案中 , 以利我們之後 DEBUG 使用 （＾ｖ＾）   
-
-下面 , 使用一個 JS 中好用的 "日誌系統" - [winston](https://www.npmjs.com/package/winston) 吧 (^-^*)/  
+下面 , 讓我們好好了解一下這位護肝使者 - [winston](https://www.npmjs.com/package/winston) 吧 (^-^*)/
 
 ---
 
 ## winston 介紹
 
-`winston` 是一個日誌套件 , 專門用於
-
-## winston 基礎概念
-
-winston 由 Transport 與 level 所組成
+`winston` 是由 Transport 與 level 所組成的一個 JS 日誌套件
 
 - Transport : 輸出器
-- level : log 的輸出等級 , 在呼叫時指定 , 於 category 決定輸出目標
+- level : 日誌的輸出等級
 
-![](https://i.imgur.com/BrVsXlo.png)
-
-舉例說明 - 
+下方來一個簡易的範例 -
 
 ```javascript
-const log4js = require("log4js");
-log4js.configure({
-  appenders: { cheese: { type: "file", filename: "cheese.log" } },
-  categories: { default: { appenders: ["cheese"], level: "error" } }
+// src/winston.js
+const winston = require('winston');
+ 
+const logger = winston.createLogger({
+  // 當 transport 不指定 level 時 , 使用 info 等級
+  level: 'info',
+  // 設定輸出格式
+  format: winston.format.json(),
+  // 設定此 logger 的日誌輸出器
+  transports: [
+    // 只有 error 等級的錯誤 , 才會將訊息寫到 error.log 檔案中
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    // info or 以上的等級的訊息 , 將訊息寫入 combined.log 檔案中
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
 });
  
-const logger = log4js.getLogger("cheese");
-logger.trace("Entering cheese testing");
-logger.debug("Got cheese.");
-logger.info("Cheese is Comté.");
-logger.warn("Cheese is quite smelly.");
-logger.error("Cheese is too ripe!");
-logger.fatal("Cheese was breeding ground for listeria.");
+// 在開發模式時 , 將 log 訊息多輸出到 console 中
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    // simple 格式 : `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+    format: winston.format.simple(),
+  }));
+}
+
+// 下方為呼叫 log 的各種方式 
+logger.log('info', 'Hello winston (・∀・)ノ');
+logger.error('Here we got an error (ノ﹏ヽ)');
+logger.log({
+  level: 'verbose',
+  message: 'here you will get some verbose'
+});
 ```
 
-### 各功能詳細解說
+上方程式執行後 , 會在同層目錄中產生 `error.log` 與 `combined.log` 兩個檔案
 
-#### Level - 等級
+```
+─ src
+   ├─  error.log
+   ├─  combined.log
+   └─  winston.js
+```
 
-logger 會根據不同的等級 , 對應輸出
+而且 `error.log` 與 `combined.log` 的檔案內容如下
 
-![](https://i.imgur.com/vLk1WLl.png)
+- conbined.log
 
-#### appender - 輸出器
+```
+{"level":"info","message":"Hello winston (・∀・)ノ"}
+{"message":"Here we got an error (ノ﹏ヽ)","level":"error","service":"user-service"}
+```
+
+- error.log
+
+```
+{"message":"Here we got an error (ノ﹏ヽ)","level":"error","service":"user-service"}
+```
+
+我們可以很明顯地觀察到雖然 logger.log 呼叫了 3 次 ,
+
+conbined.log 檔中只有 2 筆資料 ,
+
+這是因為 level 等級的不同 , 造成輸出的資料筆數不同 ,
+
+我們常常會利用不同的 level 來將不同等級的資訊 , 紀錄在不同檔案中
+
+## winston 詳細說明
+
+### level - 等級
+
+winston 的日誌等級 , 參考了 npm 的分級制度 , 共分為 7 個等級
+
+```
+{ 
+  error: 0, 
+  warn: 1, 
+  info: 2, 
+  http: 3,
+  verbose: 4, 
+  debug: 5, 
+  silly: 6 
+}
+```
+
+下方為呼叫 logger.log 的一些範例程式碼
 
 ```javascript
-const appenders = {
-  appender_name: { 
-      type: "file", 
-      filename: "app.log" 
-  } 
-};
+//
+// Any logger instance
+//
+logger.log('silly', "127.0.0.1 - there's no place like home");
+logger.log('debug', "127.0.0.1 - there's no place like home");
+logger.log('verbose', "127.0.0.1 - there's no place like home");
+logger.log('info', "127.0.0.1 - there's no place like home");
+logger.log('warn', "127.0.0.1 - there's no place like home");
+logger.log('error', "127.0.0.1 - there's no place like home");
+logger.info("127.0.0.1 - there's no place like home");
+logger.warn("127.0.0.1 - there's no place like home");
+logger.error("127.0.0.1 - there's no place like home");
+
+//
+// Default logger
+//
+winston.log('info', "127.0.0.1 - there's no place like home");
+winston.info("127.0.0.1 - there's no place like home");
 ```
 
-appender 由下方幾個部分組成
+### Transport - 輸出器
 
-| 參數名 | 說明 | 參數值 |
-| -------- | -------- | -------- |
-| type     | 類型     | Text     |
+下方為官方預設提供的 Transport 可能需要按照 `邦友` 需要做選用
 
-- categoryFilter - 
-- console - 輸出到 console
-- dateFile - 輸出到每日分割的檔案
-- file - 輸出到檔案
-- fileSync - 與檔案同步
-- [logLevelFilter](https://log4js-node.github.io/log4js-node/logLevelFilter.html) - 等級篩選器 ( 用於 1 level 需要做多種 appender 輸出使用 )
-- [multiFile](https://log4js-node.github.io/log4js-node/multiFile.html) - 輸出到多個檔案
-- [multiprocess](https://log4js-node.github.io/log4js-node/multiprocess.html) - 
-- [recording](https://log4js-node.github.io/log4js-node/recording.html) - 輸出到記憶體中 ( 利用 recording.replay() 可查看內容 )
-- [stderr](https://log4js-node.github.io/log4js-node/stderr.html) - This appender writes all log events to the standard error stream.
-- [stdout](https://log4js-node.github.io/log4js-node/stdout.html) - This appender writes all log events to the standard output stream. It is the default appender for log4js.
-- [tcp](https://log4js-node.github.io/log4js-node/tcp.html) - 輸出到 TCP server ?
-- [tcp-server](https://log4js-node.github.io/log4js-node/tcp-server.html) - 輸出到 TCP server ?
+- [Built-in to winston](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#built-in-to-winston)
+  - [Console](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#console-transport)
+  - [File](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#file-transport)
+  - [Http](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#http-transport)
+  - [Stream](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#stream-transport)
 
+- [Maintained by winston contributors](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#maintained-by-winston-contributors)
+  - [DailyRotateFile](https://github.com/winstonjs/winston-daily-rotate-file)
+  - [MongoDB](https://github.com/winstonjs/winston-mongodb)
+  - [Syslog](https://github.com/winstonjs/winston-syslog)
 
-
- cheese: { type: "file", filename: "cheese.log" } 
-
-#### 如果我希望每次改變 config 檔時 , 重新加載 log4JS 的配置 , 我需要如何處理呢 ?
-
-1. 利用 nodemon watcher 監控 , log4JS 配置檔
-2. 使用 log4JS.shutdown 暫時關閉 log4JS 的運作
-3. 利用 log4JS.config({ ... }) 再次開啟 log4JS 
-4. 之後我們就可以 reload log4JS config after file change 了 (^.^) /
+### 未完待續...
 
 ## 參考資料
 
