@@ -1,21 +1,40 @@
-# [ Day 40 ] - Log4JS 記錄下所有發生的錯誤
+# [ Day 40 ] - winston 記錄下發生的錯誤
 
 當我們將安裝檔交給客戶安裝後 , 有時可能發生一些 BUG , 
 
 那我們要如何將 BUG 的當下狀態記錄下來 , 以避免客戶詢問時 , 
 
-我們完全不知道發生了什麼事情 , 完全不知從何開始 debug , 導致客戶信心全無 , 不再使用我們的產品 😢
+我們完全不知道發生了什麼事情 , 完全不知從何開始 debug , 導致客戶信心全無 , 不再使用我們的產品 ╥﹏╥
 
-我們需要引進 Log4JS 來將出錯的訊息 , 寫入檔案中 , 如果客戶問我們為何出錯時 , 我們可以用 .log 檔進行分析 , 找出錯誤 ☺
+我們需要引進 winston 來將出錯的訊息 , 寫入檔案中 , 如果客戶問我們為何出錯時 , 我們可以用 .log 檔進行分析 , 找出錯誤 (＾ω＾)
 
 ---
 
-## Log4JS 基礎概念
+## 為何我們需要日誌系統 ?
 
-Log4JS 由 3 個東西所組成 appender . category . level
+一般工程師開發的時候 , 都會有一個 console 顯示目前的執行狀況與錯誤訊息  
 
-- appender : 輸出目標
-- category : 綁定 level 跟輸出目標
+但是 , 當我們將程式打包出去給其他人使用時 , 我們不可能讓使用者看到那個黑黑的 console 視窗  
+
+所以 , 我們會需要將程式碼中的 console.log 與 console.error 全部清除  
+
+可是 , 使用者反應程式碼出錯時 , 我們需要使用 "錯誤訊息" 來輔助我們 DEBUG 啊!  
+
+這時 , 我們就可以使用日誌系統 , 將 "執行訊息" 與 "錯誤訊息" 寫入到 .log 檔案中 , 以利我們之後 DEBUG 使用 （＾ｖ＾）   
+
+下面 , 使用一個 JS 中好用的 "日誌系統" - [winston](https://www.npmjs.com/package/winston) 吧 (^-^*)/  
+
+---
+
+## winston 介紹
+
+`winston` 是一個日誌套件 , 專門用於
+
+## winston 基礎概念
+
+winston 由 Transport 與 level 所組成
+
+- Transport : 輸出器
 - level : log 的輸出等級 , 在呼叫時指定 , 於 category 決定輸出目標
 
 ![](https://i.imgur.com/BrVsXlo.png)
@@ -90,8 +109,6 @@ appender 由下方幾個部分組成
 
 ## 參考資料
 
-- [Node.js 日誌系統 log4js 介紹](https://www.itread01.com/content/1543939339.html)
-- [log4js-node FAQ](https://log4js-node.github.io/log4js-node/faq.html)
 - [winston 官方文件](https://www.npmjs.com/package/winston)
 
 ```
