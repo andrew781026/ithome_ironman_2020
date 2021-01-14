@@ -24,7 +24,7 @@
 
 這時我們可以使用 "日誌系統" - [winston](https://www.npmjs.com/package/winston) 來進行處理 (^-^*)/
 
-下面 , 讓我們好好了解一下這位護肝使者 - [winston](https://www.npmjs.com/package/winston) 吧 (^-^*)/
+下面 , 讓我們好好了解一下這位護肝使者 - [winston](https://www.npmjs.com/package/winston) 吧 o(∩_∩)o
 
 ---
 
@@ -35,12 +35,15 @@
 - Transport : 輸出器
 - level : 日誌的輸出等級
 
+### 初始範例
+
 下方來一個簡易的範例 -
 
 ```javascript
-// src/winston.js
+// winston.js
 const winston = require('winston');
  
+// 建立 logger 
 const logger = winston.createLogger({
   // 當 transport 不指定 level 時 , 使用 info 等級
   level: 'info',
@@ -72,7 +75,7 @@ logger.log({
 });
 ```
 
-上方程式執行後 , 會在同層目錄中產生 `error.log` 與 `combined.log` 兩個檔案
+執行 `node winston.js` 後 , 會在同層目錄中產生 `error.log` 與 `combined.log` 兩個檔案
 
 ```
 ─ src
@@ -96,6 +99,14 @@ logger.log({
 {"message":"Here we got an error (ノ﹏ヽ)","level":"error","service":"user-service"}
 ```
 
+### 範例解說
+
+我們來深入研究範例將其拆解一下
+
+```javascript
+const logger = winston.createLogger({ ... });
+```
+
 我們可以很明顯地觀察到雖然 logger.log 呼叫了 3 次 ,
 
 conbined.log 檔中只有 2 筆資料 ,
@@ -103,6 +114,7 @@ conbined.log 檔中只有 2 筆資料 ,
 這是因為 level 等級的不同 , 造成輸出的資料筆數不同 ,
 
 我們常常會利用不同的 level 來將不同等級的資訊 , 紀錄在不同檔案中
+
 
 ## winston 詳細說明
 
@@ -121,6 +133,12 @@ winston 的日誌等級 , 參考了 npm 的分級制度 , 共分為 7 個等級
   silly: 6 
 }
 ```
+
+那何時會輸出資訊給 Transport , 何時不會呢 ?
+
+`數值小的會輸出給數值大的` , 下方為示意圖
+
+![](https://i.imgur.com/udKYIhI.png)
 
 下方為呼叫 logger.log 的一些範例程式碼
 
