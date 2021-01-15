@@ -165,7 +165,7 @@ winston.info("127.0.0.1 - there's no place like home");
 
 ### Transport - 輸出器
 
-下方為官方預設提供的 Transport 可能需要按照 `邦友` 需要做選用
+下方為官方預設提供的 Transport 我們可以按照需求 , 使用不同的 Transport
 
 - [Built-in to winston](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#built-in-to-winston)
   - [Console](https://github.com/winstonjs/winston/blob/HEAD/docs/transports.md#console-transport)
@@ -177,6 +177,20 @@ winston.info("127.0.0.1 - there's no place like home");
   - [DailyRotateFile](https://github.com/winstonjs/winston-daily-rotate-file)
   - [MongoDB](https://github.com/winstonjs/winston-mongodb)
   - [Syslog](https://github.com/winstonjs/winston-syslog)
+
+#### Console 
+
+將訊息輸出到 Console 
+
+```javascript
+logger.add(new winston.transports.Console(options));
+```
+
+- level: Level of messages that this transport should log (default: level set on parent logger).
+- silent: Boolean flag indicating whether to suppress output (default false).
+- eol: string indicating the end-of-line characters to use (default os.EOL)
+- stderrLevels Array of strings containing the levels to log to stderr instead of stdout, for example ['error', 'debug', 'info']. (default [])
+- consoleWarnLevels : Array of strings containing the levels to log using console.warn or to stderr (in Node.js) instead of stdout, for example ['warn', 'debug']. (default [])
 
 ### 未完待續...
 

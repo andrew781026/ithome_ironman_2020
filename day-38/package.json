@@ -1,17 +1,11 @@
 {
-  "name": "electron-practice-day03",
-  "version": "0.0.3",
-  "description": "day03 apps",
-  "main": "./main.js",
+  "name": "electron-practice-day40",
+  "version": "0.0.40",
+  "description": "day40 apps",
   "scripts": {
-    "start": "electron ."
-  },
-  "author": "andrew",
-  "license": "MIT",
-  "devDependencies": {
-    "electron": "10.1.3"
+    "winston-log": "node winston.js"
   },
   "dependencies": {
-    "electron-winstaller": "^4.0.1"
+    "winston": "^3.3.3"
   }
 }
