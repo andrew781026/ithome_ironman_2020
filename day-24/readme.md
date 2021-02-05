@@ -95,6 +95,7 @@ window.desktopCapture = (sourceId) =>{
 
 - [Saving desktopCapturer to video file in Electron](https://stackoverflow.com/questions/36753288/saving-desktopcapturer-to-video-file-in-electron)
 - [electron 官方文件 - desktop-capturer](https://www.electronjs.org/docs/api/desktop-capturer)
+- [electron-screen-recorder 教學](https://fireship.io/lessons/electron-screen-recorder-project-tutorial/)
 
 ```
 今年小弟第一次參加 `鐵人賽` , 如文章有誤 , 請各位前輩提出指正 , 感謝  <(_ _)>

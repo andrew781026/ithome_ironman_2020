@@ -58,7 +58,7 @@ $ npm run electron:serve
 本魯預計將 [F2E 前端精神時光屋](https://challenge.thef2e.com/works/engineer?stage=7&orderBy=created_at&sort=desc&page=3) 中的 [聊天室](http://zongweili.site/f2e7week/#/) 當作目標製作出一個 electron 應用程式
 
 ![](https://i.imgur.com/tAJHsSc.png)
-[ 圖片來源 : http://zongweili.site/f2e7week/#/ ]
+[ 圖片來源 : https://donggualemon.github.io/f2e7week/#/ ]
 
 本魯目前不清楚會花幾天來製作 `動物聊天室` , 不過我會盡力完成 ![ithome-fight](https://ithelp.ithome.com.tw/images/emoticon/emoticon18.gif)
 

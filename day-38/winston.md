@@ -1,4 +1,4 @@
-# [ Day 40 ] - winston 記錄下發生的錯誤
+# [ Day 38 ] - winston 記錄下發生的錯誤
 
 ## 常見的故事 ...
 
@@ -177,6 +177,8 @@ winston.info("127.0.0.1 - there's no place like home");
   - [DailyRotateFile](https://github.com/winstonjs/winston-daily-rotate-file)
   - [MongoDB](https://github.com/winstonjs/winston-mongodb)
   - [Syslog](https://github.com/winstonjs/winston-syslog)
+
+
 
 #### Console 
 
