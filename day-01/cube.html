@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 參考資料 : https://3dtransforms.desandro.com/cube -->
+  <meta charset="UTF-8">
+  <title>3D-Cube</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body { font-family: sans-serif; }
+
+    .scene {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #CCC;
+      margin: 80px;
+      perspective: 400px;
+    }
+
+    .cube {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .cube.show-front  { transform: rotateY(   0deg); }
+    .cube.show-right  { transform: rotateY( -90deg); }
+    .cube.show-back   { transform: rotateY(-180deg); }
+    .cube.show-left   { transform: rotateY(  90deg); }
+
+    .cube__face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 2px solid black;
+      line-height: 200px;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+    }
+
+    .cube__face--front  { background: hsla(  0, 100%, 50%, 0.7); }
+    .cube__face--right  { background: hsla( 60, 100%, 50%, 0.7); }
+    .cube__face--back   { background: hsla(120, 100%, 50%, 0.7); }
+    .cube__face--left   { background: hsla(180, 100%, 50%, 0.7); }
+
+    .cube__face--front  { transform: rotateY(  0deg) translateZ(100px); }
+    .cube__face--right  { transform: rotateY( 90deg) translateZ(100px); }
+    .cube__face--back   { transform: rotateY(180deg) translateZ(100px); }
+    .cube__face--left   { transform: rotateY(-90deg) translateZ(100px); }
+
+    label { margin-right: 10px; }
+  </style>
+</head>
+<body>
+<div class="scene">
+  <div class="cube">
+    <div class="cube__face cube__face--front">front</div>
+    <div class="cube__face cube__face--back">back</div>
+    <div class="cube__face cube__face--right">right</div>
+    <div class="cube__face cube__face--left">left</div>
+  </div>
+</div>
+</body>
+</html>
