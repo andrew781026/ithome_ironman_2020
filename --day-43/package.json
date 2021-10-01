@@ -1,0 +1,12 @@
+{
+  "name": "electron-practice-day44-",
+  "version": "0.0.2",
+  "description": "testing node-pty",
+  "scripts": {
+    "start": "node ./node-pty-test.js"
+  },
+  "author": "andrew",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
