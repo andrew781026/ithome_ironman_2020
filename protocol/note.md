@@ -39,3 +39,17 @@ app.whenReady().then(() => {
     // ...
 })
 ```
+
+---
+
+Q. 近期同事提出了一個疑問 , 為何 win.webContents.session.webRequest.onBeforeSendHeaders 無法接收 test.github.com 傳來的 fetch 指令呢 ?
+
+A. 因為 webRequest 是在 BrowserWindow 上處理 , 也就是在 Chromium 上處理 , 因此無法接收來自不同 site 的 fetch
+
+Q. 那為何使用利用網址列輸入 test://xxx 它可以處理呢 ?
+
+A. 那是因為 test://xxx 等同於在系統上設定遇到 `test://` 開頭的將其交給 Electron 中的 Chromium 來處理
+
+Q. 那我們要如何正確接收來自不同 site 的 fetch ?
+
+A. 使用 protocol.handle 讓 Electron 中的 Node 來處理

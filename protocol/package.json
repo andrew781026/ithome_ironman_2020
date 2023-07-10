@@ -4,7 +4,9 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "chcp 65001 && electron ."
+    "start": "chcp 65001 && electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -17,6 +19,20 @@
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^25.1.0"
+    "electron": "^25.1.0",
+    "electron-builder": "^24.4.0"
+  },
+  "build": {
+    "appId": "andrew.electron-deeplinking-macos-win32",
+    "protocols": {
+      "name": "electron-deep-linking",
+      "schemes": [
+        "tmcopwin.test"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.Reference"
+    },
+    "win": {}
   }
 }
