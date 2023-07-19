@@ -6,12 +6,12 @@ builder.build({
   win: ['nsis', 'portable'],  // nsis . portable
   config: {
     "appId": "com.andrewdeveloper.electron.cat",
-    "productName": "cat-play",
+    "productName": "mini-browser",
     "directories": {
       "output": "build/win"
     },
     "win": {
-      "icon": path.resolve(__dirname, 'cat.png'),
+      "icon": path.resolve(__dirname, 'browser.png'),
     }
   },
 })

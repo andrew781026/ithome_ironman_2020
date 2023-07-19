@@ -41,15 +41,30 @@ const params = args.reduce((prev, curr) => {
   } else return prev
 }, {})
 
-
-const isDev = Boolean(params['windows']);
-const url = params.url;
-
 // ref : https://blog.stranianelli.com/how-to-use-browser-view-with-electron/
 function resizeView(view, mainWindow) {
   const bound = mainWindow.getBounds();
   const height = process.platform !== 'win32' ? 60 : 40
   view.setBounds({x: 0, y: height, width: bound.width, height: bound.height - height});
+}
+
+function setBrowserView(mainWindow){
+
+  const [width, height] = mainWindow.getSize();
+  const view = new BrowserView()
+  mainWindow.setBrowserView(view)
+  view.setBounds({
+    x: 1,
+    y: 32,
+    width: width - 2,
+    height: height - 33,
+  });
+  view.setAutoResize({
+    width: true,
+    height: true,
+  });
+  view.webContents.loadURL(params.url || 'https://beta.account.trendmicro.com/setup/jpsss/monitor')
+  resizeView(view, mainWindow)
 }
 
 function createWindow() {
@@ -59,7 +74,6 @@ function createWindow() {
     height: 600,
     frame: false,
     // transparent: true,
-    // titleBarStyle: 'hidden',
     // backgroundColor: '#2e2c29',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
@@ -71,9 +85,9 @@ function createWindow() {
   // mainWindow.loadURL(url || 'https://andrew781026.github.io/daliy-web-ui/__tests__/fetch-testing.html')
 
   // Open the DevTools.
+  const isDev = Boolean(params['windows']);
   // if (isDev) mainWindow.webContents.openDevTools()
   // mainWindow.webContents.openDevTools()
-  mainWindow.webContents.send('switch-cat', JSON.stringify(params));
 
   function DeepLink() {
 
@@ -99,21 +113,11 @@ function createWindow() {
   DeepLink()
 
   mainWindow.webContents.on('did-finish-load', () => {
-    const [width, height] = mainWindow.getSize();
-    const view = new BrowserView()
-    mainWindow.setBrowserView(view)
-    view.setBounds({
-      x: 1,
-      y: 32,
-      width: width - 2,
-      height: height - 33,
-    });
-    view.setAutoResize({
-      width: true,
-      height: true,
-    });
-    view.webContents.loadURL('https://beta.account.trendmicro.com/setup/jpsss/monitor')
-    resizeView(view, mainWindow)
+
+    const productName = params['product-name'];
+    if (productName) mainWindow.webContents.send('set-product-name', productName);
+
+    setBrowserView(mainWindow)
   });
 }
 

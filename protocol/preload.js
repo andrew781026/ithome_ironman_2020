@@ -8,11 +8,6 @@ const {ipcRenderer} = require('electron')
  */
 window.addEventListener('DOMContentLoaded', () => {
 
-  // ipcRenderer.on('switch-cat', (event, args) => {
-  //
-  //   document.body.innerText = `args = ${args}`
-  // });
-
   document.querySelector('#min').addEventListener('click',()=>{
     ipcRenderer.send('minimize');
   })
@@ -24,4 +19,8 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#close').addEventListener('click',()=>{
     ipcRenderer.send('close');
   })
+
+  ipcRenderer.on('set-product-name', (event, args) => {
+    document.querySelector('.ui-titletext').innerText = args
+  });
 })
