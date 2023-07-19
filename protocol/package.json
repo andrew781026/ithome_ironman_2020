@@ -9,15 +9,11 @@
     "dist": "electron-builder"
   },
   "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
   "author": "GitHub",
   "license": "MIT",
+  "dependencies": {
+    "custom-electron-titlebar": "^4.2.3"
+  },
   "devDependencies": {
     "electron": "^25.1.0",
     "electron-builder": "^24.4.0"
